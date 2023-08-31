@@ -25,7 +25,7 @@
     </resultMap>
 
 
-    <select id="get-total-page" resultType="Long" parameterType="Long">
+    <select id="getCartTotalPage" resultType="Long" parameterType="Long">
         SELECT CEIL(COUNT(*) / 10)
         FROM cart
         WHERE member_id = #{memberId}
@@ -37,12 +37,12 @@
         WHERE member_id = #{memberId}
         and product_id = #{productId}
     </select>
-    <select id="select-all-by-member" parameterType="Long" resultMap="cart">
+    <select id="selectAllByMember" parameterType="Long" resultMap="cart">
         SELECT *
         FROM cart
         WHERE member_id = #{memberId}
     </select>
-    <select id="select-all-cart-and-product-by-member" parameterType="Long"
+    <select id="selectAllCartAndProductByMember" parameterType="Long"
             resultMap="CartAndProductResultMap">
         SELECT cart.product_quantity, product.*
         FROM cart

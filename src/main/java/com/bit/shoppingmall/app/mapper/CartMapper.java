@@ -6,8 +6,10 @@ import com.bit.shoppingmall.app.entity.ProductAndMemberCompositeKey;
 import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 @Mapper
+@Repository
 public interface CartMapper {
 
   List<CartAndProductDto> selectAllCartAndProductByMember(ProductAndMemberCompositeKey compKey);
