@@ -5,10 +5,14 @@ import com.bit.shoppingmall.app.exception.cart.OutOfStockException;
 import com.bit.shoppingmall.app.mapper.CartMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Primary
+@Qualifier("IncreaseProductQuantityAlreadyInCart")
 public class IncreaseProductQuantityAlreadyInCart implements
     PutItemIntoCartStrategy {
 

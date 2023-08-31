@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class MemberExistChecker implements
-    CartValidationCheckerService {
+    CartValidationCheckerService<Cart> {
 
   private final MemberMapper memberDao;
 

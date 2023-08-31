@@ -9,6 +9,7 @@ import com.bit.shoppingmall.app.mapper.CartMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +21,7 @@ public class CartServiceImpl implements CartService {
   private final DecreaseItemInCartStrategy decreaseItemStrategy;
   private final OutOfStockChecker outOfStockChecker;
   private final AddItemInCart addItemInCart;
-  private final IncreaseProductQuantityAlreadyInCart increaseProductQuantity;
+  private final PutItemIntoCartStrategy increaseProductQuantity;
   private List<CartValidationCheckerService<Cart>> checkerServices;
 
   @Override

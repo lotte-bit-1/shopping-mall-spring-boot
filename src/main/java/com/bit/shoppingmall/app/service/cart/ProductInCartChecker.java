@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ProductInCartChecker implements
-    CartValidationCheckerService {
+    CartValidationCheckerService<Cart> {
 
   private final CartMapper cartMapper;
   @Override

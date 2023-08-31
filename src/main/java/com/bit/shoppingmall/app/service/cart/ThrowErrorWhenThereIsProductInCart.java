@@ -6,10 +6,12 @@ import com.bit.shoppingmall.app.mapper.CartMapper;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Qualifier("ThrowErrorWhenThereIsProductInCart")
 public class ThrowErrorWhenThereIsProductInCart implements
     PutItemIntoCartStrategy {
   @Override
