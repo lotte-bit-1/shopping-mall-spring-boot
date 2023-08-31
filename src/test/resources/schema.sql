@@ -28,12 +28,12 @@ create table address
     id          bigint unsigned auto_increment
         primary key,
     member_id   bigint unsigned not null,
-    is_default  tinyint(1) default 0 not null,
-    road_name   varchar(255)                       not null,
-    addr_detail varchar(255)                       not null,
-    zip_code    varchar(10)                        not null,
-    created_at  datetime default CURRENT_TIMESTAMP not null,
-    updated_at  datetime default CURRENT_TIMESTAMP not null,
+    is_default  tinyint(1) default 0                 not null,
+    road_name   varchar(255)                         not null,
+    addr_detail varchar(255)                         not null,
+    zip_code    varchar(10)                          not null,
+    created_at  datetime   default CURRENT_TIMESTAMP not null,
+    updated_at  datetime   default CURRENT_TIMESTAMP not null,
     constraint FK_member_TO_address_1
         foreign key (member_id) references member (id)
 );
@@ -113,7 +113,7 @@ create table product
         primary key,
     category_id bigint unsigned not null,
     name        varchar(20)                        not null,
-    description varchar(255) null,
+    description varchar(255)                       null,
     price       bigint unsigned not null,
     quantity    bigint unsigned not null,
     code        varchar(255)                       not null,
@@ -153,10 +153,10 @@ create table product_image
     id           bigint unsigned auto_increment
         primary key,
     product_id   bigint unsigned not null,
-    url          varchar(255)                       not null,
-    is_thumbnail tinyint(1) default 0 not null,
-    created_at   datetime default CURRENT_TIMESTAMP not null,
-    updated_at   datetime default CURRENT_TIMESTAMP not null,
+    url          varchar(255)                         not null,
+    is_thumbnail tinyint(1) default 0                 not null,
+    created_at   datetime   default CURRENT_TIMESTAMP not null,
+    updated_at   datetime   default CURRENT_TIMESTAMP not null,
     constraint FK_product_TO_product_image_1
         foreign key (product_id) references product (id)
 );

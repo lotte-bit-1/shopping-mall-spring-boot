@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.shoppingmall.app.mapper.EncryptionMapper">
 
-    <resultMap id="BaseResultMap" type="encryption">
-        <id column="member_idd" jdbcType="BIGINT" property="id"/>
-        <result column="salt" jdbcType="VARCHAR" property="salt"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-    </resultMap>
+  <delete id="delete" parameterType="Long">
+    DELETE
+    FROM encryption
+    WHERE member_id = #{memberId}
+  </delete>
 
-    <select id="select" parameterType="Long" resultMap="BaseResultMap">
-        SELECT *
-        FROM encryption
-        WHERE member_id = #{memberId}
-    </select>
+  <insert id="insert" parameterType="encryption">
+    INSERT INTO encryption (member_id, email, salt)
+    VALUES (#{memberId}, #{email}, #{salt})
+  </insert>
 
-    <select id="selectByEmail" parameterType="String" resultMap="BaseResultMap">
-        SELECT *
-        FROM encryption
-        WHERE email = #{email}
-    </select>
+  <resultMap id="BaseResultMap" type="encryption">
+    <id column="member_idd" jdbcType="BIGINT" property="id"/>
+    <result column="salt" jdbcType="VARCHAR" property="salt"/>
+    <result column="email" jdbcType="VARCHAR" property="email"/>
+  </resultMap>
 
-    <select id="selectall" resultType="encryption">
-        SELECT *
-        FROM encryption
-    </select>
+  <select id="selectall" resultType="encryption">
+    SELECT *
+    FROM encryption
+  </select>
 
-    <insert id="insert" parameterType="encryption">
-        INSERT INTO encryption (member_id, email, salt)
-        VALUES (#{memberId}, #{email}, #{salt})
-    </insert>
-    <update id="update" parameterType="encryption">
-        UPDATE encryption
-        SET salt = #{salt}
-        WHERE member_id = #{memberId}
-    </update>
-    <delete id="delete" parameterType="Long">
-        DELETE
-        FROM encryption
-        WHERE member_id = #{memberId}
-    </delete>
+  <select id="select" parameterType="Long" resultMap="BaseResultMap">
+    SELECT *
+    FROM encryption
+    WHERE member_id = #{memberId}
+  </select>
+  <select id="selectByEmail" parameterType="String" resultMap="BaseResultMap">
+    SELECT *
+    FROM encryption
+    WHERE email = #{email}
+  </select>
+  <update id="update" parameterType="encryption">
+    UPDATE encryption
+    SET salt = #{salt}
+    WHERE member_id = #{memberId}
+  </update>
 
 </mapper>
 

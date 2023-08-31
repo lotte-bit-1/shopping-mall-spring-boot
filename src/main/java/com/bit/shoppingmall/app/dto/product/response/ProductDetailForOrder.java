@@ -1,6 +1,11 @@
 package com.bit.shoppingmall.app.dto.product.response;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @Builder
@@ -9,9 +14,9 @@ import lombok.*;
 @ToString
 public class ProductDetailForOrder {
 
-    private Long id;
-    private String name;
-    private Long quantity;
-    private String url;
-    private Long price;
+  private Long id;
+  private String name;
+  private Long quantity;
+  private String url;
+  private Long price;
 }

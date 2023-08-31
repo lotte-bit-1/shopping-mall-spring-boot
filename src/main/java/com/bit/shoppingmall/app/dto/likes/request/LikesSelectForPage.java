@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LikesSelectForPage {
-    private Long memberId;
-    private Integer start;
-    private Integer PerPage;
+
+  private Long memberId;
+  private Integer start;
+  private Integer PerPage;
 }

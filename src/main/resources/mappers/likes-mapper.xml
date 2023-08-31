@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.shoppingmall.app.mapper.LikesMapper">
 
-    <resultMap id="likes" type="com.bit.shoppingmall.app.entity.Likes">
-        <result column="member_id" property="memberId" jdbcType="BIGINT" javaType="Long"/>
-        <result column="product_id" property="productId" jdbcType="BIGINT" javaType="Long"/>
-    </resultMap>
+  <delete id="delete" parameterType="productAndMemberCompositeKey">
+    DELETE
+    FROM likes
+    WHERE member_id = #{memberId}
+    and product_id = #{productId}
+  </delete>
 
-    <select id="select" parameterType="productAndMemberCompositeKey" resultMap="likes">
-        SELECT *
-        FROM likes
-        WHERE member_id = #{memberId}
-        and product_id = #{productId}
-    </select>
-    <select id="selectall" parameterType="com.bit.shoppingmall.app.dto.likes.request.LikesSelectForPage" resultType="Long">
-        SELECT product_id
-        FROM likes
-        WHERE member_id = #{memberId}
-        LIMIT #{start}, #{perPage}
-    </select>
-    <select id="selectTotalCount" resultType="Long">
-        SELECT COUNT(*)
-        FROM likes
-        WHERE member_id = #{memberId};
-    </select>
-    <insert id="insert" parameterType="likes">
-        INSERT INTO likes (member_id, product_id)
-        VALUES (#{memberId}, #{productId})
-    </insert>
-    <delete id="delete" parameterType="productAndMemberCompositeKey">
-        DELETE
-        FROM likes
-        WHERE member_id = #{memberId}
-        and product_id = #{productId}
-    </delete>
+  <insert id="insert" parameterType="likes">
+    INSERT INTO likes (member_id, product_id)
+    VALUES (#{memberId}, #{productId})
+  </insert>
+  <resultMap id="likes" type="com.bit.shoppingmall.app.entity.Likes">
+    <result column="member_id" javaType="Long" jdbcType="BIGINT" property="memberId"/>
+    <result column="product_id" javaType="Long" jdbcType="BIGINT" property="productId"/>
+  </resultMap>
+  <select id="selectTotalCount" resultType="Long">
+    SELECT COUNT(*)
+    FROM likes
+    WHERE member_id = #{memberId};
+  </select>
+  <select id="select" parameterType="productAndMemberCompositeKey" resultMap="likes">
+    SELECT *
+    FROM likes
+    WHERE member_id = #{memberId}
+    and product_id = #{productId}
+  </select>
+  <select id="selectall"
+    parameterType="com.bit.shoppingmall.app.dto.likes.request.LikesSelectForPage" resultType="Long">
+    SELECT product_id
+    FROM likes
+    WHERE member_id = #{memberId}
+    LIMIT #{start}, #{perPage}
+  </select>
 
 </mapper>
 
