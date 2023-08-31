@@ -5,9 +5,9 @@ import org.modelmapper.convention.MatchingStrategies;
 
 public class ModelMapperStrict {
 
-    public static ModelMapper strictMapper() {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        return mapper;
-    }
+  public static ModelMapper strictMapper() {
+    ModelMapper mapper = new ModelMapper();
+    mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+    return mapper;
+  }
 }

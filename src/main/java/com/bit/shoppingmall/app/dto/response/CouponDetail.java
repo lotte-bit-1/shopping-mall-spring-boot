@@ -1,6 +1,10 @@
 package com.bit.shoppingmall.app.dto.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -9,9 +13,9 @@ import lombok.*;
 @ToString
 public class CouponDetail {
 
-    private Long id;
-    private String name;
-    private String discountPolicy;
-    private Integer discountValue;
-    private String status;
+  private Long id;
+  private String name;
+  private String discountPolicy;
+  private Integer discountValue;
+  private String status;
 }

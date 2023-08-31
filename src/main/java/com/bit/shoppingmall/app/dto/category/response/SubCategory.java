@@ -1,6 +1,11 @@
 package com.bit.shoppingmall.app.dto.category.response;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @Builder
@@ -8,7 +13,8 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class SubCategory {
-    private Long low;
-    private Long middle;
-    private Long high;
+
+  private Long low;
+  private Long middle;
+  private Long high;
 }

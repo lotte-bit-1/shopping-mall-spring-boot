@@ -1,112 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.shoppingmall.app.mapper.MemberMapper">
 
-    <resultMap id="BaseResultMap" type="member">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="money" jdbcType="BIGINT" property="money"/>
-        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
-        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
-    </resultMap>
+  <delete id="delete" parameterType="Long">
+    DELETE
+    FROM member
+    WHERE id = #{id}
+  </delete>
 
-    <resultMap id="OrderMemberDetail" type="com.bit.shoppingmall.app.dto.member.response.OrderMemberDetail">
-        <result property="id" column="id"/>
-        <result property="email" column="email"/>
-        <result property="name" column="name"/>
-        <result property="money" column="money"/>
-        <association property="address" javaType="com.bit.shoppingmall.app.dto.response.AddressDetail">
-            <result property="isDefault" column="is_default"/>
-            <result property="roadName" column="road_name"/>
-            <result property="addrDetail" column="addr_detail"/>
-            <result property="zipCode" column="zip_code"/>
-        </association>
-        <collection property="coupons" ofType="com.bit.shoppingmall.app.dto.response.CouponDetail">
-            <result property="id" column="coupon_id"/>
-            <result property="name" column="coupon_name"/>
-            <result property="discountPolicy" column="discount_policy"/>
-            <result property="discountValue" column="discount_value"/>
-            <result property="status" column="status"/>
-        </collection>
-    </resultMap>
+  <insert id="insert" keyProperty="id" parameterType="member" useGeneratedKeys="true">
+    INSERT INTO member (email, password, name, money)
+    VALUES (#{email}, #{password}, #{name}, #{money})
+  </insert>
 
-    <select id="select" parameterType="Long" resultMap="BaseResultMap">
-        SELECT *
-        FROM member
-        WHERE id = #{id}
-    </select>
+  <resultMap id="BaseResultMap" type="member">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="email" jdbcType="VARCHAR" property="email"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="money" jdbcType="BIGINT" property="money"/>
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+  </resultMap>
 
-    <select id="selectByEmailAndPassword" parameterType="com.bit.shoppingmall.app.dto.member.request.LoginDto" resultMap="BaseResultMap">
-        SELECT *
-        FROM member
-        WHERE email = #{email}
-        AND password = #{password}
-    </select>
+  <resultMap id="OrderMemberDetail"
+    type="com.bit.shoppingmall.app.dto.member.response.OrderMemberDetail">
+    <association javaType="com.bit.shoppingmall.app.dto.response.AddressDetail" property="address">
+      <result column="is_default" property="isDefault"/>
+      <result column="road_name" property="roadName"/>
+      <result column="addr_detail" property="addrDetail"/>
+      <result column="zip_code" property="zipCode"/>
+    </association>
+    <collection ofType="com.bit.shoppingmall.app.dto.response.CouponDetail" property="coupons">
+      <result column="coupon_id" property="id"/>
+      <result column="coupon_name" property="name"/>
+      <result column="discount_policy" property="discountPolicy"/>
+      <result column="discount_value" property="discountValue"/>
+      <result column="status" property="status"/>
+    </collection>
+    <result column="name" property="name"/>
+    <result column="money" property="money"/>
+    <result column="id" property="id"/>
+    <result column="email" property="email"/>
+  </resultMap>
 
-    <select id="selectByEmail" parameterType="String" resultMap="BaseResultMap">
-        SELECT *
-        FROM member
-        WHERE email = #{email}
-    </select>
+  <select id="select" parameterType="Long" resultMap="BaseResultMap">
+    SELECT *
+    FROM member
+    WHERE id = #{id}
+  </select>
 
-    <select id="selectAddressAndCouponById" parameterType="Long" resultMap="OrderMemberDetail">
-        SELECT m.id,
-        m.email,
-        m.name,
-        m.money,
-        a.is_default,
-        a.road_name,
-        a.addr_detail,
-        a.zip_code,
-        c.id AS coupon_id,
-        c.name AS coupon_name,
-        c.discount_policy,
-        c.discount_value,
-        c.status
-        FROM member m
-        LEFT OUTER JOIN coupon c
-        ON m.id = c.member_id
-        AND c.status = 'UNUSED'
-        LEFT OUTER JOIN address a
-        ON m.id = a.member_id
-        AND a.is_default = '1'
-        WHERE m.id = #{id}
+  <select id="selectByEmailAndPassword"
+    parameterType="com.bit.shoppingmall.app.dto.member.request.LoginDto" resultMap="BaseResultMap">
+    SELECT *
+    FROM member
+    WHERE email = #{email}
+    AND password = #{password}
+  </select>
 
-    </select>
+  <select id="selectByEmail" parameterType="String" resultMap="BaseResultMap">
+    SELECT *
+    FROM member
+    WHERE email = #{email}
+  </select>
 
-    <select id="selectall" resultType="member">
-        SELECT *
-        FROM member
-    </select>
+  <select id="selectAddressAndCouponById" parameterType="Long" resultMap="OrderMemberDetail">
+    SELECT m.id,
+    m.email,
+    m.name,
+    m.money,
+    a.is_default,
+    a.road_name,
+    a.addr_detail,
+    a.zip_code,
+    c.id AS coupon_id,
+    c.name AS coupon_name,
+    c.discount_policy,
+    c.discount_value,
+    c.status
+    FROM member m
+    LEFT OUTER JOIN coupon c
+    ON m.id = c.member_id
+    AND c.status = 'UNUSED'
+    LEFT OUTER JOIN address a
+    ON m.id = a.member_id
+    AND a.is_default = '1'
+    WHERE m.id = #{id}
 
-    <select id="countByEmail" parameterType="String" resultType="int">
-        SELECT count(id)
-        FROM member
-        WHERE email = #{email}
-    </select>
+  </select>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="member">
-        INSERT INTO member (email, password, name, money)
-        VALUES (#{email}, #{password}, #{name}, #{money})
-    </insert>
-    <update id="update" parameterType="member">
-        UPDATE member
-        SET email = #{email},
-        password = #{password},
-        name = #{name},
-        money = #{money},
-        updated_at = now()
-        WHERE id = #{id}
-    </update>
-    <delete id="delete" parameterType="Long">
-        DELETE
-        FROM member
-        WHERE id = #{id}
-    </delete>
+  <select id="selectall" resultType="member">
+    SELECT *
+    FROM member
+  </select>
+  <select id="countByEmail" parameterType="String" resultType="int">
+    SELECT count(id)
+    FROM member
+    WHERE email = #{email}
+  </select>
+  <update id="update" parameterType="member">
+    UPDATE member
+    SET email = #{email},
+    password = #{password},
+    name = #{name},
+    money = #{money},
+    updated_at = now()
+    WHERE id = #{id}
+  </update>
 
 </mapper>
 
