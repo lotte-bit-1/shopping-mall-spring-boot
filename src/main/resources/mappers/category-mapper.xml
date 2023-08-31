@@ -31,7 +31,7 @@
         FROM category
         WHERE id = #{id}
     </select>
-    <select id="selectall" resultMap="hierarchy">
+    <select id="selectAll" resultMap="hierarchy">
         select null pp_id, null pp_name, null p_id, null p_name, c.id id, c.name name, c.level level
         from category c
         where level = 1
@@ -71,17 +71,17 @@
         WHERE id = #{id}
     </update>
     <delete id="delete" parameterType="Long">
-        DELETE
-        FROM category
-        WHERE id = #{id}
+      DELETE
+      FROM category
+      WHERE id = #{id}
     </delete>
-    <select id="first-category" resultType="category">
+    <select id="firstCategory" resultType="category">
         SELECT *
         FROM category
         WHERE level = 1
     </select>
 
-    <select id="search-product-by-category" parameterType="hashMap" resultMap="CategorySearch">
+    <select id="searchProductByCategory" parameterType="hashMap" resultMap="CategorySearch">
         select p.name name,
         p.price price,
         pi.url url,
@@ -130,14 +130,17 @@
         , 9
     </select>
 
-    <select id="select-subcategory" parameterType="String" resultType="com.bit.shoppingmall.app.dto.category.response.SubCategory">
+    <select id="selectSubcategory" parameterType="String" resultType="com.bit.shoppingmall.app.dto.category.response.SubCategory">
         select c1.id low, c2.id middle, c3.id high
         from category c1
         left join category c2 on c1.id = c2.parent_id
         left join category c3 on c2.id = c3.parent_id
         where c1.name = #{keyword}
     </select>
-
+    <select id="selectAllCategory" resultType="category">
+      select *
+      from category
+    </select>
 </mapper>
 
 

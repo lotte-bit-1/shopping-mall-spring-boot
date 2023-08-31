@@ -26,4 +26,6 @@ public interface CategoryMapper {
   List<ProductListItem> searchProductByCategory(Map<String, Object> map);
 
   List<SubCategory> selectSubcategory(String keyword);
+
+  List<Category> selectAllCategory();
 }
