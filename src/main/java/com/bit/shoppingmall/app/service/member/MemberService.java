@@ -1,20 +1,20 @@
 package com.bit.shoppingmall.app.service.member;
 
+import com.bit.shoppingmall.app.dto.member.request.LoginDto;
 import com.bit.shoppingmall.app.dto.member.request.MemberRegisterDto;
 import com.bit.shoppingmall.app.dto.member.response.MemberDetail;
 import com.bit.shoppingmall.app.entity.Encryption;
 import com.bit.shoppingmall.app.entity.Member;
+import com.bit.shoppingmall.app.exception.member.LoginFailException;
 import com.bit.shoppingmall.app.exception.member.MemberEntityNotFoundException;
 import com.bit.shoppingmall.app.mapper.EncryptionMapper;
 import com.bit.shoppingmall.app.mapper.MemberMapper;
 import com.bit.shoppingmall.app.utils.CipherUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 
 @Service
 @Transactional(readOnly = true)
@@ -47,6 +47,27 @@ public class MemberService {
     public Boolean isDuplicatedEmail(String email) {
         int result = memberMapper.countByEmail(email);
         return result == 0 ? true : false;
+    }
+
+    public MemberDetail login(LoginDto dto) throws Exception {
+        String hashedPassword = getHashedPassword(dto);
+        dto.setPassword(hashedPassword);
+
+        Member member =
+                memberMapper.selectByEmailAndPassword(dto).orElseThrow(LoginFailException::new);
+
+        MemberDetail loginMember = MemberDetail.of(member);
+
+        return loginMember;
+    }
+
+    private String getHashedPassword(LoginDto dto) throws Exception {
+        Encryption encryption =
+                encryptionMapper
+                        .selectByEmail(dto.getEmail())
+                        .orElseThrow(MemberEntityNotFoundException::new);
+        String hashedPassword = createHashedPassword(dto.getPassword(), encryption.getSalt());
+        return hashedPassword;
     }
 
     private String createHashedPassword(String password, String salt) throws Exception {

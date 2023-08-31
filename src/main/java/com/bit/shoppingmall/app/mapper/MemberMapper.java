@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface MemberMapper {
     Optional<Member> select(Long id);
 
-    Optional<LoginDto> selectByEmailAndPassword(LoginDto dto);
+    Optional<Member> selectByEmailAndPassword(LoginDto dto);
 
     Optional<Member> selectByEmail(String email);
 

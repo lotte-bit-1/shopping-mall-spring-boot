@@ -1,7 +1,9 @@
 package com.bit.shoppingmall.app.service.member;
 
+import com.bit.shoppingmall.app.dto.member.request.LoginDto;
 import com.bit.shoppingmall.app.dto.member.request.MemberRegisterDto;
 import com.bit.shoppingmall.app.dto.member.response.MemberDetail;
+import com.bit.shoppingmall.app.exception.member.LoginFailException;
 import com.bit.shoppingmall.app.exception.member.MemberEntityNotFoundException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +104,36 @@ class MemberServiceTest {
         boolean result = memberService.isDuplicatedEmail(email);
         // then
         assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("데이터 베이스에 저장된 이메일과 패스워드로 로그인 성공 시 loginMember를 반환한다.")
+    @Order(7)
+    void login_success() throws Exception {
+        // given
+        MemberRegisterDto dto = createMemberRegisterDto();
+        memberService.addMember(dto);
+
+        LoginDto loginDto = new LoginDto(dto.getEmail(), dto.getPassword());
+        // when
+        MemberDetail loginMember = memberService.login(loginDto);
+        // then
+        assertThat(dto.getEmail()).isEqualTo(loginMember.getEmail());
+    }
+
+    @Test
+    @DisplayName("로그인 실패 시 예외가 발생한다.")
+    @Order(8)
+    void login_fail() throws Exception {
+        // given
+        MemberRegisterDto dto = createMemberRegisterDto();
+        memberService.addMember(dto);
+
+        String failPassword = "failPassword";
+        LoginDto loginDto = new LoginDto(dto.getEmail(), failPassword);
+
+        // when then
+        assertThatThrownBy(() -> memberService.login(loginDto)).isInstanceOf(LoginFailException.class);
     }
 
     private MemberRegisterDto createMemberRegisterDto() {
