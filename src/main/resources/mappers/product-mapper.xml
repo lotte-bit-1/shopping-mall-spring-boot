@@ -47,7 +47,7 @@
         <result column="quantity" jdbcType="BIGINT" property="quantity"/>
     </resultMap>
 
-    <select id="gettotalpage" resultType="int" parameterType="int">
+    <select id="getTotalPage" resultType="int" parameterType="int">
         SELECT CEIL(COUNT(*) / 9)
         FROM product
     </select>
@@ -58,7 +58,7 @@
         LEFT JOIN product_image i
         ON p.id = i.product_id
         WHERE p.id in
-        <foreach collection="list" item="id" open="(" separator="," close=")">
+        <foreach collection="id" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
         AND is_thumbnail = true
@@ -98,7 +98,7 @@
         and pi.is_thumbnail = false
     </select>
 
-    <select id="selectone" parameterType="Long" resultMap="singleProduct">
+    <select id="selectOne" parameterType="Long" resultMap="singleProduct">
         SELECT p.id, p.name, p.quantity, p.price, i.url
         FROM product p
         LEFT JOIN product_image i
@@ -109,11 +109,11 @@
         </foreach>
         AND is_thumbnail = true
     </select>
-    <select id="selectall" resultType="product">
+    <select id="selectAll" resultType="product">
         SELECT *
         FROM product
     </select>
-    <select id="sortbypricedesc" parameterType="hashMap" resultMap="ListResultMap">
+    <select id="sortByPriceDesc" parameterType="hashMap" resultMap="ListResultMap">
         SELECT p.name name,
         p.price price,
         pi.url url,
@@ -127,7 +127,7 @@
         LIMIT 9
         OFFSET #{offset}
     </select>
-    <select id="sortbydate" parameterType="hashMap" resultMap="ListResultMap">
+    <select id="sortByDate" parameterType="hashMap" resultMap="ListResultMap">
         SELECT p.name name,
         p.price price,
         pi.url url,
@@ -143,7 +143,7 @@
         OFFSET
         #{offset}
     </select>
-    <select id="sortbyprice" parameterType="hashMap" resultMap="ListResultMap">
+    <select id="sortByPrice" parameterType="hashMap" resultMap="ListResultMap">
         SELECT p.name name,
         p.price price,
         pi.url url,
@@ -177,7 +177,7 @@
         WHERE id = #{id}
     </delete>
 
-    <select id="get-category" parameterType="Long" resultType="category">
+    <select id="getCategory" parameterType="Long" resultType="category">
         SELECT c1.id AS id, c1.parent_id parentId, c1.name name, c1.level level
         FROM category c1
         WHERE c1.id = #{id}
@@ -195,13 +195,13 @@
         ORDER BY level
     </select>
 
-    <select id="check-qty" parameterType="Long" resultType="int">
+    <select id="checkQuantity" parameterType="Long" resultType="int">
         SELECT quantity
         FROM product
         WHERE id = #{id}
     </select>
 
-    <select id="product-detail-for-order" resultType="Long" resultMap="ProductDetailForOrder">
+    <select id="productDetailForOrder" resultType="Long" resultMap="ProductDetailForOrder">
         select p.id id, p.name name, p.quantity quantity, p.price price, pi.url url
         from product p
         left join product_image pi on p.id = pi.product_id
@@ -226,7 +226,7 @@
         #{offset}
     </select>
 
-    <select id="search-subcategory-product" parameterType="hashMap"
+    <select id="searchSubCategoryProduct" parameterType="hashMap"
             resultType="com.bit.shoppingmall.app.dto.product.ProductListItem">
         SELECT p.name name,
         p.price price,
