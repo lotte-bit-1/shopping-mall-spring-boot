@@ -1,6 +1,10 @@
 package com.bit.shoppingmall.app.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
@@ -8,6 +12,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductAndMemberCompositeKey {
 
-    private Long productId;
-    private Long memberId;
+  private Long productId;
+  private Long memberId;
 }

@@ -2,9 +2,9 @@ package com.bit.shoppingmall.app.exception;
 
 public abstract class DomainException extends RuntimeException {
 
-    public DomainException(String message) {
-        super(message);
-    }
+  public DomainException(String message) {
+    super(message);
+  }
 
-    public abstract int getStatusCode();
+  public abstract int getStatusCode();
 }

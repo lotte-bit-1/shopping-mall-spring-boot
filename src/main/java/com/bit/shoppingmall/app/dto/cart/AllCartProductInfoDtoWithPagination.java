@@ -1,7 +1,12 @@
 package com.bit.shoppingmall.app.dto.cart;
 
 import com.bit.shoppingmall.app.dto.paging.Pagination;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @Builder
@@ -10,13 +15,13 @@ import lombok.*;
 @ToString
 public class AllCartProductInfoDtoWithPagination {
 
-    private AllCartProductInfoDto cartProductInfoDto;
-    private Pagination paging;
+  private AllCartProductInfoDto cartProductInfoDto;
+  private Pagination paging;
 
 
-    public static AllCartProductInfoDtoWithPagination getCartProductListWithPagination(
-            AllCartProductInfoDto cartProductList, Pagination pagination) {
-        return AllCartProductInfoDtoWithPagination.builder().cartProductInfoDto(cartProductList)
-                .paging(pagination).build();
-    }
+  public static AllCartProductInfoDtoWithPagination getCartProductListWithPagination(
+      AllCartProductInfoDto cartProductList, Pagination pagination) {
+    return AllCartProductInfoDtoWithPagination.builder().cartProductInfoDto(cartProductList)
+        .paging(pagination).build();
+  }
 }
