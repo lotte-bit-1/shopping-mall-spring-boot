@@ -9,10 +9,12 @@ import com.bit.shoppingmall.app.mapper.EncryptionMapper;
 import com.bit.shoppingmall.app.mapper.MemberMapper;
 import com.bit.shoppingmall.app.utils.CipherUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
 @Service
 @Transactional(readOnly = true)
@@ -40,6 +42,11 @@ public class MemberService {
         Member member =
                 memberMapper.select(id).orElseThrow(MemberEntityNotFoundException::new);
         return MemberDetail.of(member);
+    }
+
+    public Boolean isDuplicatedEmail(String email) {
+        int result = memberMapper.countByEmail(email);
+        return result == 0 ? true : false;
     }
 
     private String createHashedPassword(String password, String salt) throws Exception {
