@@ -18,7 +18,7 @@ public interface MemberMapper {
 
     Optional<OrderMemberDetail> selectAddressAndCouponById(Long id);
 
-    List<Member> selectAll();
+    List<Member> selectall();
 
     int countByEmail(String email);
 
