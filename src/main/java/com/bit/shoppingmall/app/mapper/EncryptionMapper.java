@@ -15,11 +15,11 @@ public interface EncryptionMapper {
 
     List<Encryption> selectall();
 
-    void insert(Encryption encryption);
+    int insert(Encryption encryption);
 
-    void update(Encryption encryption);
+    int update(Encryption encryption);
 
-    void delete(Long id);
+    int delete(Long id);
 
 
 }
