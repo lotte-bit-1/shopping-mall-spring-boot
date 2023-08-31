@@ -21,9 +21,6 @@ class MemberServiceTest {
     @Autowired
     MemberService memberService;
 
-    @Autowired
-    MemberMapper memberMapper;
-
     @Test
     @DisplayName("회원정보를 입력 받아 회원가입을 한다.")
     void register() throws Exception {
