@@ -34,7 +34,6 @@ public class MemberService {
     }
 
     private String createHashedPassword(String password, String salt) throws Exception {
-        new String();
         CipherUtil.getSHA256(password, salt);
         return new String(CipherUtil.getSHA256(password, salt)).replaceAll(" ", "");
     }
