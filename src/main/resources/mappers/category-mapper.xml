@@ -19,7 +19,6 @@
     <result column="name" property="name"/>
     <result column="level" property="level"/>
   </resultMap>
-
   <resultMap id="CategorySearch" type="com.bit.shoppingmall.app.dto.product.ProductListItem">
     <id column="id" jdbcType="BIGINT" property="id"/>
     <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -35,109 +34,118 @@
     <result column="middle" jdbcType="VARCHAR" property="middle"/>
     <result column="low" jdbcType="VARCHAR" property="low"/>
   </resultMap>
-  <select id="select" parameterType="Long" resultType="category">
-    SELECT *
-    FROM category
-    WHERE id = #{id}
-  </select>
-  <select id="selectall" resultMap="hierarchy">
-    select null pp_id, null pp_name, null p_id, null p_name, c.id id, c.name name, c.level level
-    from category c
-    where level = 1
-    union
-    select null pp_id,
-    null pp_name,
-    c1.id p_id,
-    c1.name p_name,
-    c2.id id,
-    c2.name name,
-    c2.level level
-    from category c1
-    left join category c2
-    on c1.id = c2.parent_id
-    where c2.level = 2
-    union
-    select c1.id pp_id,
-    c1.name pp_name,
-    c2.id p_id,
-    c2.name p_name,
-    c3.id id,
-    c3.name name,
-    c3.level level
-    from category c1
-    left join category c2 on c1.id = c2.parent_id
-    left join category c3 on c2.id = c3.parent_id
-    where c3.level = 3;
-  </select>
-  <select id="first-category" resultType="category">
-    SELECT *
-    FROM category
-    WHERE level = 1
-  </select>
-  <select id="search-product-by-category" parameterType="hashMap" resultMap="CategorySearch">
-    select p.name name,
-    p.price price,
-    pi.url url,
-    p.id id,
-    CASE
-    WHEN l.product_id IS NOT NULL THEN true
-    ELSE false END AS is_Liked
-    from category c
-    left join product p on c.id = p.category_id
-    left join product_image pi on p.id = pi.product_id
-    LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{memberId}
-    where level = 1
-    and pi.is_thumbnail = true
-    and c.name LIKE '%' || #{keyword} || '%'
-    UNION
-    select p.name name,
-    p.price price,
-    pi.url url,
-    p.id id,
-    CASE
-    WHEN l.product_id IS NOT NULL THEN true
-    ELSE false END AS is_liked
-    from category c
-    left join product p on c.id = p.category_id
-    left join product_image pi on p.id = pi.product_id
-    LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{memberId}
-    where level = 2
-    and pi.is_thumbnail = true
-    and c.name LIKE '%' || #{keyword} || '%'
-    UNION
-    select p.name name,
-    p.price price,
-    pi.url url,
-    p.id id,
-    CASE
-    WHEN l.product_id IS NOT NULL THEN true
-    ELSE false END AS is_Liked
-    from category c
-    left join product p on c.id = p.category_id
-    left join product_image pi on p.id = pi.product_id
-    LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{memberId}
-    where level = 3
-    and pi.is_thumbnail = true
-    and c.name LIKE CONCAT('%', #{keyword}, '%')
-    limit #{curPage}
-    , 9
-  </select>
 
-  <select id="select-subcategory" parameterType="String"
-    resultType="com.bit.shoppingmall.app.dto.category.response.SubCategory">
-    select c1.id low, c2.id middle, c3.id high
-    from category c1
-    left join category c2 on c1.id = c2.parent_id
-    left join category c3 on c2.id = c3.parent_id
-    where c1.name = #{keyword}
-  </select>
+    <select id="select" parameterType="Long" resultType="category">
+        SELECT *
+        FROM category
+        WHERE id = #{id}
+    </select>
+    <select id="selectAll" resultMap="hierarchy">
+        select null pp_id, null pp_name, null p_id, null p_name, c.id id, c.name name, c.level level
+        from category c
+        where level = 1
+        union
+        select null pp_id,
+        null pp_name,
+        c1.id p_id,
+        c1.name p_name,
+        c2.id id,
+        c2.name name,
+        c2.level level
+        from category c1
+        left join category c2
+        on c1.id = c2.parent_id
+        where c2.level = 2
+        union
+        select c1.id pp_id,
+        c1.name pp_name,
+        c2.id p_id,
+        c2.name p_name,
+        c3.id id,
+        c3.name name,
+        c3.level level
+        from category c1
+        left join category c2 on c1.id = c2.parent_id
+        left join category c3 on c2.id = c3.parent_id
+        where c3.level = 3;
+    </select>
+    <insert id="insert" parameterType="category">
+        INSERT INTO category (parent_id, name, level)
+        VALUES (#{parentId}, #{name}, #{level})
+    </insert>
+    <update id="update" parameterType="category">
+        UPDATE category
+        SET name = #{name},
+        level = #{level}
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="Long">
+        DELETE
+        FROM category
+        WHERE id = #{id}
+    </delete>
+    <select id="firstCategory" resultType="category">
+        SELECT *
+        FROM category
+        WHERE level = 1
+    </select>
 
-  <update id="update" parameterType="category">
-    UPDATE category
-    SET name = #{name},
-    level = #{level}
-    WHERE id = #{id}
-  </update>
+    <select id="searchProductByCategory" parameterType="hashMap" resultMap="CategorySearch">
+        select p.name name,
+        p.price price,
+        pi.url url,
+        p.id id,
+        CASE
+        WHEN l.product_id IS NOT NULL THEN true
+        ELSE false END AS is_Liked
+        from category c
+        left join product p on c.id = p.category_id
+        left join product_image pi on p.id = pi.product_id
+        LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{memberId}
+        where level = 1
+        and pi.is_thumbnail = true
+        and c.name LIKE '%' || #{keyword} || '%'
+        UNION
+        select p.name name,
+        p.price price,
+        pi.url url,
+        p.id id,
+        CASE
+        WHEN l.product_id IS NOT NULL THEN true
+        ELSE false END AS is_liked
+        from category c
+        left join product p on c.id = p.category_id
+        left join product_image pi on p.id = pi.product_id
+        LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{memberId}
+        where level = 2
+        and pi.is_thumbnail = true
+        and c.name LIKE '%' || #{keyword} || '%'
+        UNION
+        select p.name name,
+        p.price price,
+        pi.url url,
+        p.id id,
+        CASE
+        WHEN l.product_id IS NOT NULL THEN true
+        ELSE false END AS is_Liked
+        from category c
+        left join product p on c.id = p.category_id
+        left join product_image pi on p.id = pi.product_id
+        LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{memberId}
+        where level = 3
+        and pi.is_thumbnail = true
+        and c.name LIKE CONCAT('%', #{keyword}, '%')
+        limit #{curPage}
+        , 9
+    </select>
+
+    <select id="selectSubcategory" parameterType="String" resultType="com.bit.shoppingmall.app.dto.category.response.SubCategory">
+        select c1.id low, c2.id middle, c3.id high
+        from category c1
+        left join category c2 on c1.id = c2.parent_id
+        left join category c3 on c2.id = c3.parent_id
+        where c1.name = #{keyword}
+    </select>
 
 </mapper>
 
