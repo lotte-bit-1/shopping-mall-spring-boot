@@ -18,7 +18,7 @@
     FROM address
     WHERE id = #{id}
   </select>
-  <select id="selectall" resultType="address">
+  <select id="selectAll" resultType="address">
     SELECT *
     FROM address
   </select>
