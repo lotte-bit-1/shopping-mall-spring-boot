@@ -22,10 +22,10 @@ public interface MemberMapper {
 
     int countByEmail(String email);
 
-    void insert(Member member);
+    int insert(Member member);
 
-    void update(Member member);
+    int update(Member member);
 
-    void delete(Long id);
+    int delete(Long id);
 
 }
