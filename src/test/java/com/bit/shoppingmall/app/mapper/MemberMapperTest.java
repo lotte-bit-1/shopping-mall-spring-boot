@@ -19,7 +19,7 @@ class MemberMapperTest {
 
     @Test
     @DisplayName("주문 시 멤버와 관련된 기본 주소지 정보, 쿠폰 정보(리스트)를 같이 조회 한다.")
-    void select() throws Exception {
+    void select() {
         // given
         Member member = createMember();
         memberDao.insert(member);
@@ -33,7 +33,7 @@ class MemberMapperTest {
 
     @Test
     @DisplayName("입력받은 이메일 데이터베이스에 존재하는지 검사한다. 존재하면 1을 반환한다.")
-    void countByEmail_result_1() throws Exception {
+    void countByEmail_result_1() {
         // given
         Member member = createMember();
         memberDao.insert(member);
@@ -48,7 +48,7 @@ class MemberMapperTest {
 
     @Test
     @DisplayName("입력받은 이메일 데이터베이스에 존재하는지 검사한다. 존재 하지 않으면 0을 반환한다.")
-    void countByEmail_result_0() throws Exception {
+    void countByEmail_result_0() {
         // given
         Member member = createMember();
         memberDao.insert(member);
