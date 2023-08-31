@@ -31,7 +31,7 @@
             (#{productOrder.productId}, #{productOrder.orderId}, #{productOrder.price}, #{productOrder.quantity})
         </foreach>
     </insert>
-    <insert id="insert" parameterType="productOrder">
+    <insert id="insert" parameterType="productOrder" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO product_order (product_id, order_id, price, quantity)
         VALUES (#{productId}, #{orderId}, #{price}, #{quantity})
     </insert>

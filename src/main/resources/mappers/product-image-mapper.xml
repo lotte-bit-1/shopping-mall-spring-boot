@@ -13,7 +13,7 @@
         SELECT *
         FROM product_image
     </select>
-    <insert id="insert" parameterType="productImage">
+    <insert id="insert" parameterType="productImage" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO product_image (product_id, url, is_thumbnail)
         VALUES (#{productId}, #{url}, #{isThumbnail})
     </insert>

@@ -157,7 +157,7 @@
         9
         OFFSET #{offset}
     </select>
-    <insert id="insert" parameterType="product">
+    <insert id="insert" parameterType="product" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO product (category_id, name, description, price, quantity, code)
         VALUES (#{categoryId}, #{name}, #{description}, #{price}, #{quantity}, #{code})
     </insert>

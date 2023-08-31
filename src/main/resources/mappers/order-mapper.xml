@@ -44,8 +44,7 @@
             <result property="quantity" column="productQuantity"/>
         </collection>
     </resultMap>
-
-    <select id="select" parameterType="Long" resultType="order">
+    <select id="selectById" parameterType="Long" resultType="order">
         SELECT id AS id,
         member_id AS memberId,
         coupon_id AS couponId,
@@ -54,10 +53,6 @@
         updated_at AS updatedAt
         FROM orders
         WHERE id = #{id}
-    </select>
-    <select id="selectAll" resultType="order">
-        SELECT *
-        FROM orders
     </select>
     <select id="selectProductOrdersForMemberCurrentYear" parameterType="Long" resultMap="ProductOrderDto">
         SELECT o.id AS orderId,
@@ -136,7 +131,7 @@
         updated_at = now()
         WHERE id = #{id}
     </update>
-    <delete id="delete" parameterType="Long">
+    <delete id="deleteById" parameterType="Long">
         DELETE
         FROM orders
         WHERE id = #{id}
