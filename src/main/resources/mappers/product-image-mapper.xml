@@ -18,7 +18,7 @@
     FROM product_image
     WHERE product_id = #{id}
   </select>
-  <select id="selectall" resultType="productImage">
+  <select id="selectAll" resultType="productImage">
     SELECT *
     FROM product_image
   </select>
