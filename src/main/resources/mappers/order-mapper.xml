@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="order">
+<mapper namespace="com.bit.shoppingmall.app.mapper.OrderMapper">
 
     <resultMap id="ProductOrderDto" type="com.bit.shoppingmall.app.dto.order.response.ProductOrderDto">
         <result property="orderId" column="orderId"/>

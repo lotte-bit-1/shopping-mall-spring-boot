@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bit.shoppingmall.app.dao.MemberDao">
+<mapper namespace="com.bit.shoppingmall.app.mapper.MemberMapper">
 
     <resultMap id="BaseResultMap" type="member">
         <id column="id" jdbcType="BIGINT" property="id"/>

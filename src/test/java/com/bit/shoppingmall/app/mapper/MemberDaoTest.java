@@ -1,10 +1,9 @@
-package com.bit.shoppingmall.app.dao;
+package com.bit.shoppingmall.app.mapper;
 
 import com.bit.shoppingmall.app.entity.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
@@ -12,7 +11,7 @@ import java.util.Optional;
 class MemberDaoTest {
 
     @Autowired
-    MemberDao memberDao;
+    MemberMapper memberDao;
 
     @Test
     void test() {
