@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.shoppingmall.app.mapper.DeliveryMapper">
 
-  <delete id="delete" parameterType="Long">
-    DELETE
-    FROM delivery
-    WHERE order_id = #{orderId}
-  </delete>
+    <resultMap id="BaseResultMap" type="delivery">
+        <id column="order_id" jdbcType="BIGINT" property="orderId"/>
+        <result column="road_name" jdbcType="VARCHAR" property="roadName"/>
+        <result column="addr_detail" jdbcType="VARCHAR" property="addrDetail"/>
+        <result column="zip_code" jdbcType="VARCHAR" property="zipCode"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+    </resultMap>
 
-  <insert id="insert" parameterType="delivery">
-    INSERT INTO delivery (order_id, road_name, addr_detail, zip_code, status)
-    VALUES (#{orderId}, #{roadName}, #{addrDetail}, #{zipCode}, #{status})
-  </insert>
-  <resultMap id="BaseResultMap" type="delivery">
-    <id column="order_id" jdbcType="BIGINT" property="orderId"/>
-    <result column="road_name" jdbcType="VARCHAR" property="roadName"/>
-    <result column="addr_detail" jdbcType="VARCHAR" property="addrDetail"/>
-    <result column="zip_code" jdbcType="VARCHAR" property="zipCode"/>
-    <result column="status" jdbcType="VARCHAR" property="status"/>
-    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
-    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
-  </resultMap>
-  <select id="select" parameterType="Long" resultMap="BaseResultMap">
-    SELECT *
-    FROM delivery
-    WHERE order_id = #{orderId}
-  </select>
-  <select id="selectall" resultType="delivery">
-    SELECT *
-    FROM delivery
-  </select>
-  <update id="update" parameterType="delivery">
-    UPDATE delivery
-    SET status = #{status},
-    updated_at = now()
-    WHERE order_id = #{orderId}
-  </update>
+    <select id="select" parameterType="Long" resultMap="BaseResultMap">
+        SELECT *
+        FROM delivery
+        WHERE order_id = #{orderId}
+    </select>
+    <select id="selectall" resultType="delivery">
+        SELECT *
+        FROM delivery
+    </select>
+    <insert id="insert" parameterType="delivery">
+        INSERT INTO delivery (order_id, road_name, addr_detail, zip_code, status)
+        VALUES (#{orderId}, #{roadName}, #{addrDetail}, #{zipCode}, #{status})
+    </insert>
+    <update id="update" parameterType="delivery">
+        UPDATE delivery
+        SET status = #{status},
+        updated_at = now()
+        WHERE order_id = #{orderId}
+    </update>
+    <delete id="delete" parameterType="Long">
+        DELETE
+        FROM delivery
+        WHERE order_id = #{orderId}
+    </delete>
 
 </mapper>
 

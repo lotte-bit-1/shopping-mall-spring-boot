@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.shoppingmall.app.mapper.PaymentMapper">
 
-  <delete id="delete" parameterType="Long">
-    DELETE
-    FROM payments
-    WHERE id = #{id}
-  </delete>
+    <resultMap id="BaseResultMap" type="payment">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="order_id" jdbcType="BIGINT" property="orderId"/>
+        <result column="actual_amount" jdbcType="VARCHAR" property="actualAmount"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+    </resultMap>
 
-  <insert id="insert" parameterType="payment">
-    INSERT INTO payments (order_id, actual_amount, type)
-    VALUES (#{orderId}, #{actualAmount}, #{type})
-  </insert>
-  <resultMap id="BaseResultMap" type="payment">
-    <id column="id" jdbcType="BIGINT" property="id"/>
-    <result column="order_id" jdbcType="BIGINT" property="orderId"/>
-    <result column="actual_amount" jdbcType="VARCHAR" property="actualAmount"/>
-    <result column="type" jdbcType="VARCHAR" property="type"/>
-    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
-    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
-  </resultMap>
-  <select id="selectall" resultType="payment">
-    SELECT *
-    FROM payments
-  </select>
-  <select id="select" parameterType="Long" resultType="payment">
-    SELECT *
-    FROM payments
-    WHERE id = #{id}
-  </select>
-  <select id="selectByOrderId" parameterType="Long" resultMap="BaseResultMap">
-    SELECT *
-    FROM payments
-    WHERE order_id = #{order_id}
-  </select>
-  <update id="update" parameterType="payment">
-    UPDATE payments
-    SET order_id = #{orderId},
-    actual_amount = #{actualAmount},
-    type = #{type}
-    WHERE id = #{id}
-  </update>
+    <select id="select" parameterType="Long" resultType="payment">
+        SELECT *
+        FROM payments
+        WHERE id = #{id}
+    </select>
+    <select id="selectByOrderId" parameterType="Long" resultMap="BaseResultMap">
+        SELECT *
+        FROM payments
+        WHERE order_id = #{order_id}
+    </select>
+    <select id="selectall" resultType="payment">
+        SELECT *
+        FROM payments
+    </select>
+    <insert id="insert" parameterType="payment">
+        INSERT INTO payments (order_id, actual_amount, type)
+        VALUES (#{orderId}, #{actualAmount}, #{type})
+    </insert>
+    <update id="update" parameterType="payment">
+        UPDATE payments
+        SET order_id = #{orderId},
+        actual_amount = #{actualAmount},
+        type = #{type}
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="Long">
+        DELETE
+        FROM payments
+        WHERE id = #{id}
+    </delete>
 
 </mapper>
 
