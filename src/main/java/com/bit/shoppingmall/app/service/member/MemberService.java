@@ -1,4 +1,4 @@
-package com.bit.shoppingmall.app.service;
+package com.bit.shoppingmall.app.service.member;
 
 import org.springframework.stereotype.Service;
 
