@@ -22,6 +22,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final EncryptionMapper encryptionMapper;
 
+    @Transactional
     public Boolean addMember(MemberRegisterDto dto) throws Exception {
         String salt = createSalt();
         String hashedPassword = createHashedPassword(dto.getPassword(), salt);

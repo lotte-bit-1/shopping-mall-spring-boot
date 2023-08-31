@@ -1,6 +1,9 @@
 package com.bit.shoppingmall.app.service.member;
 
 import com.bit.shoppingmall.app.dto.member.request.MemberRegisterDto;
+import com.bit.shoppingmall.app.dto.member.response.MemberDetail;
+import com.bit.shoppingmall.app.exception.member.MemberEntityNotFoundException;
+import com.bit.shoppingmall.app.mapper.MemberMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,9 @@ class MemberServiceTest {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    MemberMapper memberMapper;
 
     @Test
     @DisplayName("회원정보를 입력 받아 회원가입을 한다.")
@@ -44,6 +50,30 @@ class MemberServiceTest {
         //then
         assertThatThrownBy(() ->
                 memberService.addMember(dto2)).isInstanceOf(DuplicateKeyException.class);
+    }
+
+    @Test
+    @DisplayName("회원 아이디(pk)로 내 정보 조회를 할 수 있다.")
+    void getMemberDetail() throws Exception {
+        // given
+        MemberRegisterDto memberRegisterDto = createMemberRegisterDto();
+        memberService.addMember(memberRegisterDto);
+        Long expectedMemberId = 2L;
+        // when
+        MemberDetail memberDetail = memberService.findMember(expectedMemberId);
+        // then
+        assertThat(memberDetail.getId()).isEqualTo(expectedMemberId);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 회원 아이디로 내정보 조회 시 예외가 발생한다.")
+    void getMemberDetail_fail() throws Exception {
+        // given
+        long memberId = 1000L;
+
+        // when then
+        assertThatThrownBy(() ->
+                memberService.findMember(memberId)).isInstanceOf(MemberEntityNotFoundException.class);
     }
 
     private MemberRegisterDto createMemberRegisterDto() {
