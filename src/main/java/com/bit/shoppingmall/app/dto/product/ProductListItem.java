@@ -1,7 +1,12 @@
 package com.bit.shoppingmall.app.dto.product;
 
 import com.bit.shoppingmall.app.entity.BaseEntity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @Builder
@@ -9,9 +14,10 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class ProductListItem extends BaseEntity {
-    private Long id;
-    private String name;
-    private Long price;
-    private String url;
-    private Boolean isLiked;
+
+  private Long id;
+  private String name;
+  private Long price;
+  private String url;
+  private Boolean isLiked;
 }

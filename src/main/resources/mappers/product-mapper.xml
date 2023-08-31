@@ -1,51 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.shoppingmall.app.mapper.ProductMapper">
-    <resultMap id="BaseResultMap" type="product">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="categoryId" jdbcType="BIGINT" property="categoryId"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="description" jdbcType="VARCHAR" property="description"/>
-        <result column="price" jdbcType="BIGINT" property="price"/>
-        <result column="quantity" jdbcType="BIGINT" property="quantity"/>
-        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
-        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
-    </resultMap>
-    <resultMap id="ListResultMap" type="com.bit.shoppingmall.app.dto.product.ProductListItem">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="price" jdbcType="BIGINT" property="price"/>
-        <result column="is_liked" jdbcType="BIGINT" property="isLiked"/>
-        <result column="url" jdbcType="VARCHAR" property="url"/>
-        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
-        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
-    </resultMap>
-    <resultMap id="singleProduct" type="com.bit.shoppingmall.app.dto.product.ProductItemQuantity">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="price" jdbcType="BIGINT" property="price"/>
-        <result column="url" jdbcType="VARCHAR" property="url"/>
-        <result column="quantity" jdbcType="BIGINT" property="quantity"/>
-        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
-        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
-    </resultMap>
-    <resultMap id="productOfLike" type="com.bit.shoppingmall.app.dto.product.ProductListItemOfLike">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="price" jdbcType="BIGINT" property="price"/>
-        <result column="url" jdbcType="VARCHAR" property="url"/>
-        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
-        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
-    </resultMap>
-    <resultMap id="ProductDetailForOrder" type="com.bit.shoppingmall.app.dto.product.response.ProductDetailForOrder">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="price" jdbcType="BIGINT" property="price"/>
-        <result column="url" jdbcType="VARCHAR" property="url"/>
-        <result column="quantity" jdbcType="BIGINT" property="quantity"/>
-    </resultMap>
+  <delete id="delete" parameterType="Long">
+    DELETE
+    FROM product
+    WHERE id = #{id}
+  </delete>
+  <insert id="insert" parameterType="product">
+    INSERT INTO product (category_id, name, description, price, quantity, code)
+    VALUES (#{categoryId}, #{name}, #{description}, #{price}, #{quantity}, #{code})
+  </insert>
+  <resultMap id="BaseResultMap" type="product">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="categoryId" jdbcType="BIGINT" property="categoryId"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+    <result column="price" jdbcType="BIGINT" property="price"/>
+    <result column="quantity" jdbcType="BIGINT" property="quantity"/>
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+  </resultMap>
+  <resultMap id="ListResultMap" type="com.bit.shoppingmall.app.dto.product.ProductListItem">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="price" jdbcType="BIGINT" property="price"/>
+    <result column="is_liked" jdbcType="BIGINT" property="isLiked"/>
+    <result column="url" jdbcType="VARCHAR" property="url"/>
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+  </resultMap>
+  <resultMap id="singleProduct" type="com.bit.shoppingmall.app.dto.product.ProductItemQuantity">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="price" jdbcType="BIGINT" property="price"/>
+    <result column="url" jdbcType="VARCHAR" property="url"/>
+    <result column="quantity" jdbcType="BIGINT" property="quantity"/>
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+  </resultMap>
+  <resultMap id="productOfLike" type="com.bit.shoppingmall.app.dto.product.ProductListItemOfLike">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="price" jdbcType="BIGINT" property="price"/>
+    <result column="url" jdbcType="VARCHAR" property="url"/>
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+  </resultMap>
+
+  <resultMap id="ProductDetailForOrder"
+    type="com.bit.shoppingmall.app.dto.product.response.ProductDetailForOrder">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="price" jdbcType="BIGINT" property="price"/>
+    <result column="url" jdbcType="VARCHAR" property="url"/>
+    <result column="quantity" jdbcType="BIGINT" property="quantity"/>
+  </resultMap>
+  
 
     <select id="getTotalPage" resultType="int" parameterType="int">
         SELECT CEIL(COUNT(*) / 9)
@@ -62,40 +74,6 @@
             #{id}
         </foreach>
         AND is_thumbnail = true
-    </select>
-
-    <select id="select" parameterType="Long" resultType="product">
-        SELECT id,
-        category_id AS categoryId,
-        name,
-        description,
-        price,
-        quantity,
-        code,
-        created_at AS createdAt,
-        updated_at AS updatedAt
-        FROM product
-        WHERE id = #{id}
-    </select>
-
-    <select id="selectDetail" parameterType="com.bit.shoppingmall.app.dto.product.ProductDetailParameter"
-            resultType="com.bit.shoppingmall.app.dto.product.ProductDetail">
-        SELECT p.name name,
-        p.price price,
-        p.category_id categoryId,
-        p.description description,
-        p.quantity quantity,
-        pi.url url,
-        p.code code,
-        p.id id,
-        CASE
-        WHEN l.product_id IS NOT NULL THEN true
-        ELSE false END AS isLiked
-        FROM product p
-        left join likes l on p.id = l.product_id and l.member_id = #{memberId}
-        left join product_image pi on p.id = pi.product_id
-        where p.id = #{productId}
-        and pi.is_thumbnail = false
     </select>
 
     <select id="selectOne" parameterType="Long" resultMap="singleProduct">
@@ -209,22 +187,26 @@
         and pi.is_thumbnail = true
     </select>
 
-    <select id="searchByWord" parameterType="hashMap" resultMap="ListResultMap">
-        SELECT p.name name,
-        p.price price,
-        pi.url url,
-        p.id id,
-        CASE WHEN l.product_id IS NOT NULL THEN true ELSE false END AS is_Liked
-        FROM product p
-        LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{userId}
-        left join product_image pi on p.id = pi.product_id
-        WHERE pi.is_thumbnail = true
-        and p.name LIKE CONCAT('%', #{keyword}, '%')
-        LIMIT
-        9
-        OFFSET
-        #{offset}
-    </select>
+  <select id="search-subcategory-product" parameterType="hashMap"
+    resultType="com.bit.shoppingmall.app.dto.product.ProductListItem">
+    SELECT p.name name,
+    p.price price,
+    pi.url url,
+    p.id id,
+    CASE WHEN l.product_id IS NOT NULL THEN true ELSE false END AS isLiked
+    from product p
+    LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{memberId}
+    left join product_image pi on p.id = pi.product_id
+    where p.category_id in
+    <foreach close=")" collection="id" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+    and pi.is_thumbnail = true
+    LIMIT
+    9
+    OFFSET
+    #{offset}
+  </select>
 
     <select id="searchSubCategoryProduct" parameterType="hashMap"
             resultType="com.bit.shoppingmall.app.dto.product.ProductListItem">

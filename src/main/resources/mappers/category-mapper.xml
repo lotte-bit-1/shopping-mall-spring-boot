@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.shoppingmall.app.mapper.CategoryMapper">
-    <resultMap id="BaseResultMap" type="category">
-        <id column="id" property="id"/>
-        <result column="parent_id" property="parentId"/>
-        <result column="name" property="name"/>
-        <result column="level" property="level"/>
-    </resultMap>
+  <delete id="delete" parameterType="Long">
+    DELETE
+    FROM category
+    WHERE id = #{id}
+  </delete>
 
-    <resultMap id="CategorySearch" type="com.bit.shoppingmall.app.dto.product.ProductListItem">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="price" jdbcType="BIGINT" property="price"/>
-        <result column="is_liked" jdbcType="BOOLEAN" property="isLiked"/>
-        <result column="url" jdbcType="VARCHAR" property="url"/>
-    </resultMap>
-    <resultMap id="hierarchy" type="com.bit.shoppingmall.app.dto.category.response.CategoryHierarchy">
-        <result column="name1" jdbcType="VARCHAR" property="name1"/>
-        <result column="name2" jdbcType="VARCHAR" property="name2"/>
-        <result column="name3" jdbcType="VARCHAR" property="name3"/>
-        <result column="high" jdbcType="VARCHAR" property="high"/>
-        <result column="middle" jdbcType="VARCHAR" property="middle"/>
-        <result column="low" jdbcType="VARCHAR" property="low"/>
-    </resultMap>
+  <insert id="insert" parameterType="category">
+    INSERT INTO category (parent_id, name, level)
+    VALUES (#{parentId}, #{name}, #{level})
+  </insert>
+  <resultMap id="BaseResultMap" type="category">
+    <id column="id" property="id"/>
+    <result column="parent_id" property="parentId"/>
+    <result column="name" property="name"/>
+    <result column="level" property="level"/>
+  </resultMap>
+  <resultMap id="CategorySearch" type="com.bit.shoppingmall.app.dto.product.ProductListItem">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="price" jdbcType="BIGINT" property="price"/>
+    <result column="is_liked" jdbcType="BOOLEAN" property="isLiked"/>
+    <result column="url" jdbcType="VARCHAR" property="url"/>
+  </resultMap>
+  <resultMap id="hierarchy" type="com.bit.shoppingmall.app.dto.category.response.CategoryHierarchy">
+    <result column="name1" jdbcType="VARCHAR" property="name1"/>
+    <result column="name2" jdbcType="VARCHAR" property="name2"/>
+    <result column="name3" jdbcType="VARCHAR" property="name3"/>
+    <result column="high" jdbcType="VARCHAR" property="high"/>
+    <result column="middle" jdbcType="VARCHAR" property="middle"/>
+    <result column="low" jdbcType="VARCHAR" property="low"/>
+  </resultMap>
 
     <select id="select" parameterType="Long" resultType="category">
         SELECT *

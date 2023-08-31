@@ -1,146 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.shoppingmall.app.mapper.OrderMapper">
 
-    <resultMap id="ProductOrderDto" type="com.bit.shoppingmall.app.dto.order.response.ProductOrderDto">
-        <result property="orderId" column="orderId"/>
-        <result property="orderStatus" column="orderStatus"/>
-        <result property="orderDate" column="orderDate"/>
-        <collection property="products" ofType="com.bit.shoppingmall.app.dto.order.response.ProductOrderDto$ProductDto">
-            <result property="productId" column="productId"/>
-            <result property="name" column="productName"/>
-            <result property="thumbnailUrl" column="thumbnailUrl"/>
-            <result property="price" column="productPrice"/>
-            <result property="quantity" column="productQuantity"/>
-        </collection>
-    </resultMap>
+  <delete id="delete" parameterType="Long">
+    DELETE
+    FROM orders
+    WHERE id = #{id}
+  </delete>
 
-    <resultMap id="ProductOrderDetailDto" type="com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto">
-        <result property="orderId" column="orderId"/>
-        <result property="orderStatus" column="orderStatus"/>
-        <result property="orderDate" column="orderDate"/>
-        <result property="memberName" column="memberName"/>
-        <association property="delivery" javaType="com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto$DeliveryDto">
-            <result property="roadName" column="roadName"/>
-            <result property="addrDetail" column="addrDetail"/>
-            <result property="zipCode" column="zipCode"/>
-            <result property="deliveryStatus" column="deliveryStatus"/>
-        </association>
-        <association property="payment" javaType="com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto$PaymentDto">
-            <result property="paymentType" column="paymentType"/>
-            <result property="actualAmount" column="actualAmount"/>
-        </association>
-        <association property="coupon" javaType="com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto$CouponDto">
-            <result property="couponName" column="couponName"/>
-            <result property="couponStatus" column="couponStatus"/>
-        </association>
-        <collection property="products" ofType="com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto$ProductDto">
-            <result property="productId" column="productId"/>
-            <result property="productName" column="productName"/>
-            <result property="thumbnailUrl" column="thumbnailUrl"/>
-            <result property="price" column="productPrice"/>
-            <result property="quantity" column="productQuantity"/>
-        </collection>
-    </resultMap>
+  <insert id="insert" keyProperty="id" parameterType="order" useGeneratedKeys="true">
+    INSERT INTO orders (member_id, coupon_id, status)
+    VALUES (#{memberId}, #{couponId}, #{status})
+  </insert>
 
-    <select id="select" parameterType="Long" resultType="order">
-        SELECT id AS id,
-        member_id AS memberId,
-        coupon_id AS couponId,
-        status AS status,
-        created_at AS createdAt,
-        updated_at AS updatedAt
-        FROM orders
-        WHERE id = #{id}
-    </select>
-    <select id="selectAll" resultType="order">
-        SELECT *
-        FROM orders
-    </select>
-    <select id="selectProductOrdersForMemberCurrentYear" parameterType="Long" resultMap="ProductOrderDto">
-        SELECT o.id AS orderId,
-        o.status AS orderStatus,
-        o.created_at AS orderDate,
-        p.id AS productId,
-        p.name AS productName,
-        (SELECT CASE pi.url
-        WHEN null THEN 'https://random.imagecdn.app/500/150'
-        ELSE pi.url
-        END
-        FROM product_image pi
-        WHERE p.id = pi.product_id
-        AND pi.is_thumbnail is true
-        LIMIT 1) AS thumbnailUrl,
-        p.price AS productPrice,
-        po.quantity AS productQuantity
-        FROM orders o
-        INNER JOIN product_order po on o.id = po.order_id
-        INNER JOIN product p on p.id = po.product_id
-        LEFT JOIN product_image pi on p.id = pi.product_id
-        WHERE member_id = #{memberId}
-        AND EXTRACT(YEAR FROM o.created_at) = EXTRACT(YEAR FROM NOW())
-        ORDER BY o.created_at DESC
-    </select>
-    <parameterMap id="orderIdAndMemberIdParameterMap" type="map">
-        <parameter property="memberId" javaType="Long" jdbcType="BIGINT"/>
-        <parameter property="orderId" javaType="Long" jdbcType="BIGINT"/>
-    </parameterMap>
-    <select id="selectOrderDetailsForMemberAndOrderId" parameterMap="orderIdAndMemberIdParameterMap"
-            resultMap="ProductOrderDetailDto">
-        SELECT o.id AS orderId,
-        o.status AS orderStatus,
-        o.created_at AS orderDate,
-        p.id AS productId,
-        p.name AS productName,
-        (SELECT CASE pi.url
-        WHEN null THEN 'https://random.imagecdn.app/500/150'
-        ELSE pi.url
-        END
-        FROM product_image pi
-        WHERE p.id = pi.product_id
-        AND pi.is_thumbnail is true
-        LIMIT 1) AS thumbnailUrl,
-        p.price AS productPrice,
-        po.quantity AS productQuantity,
-        m.name AS memberName,
-        d.road_name AS roadName,
-        d.addr_detail AS addrDetail,
-        d.zip_code AS zipCode,
-        d.status AS deliveryStatus,
-        pm.type AS paymentType,
-        pm.actual_amount AS actualAmount,
-        c.name AS couponName,
-        c.status AS couponStatus
-        FROM orders o
-        INNER JOIN member m on o.member_id = m.id
-        INNER JOIN product_order po on o.id = po.order_id
-        INNER JOIN delivery d on o.id = d.order_id
-        INNER JOIN payments pm on o.id = pm.order_id
-        INNER JOIN product p on p.id = po.product_id
-        LEFT JOIN product_image pi on p.id = pi.product_id
-        LEFT JOIN coupon c on o.coupon_id = c.id
-        WHERE o.member_id = #{memberId}
-        AND o.id = #{orderId}
-    </select>
-    <insert id="insert" parameterType="order" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO orders (member_id, coupon_id, status)
-        VALUES (#{memberId}, #{couponId}, #{status})
-    </insert>
-    <update id="update" parameterType="order" useGeneratedKeys="true" keyProperty="id">
-        UPDATE orders
-        SET member_id = #{memberId},
-        coupon_id = #{couponId},
-        status = #{status},
-        updated_at = now()
-        WHERE id = #{id}
-    </update>
-    <delete id="delete" parameterType="Long">
-        DELETE
-        FROM orders
-        WHERE id = #{id}
-    </delete>
+  <parameterMap id="orderIdAndMemberIdParameterMap" type="map">
+    <parameter javaType="Long" jdbcType="BIGINT" property="memberId"/>
+    <parameter javaType="Long" jdbcType="BIGINT" property="orderId"/>
+  </parameterMap>
+  <resultMap id="ProductOrderDto"
+    type="com.bit.shoppingmall.app.dto.order.response.ProductOrderDto">
+    <collection ofType="com.bit.shoppingmall.app.dto.order.response.ProductOrderDto$ProductDto"
+      property="products">
+      <result column="productId" property="productId"/>
+      <result column="productName" property="name"/>
+      <result column="thumbnailUrl" property="thumbnailUrl"/>
+      <result column="productPrice" property="price"/>
+      <result column="productQuantity" property="quantity"/>
+    </collection>
+    <result column="orderStatus" property="orderStatus"/>
+    <result column="orderDate" property="orderDate"/>
+    <result column="orderId" property="orderId"/>
+  </resultMap>
+  <resultMap id="ProductOrderDetailDto"
+    type="com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto">
+    <association javaType="com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto$DeliveryDto"
+      property="delivery">
+      <result column="roadName" property="roadName"/>
+      <result column="addrDetail" property="addrDetail"/>
+      <result column="zipCode" property="zipCode"/>
+      <result column="deliveryStatus" property="deliveryStatus"/>
+    </association>
+    <association javaType="com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto$PaymentDto"
+      property="payment">
+      <result column="paymentType" property="paymentType"/>
+      <result column="actualAmount" property="actualAmount"/>
+    </association>
+    <association javaType="com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto$CouponDto"
+      property="coupon">
+      <result column="couponName" property="couponName"/>
+      <result column="couponStatus" property="couponStatus"/>
+    </association>
+    <collection ofType="com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto$ProductDto"
+      property="products">
+      <result column="productId" property="productId"/>
+      <result column="productName" property="productName"/>
+      <result column="thumbnailUrl" property="thumbnailUrl"/>
+      <result column="productPrice" property="price"/>
+      <result column="productQuantity" property="quantity"/>
+    </collection>
+    <result column="orderId" property="orderId"/>
+    <result column="orderStatus" property="orderStatus"/>
+    <result column="orderDate" property="orderDate"/>
+    <result column="memberName" property="memberName"/>
+  </resultMap>
+  <select id="select" parameterType="Long" resultType="order">
+    SELECT id AS id,
+    member_id AS memberId,
+    coupon_id AS couponId,
+    status AS status,
+    created_at AS createdAt,
+    updated_at AS updatedAt
+    FROM orders
+    WHERE id = #{id}
+  </select>
+  <select id="selectAll" resultType="order">
+    SELECT *
+    FROM orders
+  </select>
+  <select id="selectProductOrdersForMemberCurrentYear" parameterType="Long"
+    resultMap="ProductOrderDto">
+    SELECT o.id AS orderId,
+    o.status AS orderStatus,
+    o.created_at AS orderDate,
+    p.id AS productId,
+    p.name AS productName,
+    (SELECT CASE pi.url
+    WHEN null THEN 'https://random.imagecdn.app/500/150'
+    ELSE pi.url
+    END
+    FROM product_image pi
+    WHERE p.id = pi.product_id
+    AND pi.is_thumbnail is true
+    LIMIT 1) AS thumbnailUrl,
+    p.price AS productPrice,
+    po.quantity AS productQuantity
+    FROM orders o
+    INNER JOIN product_order po on o.id = po.order_id
+    INNER JOIN product p on p.id = po.product_id
+    LEFT JOIN product_image pi on p.id = pi.product_id
+    WHERE member_id = #{memberId}
+    AND EXTRACT(YEAR FROM o.created_at) = EXTRACT(YEAR FROM NOW())
+    ORDER BY o.created_at DESC
+  </select>
+  <select id="selectOrderDetailsForMemberAndOrderId" parameterMap="orderIdAndMemberIdParameterMap"
+    resultMap="ProductOrderDetailDto">
+    SELECT o.id AS orderId,
+    o.status AS orderStatus,
+    o.created_at AS orderDate,
+    p.id AS productId,
+    p.name AS productName,
+    (SELECT CASE pi.url
+    WHEN null THEN 'https://random.imagecdn.app/500/150'
+    ELSE pi.url
+    END
+    FROM product_image pi
+    WHERE p.id = pi.product_id
+    AND pi.is_thumbnail is true
+    LIMIT 1) AS thumbnailUrl,
+    p.price AS productPrice,
+    po.quantity AS productQuantity,
+    m.name AS memberName,
+    d.road_name AS roadName,
+    d.addr_detail AS addrDetail,
+    d.zip_code AS zipCode,
+    d.status AS deliveryStatus,
+    pm.type AS paymentType,
+    pm.actual_amount AS actualAmount,
+    c.name AS couponName,
+    c.status AS couponStatus
+    FROM orders o
+    INNER JOIN member m on o.member_id = m.id
+    INNER JOIN product_order po on o.id = po.order_id
+    INNER JOIN delivery d on o.id = d.order_id
+    INNER JOIN payments pm on o.id = pm.order_id
+    INNER JOIN product p on p.id = po.product_id
+    LEFT JOIN product_image pi on p.id = pi.product_id
+    LEFT JOIN coupon c on o.coupon_id = c.id
+    WHERE o.member_id = #{memberId}
+    AND o.id = #{orderId}
+  </select>
+  <update id="update" keyProperty="id" parameterType="order" useGeneratedKeys="true">
+    UPDATE orders
+    SET member_id = #{memberId},
+    coupon_id = #{couponId},
+    status = #{status},
+    updated_at = now()
+    WHERE id = #{id}
+  </update>
 
 </mapper>
 

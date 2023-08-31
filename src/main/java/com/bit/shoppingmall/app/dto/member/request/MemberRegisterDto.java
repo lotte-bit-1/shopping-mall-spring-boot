@@ -8,11 +8,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MemberRegisterDto {
 
-    private String email;
-    private String password;
-    private String name;
+  private String email;
+  private String password;
+  private String name;
 
-    public Member toEntity(String hashedPassword) {
-        return Member.builder().email(email).password(hashedPassword).name(name).build();
-    }
+  public Member toEntity(String hashedPassword) {
+    return Member.builder().email(email).password(hashedPassword).name(name).build();
+  }
 }

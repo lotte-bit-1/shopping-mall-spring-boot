@@ -1,8 +1,12 @@
 package com.bit.shoppingmall.app.dto.category.response;
 
-import lombok.*;
-
 import java.util.Map;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @Builder
@@ -11,5 +15,5 @@ import java.util.Map;
 @ToString
 public class ProductCategory {
 
-    private Map<Integer, String> categoryList;
+  private Map<Integer, String> categoryList;
 }

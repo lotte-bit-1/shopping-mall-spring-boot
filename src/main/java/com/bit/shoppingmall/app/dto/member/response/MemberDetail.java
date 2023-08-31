@@ -12,17 +12,17 @@ import lombok.ToString;
 @ToString
 public class MemberDetail {
 
-    private Long id;
-    private String email;
-    private String name;
-    private Long money;
+  private Long id;
+  private String email;
+  private String name;
+  private Long money;
 
-    public static MemberDetail of(Member member) {
-        return MemberDetail.builder()
-                .id(member.getId())
-                .email(member.getEmail())
-                .name(member.getName())
-                .money(member.getMoney())
-                .build();
-    }
+  public static MemberDetail of(Member member) {
+    return MemberDetail.builder()
+        .id(member.getId())
+        .email(member.getEmail())
+        .name(member.getName())
+        .money(member.getMoney())
+        .build();
+  }
 }
