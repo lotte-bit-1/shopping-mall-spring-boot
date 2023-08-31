@@ -15,39 +15,37 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProductMapper {
 
-    int getTotalPage(int curPage);
+  int getTotalPage(int curPage);
 
-    List<ProductListItemOfLike> selectProductListItemOfLike(List<Long> id);
+  List<ProductListItemOfLike> selectProductListItemOfLike(List<Long> id);
 
-    List<Product> select(Long id);
+  List<Product> select(Long id);
 
-    ProductDetail selectDetail(ProductDetailParameter input);
+  ProductDetail selectDetail(ProductDetailParameter input);
 
-    List<ProductItemQuantity> selectOne(List<Long> id);
+  List<ProductItemQuantity> selectOne(List<Long> id);
 
-    List<Product> selectAll();
+  List<Product> selectAll();
 
-    List<ProductListItem> sortByPriceDesc(Map<String, Object> map);
+  List<ProductListItem> sortByPriceDesc(Map<String, Object> map);
 
-    List<ProductListItem> sortByDate(Map<String, Object> map);
+  List<ProductListItem> sortByDate(Map<String, Object> map);
 
-    List<ProductListItem> sortByPrice(Map<String, Object> map);
+  List<ProductListItem> sortByPrice(Map<String, Object> map);
 
-    int insert(Product product);
+  int insert(Product product);
 
-    int update(Product product);
+  int update(Product product);
 
-    int delete(Long id);
+  int delete(Long id);
 
-    Category getCategory(Long id);
+  Category getCategory(Long id);
 
-    int checkQuantity(Long id);
+  int checkQuantity(Long id);
 
-    List<ProductDetailForOrder> productDetailForOrder(Long id);
+  List<ProductDetailForOrder> productDetailForOrder(Long id);
 
-    List<ProductListItem> searchByWord(Map<String, Object> map);
+  List<ProductListItem> searchByWord(Map<String, Object> map);
 
-    List<ProductListItem> searchSubCategoryProduct(Map<String, Object> map);
-
-
+  List<ProductListItem> searchSubCategoryProduct(Map<String, Object> map);
 }

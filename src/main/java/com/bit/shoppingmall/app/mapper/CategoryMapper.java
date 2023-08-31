@@ -11,21 +11,19 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CategoryMapper {
 
-    Category select(Long id);
+  Category select(Long id);
 
-    List<CategoryHierarchy> selectAll();
+  List<CategoryHierarchy> selectAll();
 
-    int insert(Category category);
+  int insert(Category category);
 
-    int update(Category category);
+  int update(Category category);
 
-    int delete(Long id);
+  int delete(Long id);
 
-    List<Category> firstCategory();
+  List<Category> firstCategory();
 
-    List<ProductListItem> searchProductByCategory(Map<String, Object> map);
+  List<ProductListItem> searchProductByCategory(Map<String, Object> map);
 
-    List<SubCategory> selectSubcategory(String keyword);
-
-
+  List<SubCategory> selectSubcategory(String keyword);
 }
