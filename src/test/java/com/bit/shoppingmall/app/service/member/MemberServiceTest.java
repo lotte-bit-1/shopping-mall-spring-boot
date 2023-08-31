@@ -1,11 +1,9 @@
 package com.bit.shoppingmall.app.service.member;
 
 import com.bit.shoppingmall.app.dto.member.request.MemberRegisterDto;
-import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.convert.DataSizeUnit;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +24,7 @@ class MemberServiceTest {
         // given
         MemberRegisterDto dto = createMemberRegisterDto();
         //when
-        Boolean result = memberService.register(dto);
+        Boolean result = memberService.addMember(dto);
 
         //then
         assertThat(result).isTrue();
@@ -41,11 +39,11 @@ class MemberServiceTest {
         MemberRegisterDto dto2 = createMemberRegisterDto();
 
         //when
-        memberService.register(dto);
+        memberService.addMember(dto);
 
         //then
         assertThatThrownBy(() ->
-                memberService.register(dto2)).isInstanceOf(DuplicateKeyException.class);
+                memberService.addMember(dto2)).isInstanceOf(DuplicateKeyException.class);
     }
 
     private MemberRegisterDto createMemberRegisterDto() {

@@ -1,8 +1,10 @@
 package com.bit.shoppingmall.app.service.member;
 
 import com.bit.shoppingmall.app.dto.member.request.MemberRegisterDto;
+import com.bit.shoppingmall.app.dto.member.response.MemberDetail;
 import com.bit.shoppingmall.app.entity.Encryption;
 import com.bit.shoppingmall.app.entity.Member;
+import com.bit.shoppingmall.app.exception.member.MemberEntityNotFoundException;
 import com.bit.shoppingmall.app.mapper.EncryptionMapper;
 import com.bit.shoppingmall.app.mapper.MemberMapper;
 import com.bit.shoppingmall.app.utils.CipherUtil;
@@ -20,7 +22,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final EncryptionMapper encryptionMapper;
 
-    public Boolean register(MemberRegisterDto dto) throws Exception {
+    public Boolean addMember(MemberRegisterDto dto) throws Exception {
         String salt = createSalt();
         String hashedPassword = createHashedPassword(dto.getPassword(), salt);
 
@@ -31,6 +33,12 @@ public class MemberService {
         int result = encryptionMapper.insert(encryption);
 
         return result == 1 ? true : false;
+    }
+
+    public MemberDetail findMember(Long id) {
+        Member member =
+                memberMapper.select(id).orElseThrow(MemberEntityNotFoundException::new);
+        return MemberDetail.of(member);
     }
 
     private String createHashedPassword(String password, String salt) throws Exception {
