@@ -7,7 +7,7 @@ import com.bit.shoppingmall.app.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 public class IncreaseProductQuantityAlreadyInCart implements
     PutItemIntoCartStrategy {
