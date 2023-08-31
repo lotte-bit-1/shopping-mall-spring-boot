@@ -60,7 +60,7 @@
         left join category c3 on c2.id = c3.parent_id
         where c3.level = 3;
     </select>
-    <insert id="insert" parameterType="category">
+    <insert id="insert" parameterType="category" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO category (parent_id, name, level)
         VALUES (#{parentId}, #{name}, #{level})
     </insert>

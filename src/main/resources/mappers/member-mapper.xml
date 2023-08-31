@@ -78,7 +78,7 @@
 
     </select>
 
-    <select id="selectall" resultType="member">
+    <select id="selectAll" resultType="member">
         SELECT *
         FROM member
     </select>

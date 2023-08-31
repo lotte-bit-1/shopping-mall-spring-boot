@@ -15,17 +15,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MemberMapperTest {
 
     @Autowired
-    MemberMapper memberDao;
+    MemberMapper memberMapper;
 
     @Test
     @DisplayName("주문 시 멤버와 관련된 기본 주소지 정보, 쿠폰 정보(리스트)를 같이 조회 한다.")
     void select() {
         // given
         Member member = createMember();
-        memberDao.insert(member);
+        memberMapper.insert(member);
 
         // when
-        OrderMemberDetail orderMemberDetail = memberDao.selectAddressAndCouponById(member.getId()).get();
+        OrderMemberDetail orderMemberDetail = memberMapper.selectAddressAndCouponById(member.getId()).get();
 
         // then
         assertThat(orderMemberDetail.getEmail()).isEqualTo(member.getEmail());
@@ -36,11 +36,11 @@ class MemberMapperTest {
     void countByEmail_result_1() {
         // given
         Member member = createMember();
-        memberDao.insert(member);
+        memberMapper.insert(member);
         int expectedResult = 1;
 
         // when
-        int result = memberDao.countByEmail(member.getEmail());
+        int result = memberMapper.countByEmail(member.getEmail());
 
         // then
         assertThat(result).isEqualTo(expectedResult);
@@ -51,14 +51,30 @@ class MemberMapperTest {
     void countByEmail_result_0() {
         // given
         Member member = createMember();
-        memberDao.insert(member);
+        memberMapper.insert(member);
         int expectedResult = 0;
 
         // when
-        int result = memberDao.countByEmail("user02@naver.com");
+        int result = memberMapper.countByEmail("user02@naver.com");
 
         // then
         assertThat(result).isEqualTo(expectedResult);
+    }
+
+    @Test
+    @DisplayName("회원정보 수정 (money)")
+    void update_success() {
+        // given
+        long inputMoney = 1000000L;
+        Member member = createMember();
+        memberMapper.insert(member);
+
+
+        // when
+        member.updateMoney(member.getMoney()+inputMoney);
+        int result = memberMapper.update(member);
+        // then
+        assertThat(result).isEqualTo(1);
     }
 
     private Member createMember() {
