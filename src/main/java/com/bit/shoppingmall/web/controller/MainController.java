@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class MainController {
 
-    @GetMapping("/main")
+    @GetMapping("/")
     public String main() throws Exception {
         return "/index";
     }
