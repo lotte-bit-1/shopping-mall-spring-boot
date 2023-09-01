@@ -34,35 +34,38 @@
         const email = $("#registerEmail").val();
         const password = $("#registerPassword").val();
         const name = $("#registerName").val();
-
-        $.post("/memberApi/register", {
-            registerEmail: email,
-            registerPassword: password,
-            registerName: name
-        }, function (result) {
-            if (result) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '가입을 축하합니다.',
-                    showConfirmButton: false,
-                    timer: 1000
-                }).then(() => {
-                    location.href = "/";
-                });
-            } else {
+        $.ajax({
+            type: "POST",
+            url: "/memberApi/register",
+            data: JSON.stringify({email: email, password: password, name: name}),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: (result) => {
+                if (result) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '가입을 축하합니다.',
+                        showConfirmButton: false,
+                        timer: 1000
+                    }).then(() => {
+                            location.href = "/";
+                        }
+                    );
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '회원가입에 실패하였습니다.',
+                    })
+                }
+            },
+            error: (err) => {
+                console.log(err);
                 Swal.fire({
                     icon: 'error',
                     title: '회원가입에 실패하였습니다.',
                 })
             }
-
-        })
-            .fail(function (err) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '회원가입에 실패하였습니다.',
-                })
-            });
+        });
     });
 
     $("#registerEmail").on("focusout", function () {
