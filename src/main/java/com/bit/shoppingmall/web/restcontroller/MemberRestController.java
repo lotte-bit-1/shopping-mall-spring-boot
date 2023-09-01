@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-@RestController
+
 @RequiredArgsConstructor
 @RequestMapping("/memberApi")
 public class MemberRestController {

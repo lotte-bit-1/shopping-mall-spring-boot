@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
             params.append("productId", productId);
             params.append("action", "delete");
 
-            $.post('/cart.bit', params.toString(), function (response) {
+            $.delete('/cart.bit', params.toString(), function (response) {
                 subtotalElement.textContent = `${newTotalPrice}원`;
                 totalElement.textContent = `${newTotalPrice}원`
                 productRow.remove()

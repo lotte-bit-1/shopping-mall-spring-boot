@@ -16,7 +16,7 @@ public interface CartMapper {
 
   List<Cart> selectAllByMember(Long memberId);
 
-  int getCartTotalPage();
+  Long getCartTotalPage(Long memberId);
 
   int bulkDelete(List<ProductAndMemberCompositeKey> productAndMemberCompositeKeys);
 

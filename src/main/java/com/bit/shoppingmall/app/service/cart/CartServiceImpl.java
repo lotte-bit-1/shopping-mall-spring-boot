@@ -1,5 +1,10 @@
 package com.bit.shoppingmall.app.service.cart;
 
+import com.bit.shoppingmall.app.dto.cart.AllCartProductInfoDto;
+import com.bit.shoppingmall.app.dto.cart.AllCartProductInfoDtoWithPagination;
+import com.bit.shoppingmall.app.dto.cart.ProductInCartDto;
+import com.bit.shoppingmall.app.dto.paging.Pagination;
+import com.bit.shoppingmall.app.dto.product.ProductItemQuantity;
 import com.bit.shoppingmall.app.entity.Cart;
 import com.bit.shoppingmall.app.entity.Product;
 import com.bit.shoppingmall.app.entity.ProductAndMemberCompositeKey;
@@ -10,10 +15,11 @@ import com.bit.shoppingmall.app.mapper.MemberMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-//@Service
+@Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
@@ -55,9 +61,28 @@ public class CartServiceImpl implements CartService {
   public void updateItemInCart(ProductAndMemberCompositeKey compKey, Long requestQuantity) {
     Cart cart = cartDao.select(compKey).orElseThrow(ProductIsNotExistedInCartException::new);
     if (requestQuantity > 0) {
-      increaseProductQuantity.put(cart,requestQuantity);
+      increaseProductQuantity.put(cart, requestQuantity);
     } else {
       decreaseItemStrategy.decrease(cart, requestQuantity);
     }
+  }
+
+  @Override
+  public AllCartProductInfoDtoWithPagination getCartByMember(Long memberId) {
+    List<Cart> cartList = cartDao.selectAllByMember(memberId);
+    List<Long> productIdList =
+        cartList.stream().map(Cart::getProductId).collect(Collectors.toList());
+
+    List<ProductItemQuantity> allProductInfo = null;
+    allProductInfo = productDao.selectProductInfo(productIdList);
+    Long totalPaging = cartDao.getCartTotalPage(memberId);
+    Pagination pagination = Pagination.builder().currentPage(1)
+        .totalPage(Math.toIntExact(totalPaging)).build();
+
+    return
+        AllCartProductInfoDtoWithPagination.getCartProductListWithPagination(
+            AllCartProductInfoDto.getCustomerViewOfCartInfo(
+                ProductInCartDto.getProductInfo(allProductInfo, cartList)), pagination);
+
   }
 }
