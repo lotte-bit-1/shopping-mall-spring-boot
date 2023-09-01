@@ -7,25 +7,31 @@ import com.bit.shoppingmall.app.entity.ProductOrder;
 import com.bit.shoppingmall.app.enums.DeliveryStatus;
 import com.bit.shoppingmall.app.enums.OrderStatus;
 import com.bit.shoppingmall.app.enums.PaymentType;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderCreateDto {
 
-  private Long memberId;
-  private Long couponId;
-  private String roadName;
-  private String addrDetail;
-  private String zipCode;
-  private Long productId;
-  private Long price;
-  private Long quantity;
-  private Long totalPrice;
+  @JsonIgnore private Long memberId;
+  private Long couponId = null;
+  @NotBlank private String roadName;
+  @NotBlank private String addrDetail;
+  @NotBlank private String zipCode;
+  @NotNull private Long productId;
+  @NotNull private Long price;
+  @NotNull private Long quantity;
+  @NotNull private Long totalPrice;
+
+  public void setMemberId(Long memberId) {
+    this.memberId = memberId;
+  }
 
   public Order toOrderEntity() {
     return Order.builder()

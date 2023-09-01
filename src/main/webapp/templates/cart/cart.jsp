@@ -132,7 +132,7 @@
                         <li>Subtotal <span id="subtotal">${totalPrice}원</span></li>
                         <li>Total <span id="total">${totalPrice}원</span></li>
                     </ul>
-                    <a href="order.bit?view=cart&cmd=form" class="primary-btn">Proceed to checkout</a>
+                    <a href="/cartOrderForm" class="primary-btn">Proceed to checkout</a>
                 </div>
 
             </div>

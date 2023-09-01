@@ -12,14 +12,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -84,7 +84,7 @@
                                                var="parsedOrderDate"/>
                                 <th><fmt:formatDate pattern="yyyy.MM.dd HH:mm" value="${parsedOrderDate}"/> 주문</th>
                                 <th>${productOrder.orderStatus.getMessage()}</th>
-                                <th><a href="/order.bit?view=detail&cmd=get&orderId=${productOrder.orderId}"
+                                <th><a href="/orders/${productOrder.orderId}"
                                        class="btn btn-light" style="border: 2px solid whitesmoke;"><b>상세 보기</b></a></th>
                             </tr>
                             </thead>
@@ -127,16 +127,16 @@
 <jsp:include page="../common/search.jsp"/>
 
 <!-- Js Plugins -->
-<script src="../../../resources/static/js/jquery-3.3.1.min.js"></script>
-<script src="../../../resources/static/js/bootstrap.min.js"></script>
-<script src="../../../resources/static/js/jquery.nice-select.min.js"></script>
-<script src="../../../resources/static/js/jquery.nicescroll.min.js"></script>
-<script src="../../../resources/static/js/jquery.magnific-popup.min.js"></script>
-<script src="../../../resources/static/js/jquery.countdown.min.js"></script>
-<script src="../../../resources/static/js/jquery.slicknav.js"></script>
-<script src="../../../resources/static/js/mixitup.min.js"></script>
-<script src="../../../resources/static/js/owl.carousel.min.js"></script>
-<script src="../../../resources/static/js/main.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
 
 </body>
 
