@@ -19,7 +19,7 @@ public class MemberController {
         return "member/registerForm";
     }
 
-    @GetMapping("logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session) throws Exception {
         session.invalidate();
         return "redirect:/";
