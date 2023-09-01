@@ -50,13 +50,11 @@
     function login() {
         const email = $('#email').val();
         const password = $('#password').val();
-        $.post("member-rest.bit?cmd=login", {
+        $.post("memberApi/login", {
             email: email,
             password: password
-        }, function (result) {
-            if (result) {
-                window.location.href = "main.bit";
-            }
+        }, function () {
+            window.location.href = "/";
         }).fail((err) => {
             console.log(err);
             Swal.fire({

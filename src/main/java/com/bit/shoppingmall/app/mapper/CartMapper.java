@@ -12,13 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CartMapper {
 
-  List<CartAndProductDto> selectAllCartAndProductByMember(ProductAndMemberCompositeKey compKey);
+  List<CartAndProductDto> selectAllCartAndProductByMember(Long memberId);
 
-  List<Cart> selectAllByMember(ProductAndMemberCompositeKey compKey);
+  List<Cart> selectAllByMember(Long memberId);
 
   int getCartTotalPage();
 
-  int bulkDelete(ProductAndMemberCompositeKey compKey);
+  int bulkDelete(List<ProductAndMemberCompositeKey> productAndMemberCompositeKeys);
 
   List<Cart> selectAll(ProductAndMemberCompositeKey compKey);
 
