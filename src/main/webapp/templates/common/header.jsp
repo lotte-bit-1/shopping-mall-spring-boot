@@ -92,7 +92,7 @@
                             </c:if>
                             <c:if test="${ !empty loginMember }">
                                 <a href="#" disabled>${loginMember.name}님</a>
-                                <a href="member.bit?view=logout" target="_parent">logout</a>
+                                <a href="/member/logout" target="_parent">logout</a>
                             </c:if>
                         </div>
                     </div>

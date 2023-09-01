@@ -30,9 +30,8 @@ public class MemberRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@ModelAttribute LoginDto dto, HttpServletRequest request) throws Exception {
+    public ResponseEntity<String> login(@ModelAttribute LoginDto dto, HttpSession session) throws Exception {
         MemberDetail memberDetail = memberService.login(dto);
-        HttpSession session = request.getSession();
         session.setAttribute("loginMember", memberDetail);
         return ResponseEntity.ok().build();
     }
