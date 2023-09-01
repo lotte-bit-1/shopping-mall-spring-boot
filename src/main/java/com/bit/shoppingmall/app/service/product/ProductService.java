@@ -1,7 +1,10 @@
 package com.bit.shoppingmall.app.service.product;
 
+import com.bit.shoppingmall.app.dto.paging.Pagination;
 import com.bit.shoppingmall.app.dto.product.ProductDetail;
 import com.bit.shoppingmall.app.dto.product.ProductDetailParameter;
+import com.bit.shoppingmall.app.dto.product.ProductListItem;
+import com.bit.shoppingmall.app.dto.product.ProductListParameter;
 import com.bit.shoppingmall.app.dto.product.response.ProductDetailWithCategory;
 import com.bit.shoppingmall.app.dto.product.response.ProductListWithPagination;
 import com.bit.shoppingmall.app.entity.Category;
@@ -21,6 +24,20 @@ public class ProductService {
   private final ProductMapper productMapper;
   private final CategoryMapper categoryMapper;
 
+  private ProductListWithPagination getProductListWithPagination(
+      int currentPage, List<ProductListItem> productListItems) {
+    int productListTotalPage = productMapper.getProductListTotalPage(currentPage);
+    Pagination pagination =
+        Pagination.builder()
+            .currentPage(currentPage)
+            .perPage(9)
+            .totalPage(productListTotalPage)
+            .build();
+    ProductListWithPagination result =
+        ProductListWithPagination.builder().item(productListItems).paging(pagination).build();
+    return result;
+  }
+
   public ProductDetailWithCategory getProductDetail(Long memberId, Long productId) {
     ProductDetail productDetail =
         productMapper
@@ -38,8 +55,13 @@ public class ProductService {
     return productDetailWithCategory;
   }
 
-  public ProductListWithPagination getProductList(Long userId, int currentPage, String sortOption) {
-    return null;
+  public ProductListWithPagination getProductList(Long userId, int currentPage) {
+    int offset = (currentPage - 1) * 9;
+    List<ProductListItem> productListItems =
+        productMapper.selectProductListOrderByPrice(
+            ProductListParameter.builder().userId(userId).offset(offset).build());
+    ProductListWithPagination result = getProductListWithPagination(currentPage, productListItems);
+    return result;
   }
 
   public ProductListWithPagination getProductsByKeyword(
