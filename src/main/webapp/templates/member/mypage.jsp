@@ -27,7 +27,7 @@
 
 <!-- mypage begin -->
 <div>
-    
+    <div>${MypageMemberDetail.name}</div>
 </div>
 
 <!-- mypage end -->
