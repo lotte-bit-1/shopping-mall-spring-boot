@@ -35,8 +35,6 @@ public interface ProductMapper {
 
   int delete(Long id);
 
-  List<Category> selectCategory(Long id);
-
   int selectProductQuantity(Long id);
 
   List<ProductDetailForOrder> productDetailForOrder(Long id);

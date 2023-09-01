@@ -28,4 +28,6 @@ public interface CategoryMapper {
   List<SubCategory> selectSubcategory(String keyword);
 
   List<Category> selectAllCategory();
+
+  List<Category> selectCategory(Long id);
 }
