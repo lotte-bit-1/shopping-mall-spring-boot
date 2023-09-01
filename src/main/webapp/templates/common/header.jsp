@@ -92,7 +92,7 @@
                             </c:if>
                             <c:if test="${ !empty loginMember }">
                                 <a href="#" disabled>${loginMember.name}님</a>
-                                <a href="member.bit?view=logout" target="_parent">logout</a>
+                                <a href="/member/logout" target="_parent">logout</a>
                             </c:if>
                         </div>
                     </div>
@@ -113,7 +113,7 @@
                         <li><a href="/main.bit">Home</a></li>
                         <li><a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Shop</a></li>
                         <c:if test="${ !empty loginMember }">
-                            <li><a href="/order.bit?view=list&cmd=get">Order List</a></li>
+                            <li><a href="/orders">Order List</a></li>
                         </c:if>
                     </ul>
                 </nav>

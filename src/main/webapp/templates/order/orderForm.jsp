@@ -11,14 +11,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../../../resources/static/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
@@ -58,7 +58,7 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <form id="order-form" action="/order.bit?view=direct&cmd=create" method="post">
+            <form id="order-form" action="" method="post">
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                         <h6 class="checkout__title">사용자 정보</h6>
@@ -100,7 +100,7 @@
                             <p>쿠폰 선택<span></span></p>
                             <select id="coupon" name="couponId" class="checkout__input__add"
                                     onchange="updateTotalPrice()">
-                                <option value="0">적용 안함</option>
+                                <option value="">적용 안함</option>
                                 <c:forEach var="coupon" items="${coupons}">
                                     <option id="${coupon.discountValue}" name="${coupon.discountPolicy}"
                                             value="${coupon.id}">${coupon.name}</option>
@@ -117,9 +117,9 @@
                                     <input type="hidden" class="product-id" name="productId" value="${product.id}">
                                     <input type="hidden" class="product-name" name="productName"
                                            value="${product.name}">
-                                    <input type="hidden" class="product-price" name="productPrice"
+                                    <input type="hidden" class="product-price" name="price"
                                            value="${product.price}">
-                                    <input type="hidden" class="product-quantity" name="productQuantity"
+                                    <input type="hidden" class="product-quantity" name="quantity"
                                            value="${productQuantity}">
                                     ${product.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${productQuantity}개<span
                                         class="product-price">${product.price}원</span>
@@ -130,7 +130,7 @@
                                 <input type="hidden" id="totalPrice" name="totalPrice">
                                 <li>총 가격 <span id="calculated-total"></span></li>
                             </ul>
-                            <a id="payment-btn" href="#"><img src="../../../resources/static/img/payments/payment_icon_yellow_large.png"
+                            <a id="payment-btn" href="#"><img src="/img/payments/payment_icon_yellow_large.png"
                                                               height="70"></a>
                         </div>
                     </div>
@@ -149,16 +149,16 @@
 <jsp:include page="../common/search.jsp"/>
 
 <!-- Js Plugins -->
-<script src="../../../resources/static/js/jquery-3.3.1.min.js"></script>
-<script src="../../../resources/static/js/bootstrap.min.js"></script>
-<script src="../../../resources/static/js/jquery.nice-select.min.js"></script>
-<script src="../../../resources/static/js/jquery.nicescroll.min.js"></script>
-<script src="../../../resources/static/js/jquery.magnific-popup.min.js"></script>
-<script src="../../../resources/static/js/jquery.countdown.min.js"></script>
-<script src="../../../resources/static/js/jquery.slicknav.js"></script>
-<script src="../../../resources/static/js/mixitup.min.js"></script>
-<script src="../../../resources/static/js/owl.carousel.min.js"></script>
-<script src="../../../resources/static/js/main.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
 
 <%--화면단의 총 가격 업데이트--%>
 <script>
@@ -275,13 +275,15 @@
                     footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
                 });
             } else {
-                const formData = $('#order-form').serialize();
+                const form = document.getElementById('order-form');
+                const formData = new FormData(form);
+                const jsonObject = Object.fromEntries(formData);
+                const jsonString = JSON.stringify(jsonObject);
                 $.ajax({
                     type: "POST",
-                    url: "/order-rest.bit?cmd=orderCreate",
-                    dataType: 'text',
-                    data: formData,
-                    contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+                    url: "/api/orders",
+                    data: jsonString,
+                    contentType: "application/json",
                     error: function (request, status, error) {
                         Swal.fire({
                             icon: 'error',
@@ -290,8 +292,8 @@
                             footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
                         });
                     },
-                    success: function (data) {
-                        window.location.replace(`/order.bit?view=detail&cmd=get&orderId=` + data);
+                    success: function (orderId) {
+                        window.location.replace(`/orders/` + orderId);
                     }
                 });
             }
