@@ -190,7 +190,7 @@
     LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{memberId}
     left join product_image pi on p.id = pi.product_id
     where p.category_id in
-    <foreach collection="id" item="id" open="(" separator="," close=")">
+    <foreach collection="list" item="id" open="(" separator="," close=")">
       #{id}
     </foreach>
     and pi.is_thumbnail = true

@@ -5,9 +5,11 @@ import com.bit.shoppingmall.app.entity.Category;
 import com.bit.shoppingmall.app.entity.Likes;
 import com.bit.shoppingmall.app.entity.Member;
 import com.bit.shoppingmall.app.entity.Product;
+import com.bit.shoppingmall.app.entity.ProductImage;
 import com.bit.shoppingmall.app.mapper.CategoryMapper;
 import com.bit.shoppingmall.app.mapper.LikesMapper;
 import com.bit.shoppingmall.app.mapper.MemberMapper;
+import com.bit.shoppingmall.app.mapper.ProductImageMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +31,7 @@ public class ProductDaoTest {
   @Autowired CategoryMapper categoryMapper;
   @Autowired MemberMapper memberMapper;
   @Autowired LikesMapper likesMapper;
+  @Autowired ProductImageMapper imageMapper;
 
   @BeforeEach
   void beforeEach() {
@@ -60,6 +63,13 @@ public class ProductDaoTest {
     likesMapper.insert(Likes.builder().productId(1L).memberId(1L).build());
     likesMapper.insert(Likes.builder().productId(2L).memberId(1L).build());
     likesMapper.insert(Likes.builder().productId(3L).memberId(1L).build());
+
+    imageMapper.insert(ProductImage.builder().productId(1L).url("url1").isThumbnail(true).build());
+    imageMapper.insert(ProductImage.builder().productId(1L).url("url1").isThumbnail(false).build());
+    imageMapper.insert(ProductImage.builder().productId(2L).url("url2").isThumbnail(true).build());
+    imageMapper.insert(ProductImage.builder().productId(2L).url("url2").isThumbnail(false).build());
+    imageMapper.insert(ProductImage.builder().productId(3L).url("url3").isThumbnail(true).build());
+    imageMapper.insert(ProductImage.builder().productId(3L).url("url3").isThumbnail(false).build());
   }
 
   @Test
@@ -83,9 +93,11 @@ public class ProductDaoTest {
     List<Long> ids = Arrays.asList(1L, 2L);
     List<ProductListItemOfLike> productListItemOfLikes =
         productMapper.selectProductListItemOfLike(ids);
-        List<Likes> selectall = likesMapper.selectall(1L);
-        Assertions.assertEquals(2, selectall.size());
-//    log.info(productListItemOfLikes.toString());
-//    Assertions.assertEquals(2, productListItemOfLikes.size());
+    //    List<Long> selectall =
+    //        likesMapper.selectall(
+    //            LikesSelectForPage.builder().memberId(1L).start(0).PerPage(2).build());
+    //    Assertions.assertEquals(2, selectall.size());
+    log.info(productListItemOfLikes.toString());
+    Assertions.assertEquals(2, productListItemOfLikes.size());
   }
 }
