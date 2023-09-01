@@ -28,6 +28,10 @@ public class OrderCartCreateDto {
   private List<ProductDto> products;
   private Long totalPrice;
 
+  public void setMemberId(Long memberId) {
+    this.memberId = memberId;
+  }
+
   public void setProducts(List<CartAndProductDto> cartAndProductDtos) {
     products =
         cartAndProductDtos.stream()

@@ -11,15 +11,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../../../resources/static/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/style.css" type="text/css">
-
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/sty
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -58,7 +57,7 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <form action="/order.bit?view=cart&cmd=create" method="post">
+            <form action="" method="post">
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                         <h6 class="checkout__title">사용자 정보</h6>
@@ -151,16 +150,16 @@
 <jsp:include page="../common/search.jsp"/>
 
 <!-- Js Plugins -->
-<script src="../../../resources/static/js/jquery-3.3.1.min.js"></script>
-<script src="../../../resources/static/js/bootstrap.min.js"></script>
-<script src="../../../resources/static/js/jquery.nice-select.min.js"></script>
-<script src="../../../resources/static/js/jquery.nicescroll.min.js"></script>
-<script src="../../../resources/static/js/jquery.magnific-popup.min.js"></script>
-<script src="../../../resources/static/js/jquery.countdown.min.js"></script>
-<script src="../../../resources/static/js/jquery.slicknav.js"></script>
-<script src="../../../resources/static/js/mixitup.min.js"></script>
-<script src="../../../resources/static/js/owl.carousel.min.js"></script>
-<script src="../../../resources/static/js/main.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
 
 <%--화면단의 총 가격 업데이트--%>
 <script>
@@ -278,13 +277,15 @@
                     footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
                 });
             } else {
-                const formData = $('#order-form').serialize();
+                const form = document.getElementById('order-form');
+                const formData = new FormData(form);
+                const jsonObject = Object.fromEntries(formData);
+                const jsonString = JSON.stringify(jsonObject);
                 $.ajax({
                     type: "POST",
-                    url: "/order-rest.bit?cmd=orderCartCreate",
-                    dataType: 'text',
-                    data: formData,
-                    contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+                    url: "/api/orders/cart",
+                    data: jsonString,
+                    contentType: "application/json",
                     error: function (request, status, error) {
                         Swal.fire({
                             icon: 'error',
@@ -293,8 +294,8 @@
                             footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
                         });
                     },
-                    success: function (data) {
-                        window.location.replace(`/order.bit?view=detail&cmd=get&orderId=` + data);
+                    success: function (orderId) {
+                        window.location.replace(`/orders/` + orderId);
                     }
                 });
             }
