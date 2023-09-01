@@ -6,26 +6,35 @@ import com.bit.shoppingmall.app.entity.ProductAndMemberCompositeKey;
 import com.bit.shoppingmall.app.exception.cart.ProductIsNotExistedInCartException;
 import com.bit.shoppingmall.app.exception.product.ProductNotFoundException;
 import com.bit.shoppingmall.app.mapper.CartMapper;
+import com.bit.shoppingmall.app.mapper.MemberMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
+  private final MemberMapper memberDao;
   private final ProductMapper productDao;
   private final CartMapper cartDao;
   private final DecreaseItemInCartStrategy decreaseItemStrategy;
   private final OutOfStockChecker outOfStockChecker;
   private final AddItemInCart addItemInCart;
   private final PutItemIntoCartStrategy increaseProductQuantity;
-  private List<CartValidationCheckerService<Cart>> checkerServices;
+  private final CartOrderValidationProcessor validationProcessor;
+
+
 
   @Override
   public void order(Cart cart) {
+    List<CartValidationCheckerService<Cart>> list = new ArrayList<>();
+    list.add(new MemberExistChecker(memberDao));
+    list.add(new ProductInCartChecker(cartDao));
+    validationProcessor.setValidationChecker(list);
+    validationProcessor.process(cart);
   }
 
   @Override
