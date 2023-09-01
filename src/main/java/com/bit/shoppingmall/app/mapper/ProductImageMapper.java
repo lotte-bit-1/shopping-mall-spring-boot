@@ -6,9 +6,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ProductImageMapper {
-int delete(Long id);
+  int delete(Long id);
+
   int insert(ProductImage image);
+
   int update(ProductImage image);
+
   ProductImage select(Long id);
+
   List<ProductImage> selectAll();
 }

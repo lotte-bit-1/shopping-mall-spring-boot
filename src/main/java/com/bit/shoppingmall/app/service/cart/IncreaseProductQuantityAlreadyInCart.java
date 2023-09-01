@@ -17,7 +17,7 @@ public class IncreaseProductQuantityAlreadyInCart implements
 
   @Override
   public void put(Cart cart, Long requestQuantity) {
-    int stock = productDao.checkQuantity(cart.getProductId());
+    int stock = productDao.selectProductQuantity(cart.getProductId());
     if (requestQuantity < stock) {
       cartDao.update(Cart.getCompKey(cart), cart.getProductQuantity() + requestQuantity);
     }
