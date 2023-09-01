@@ -22,6 +22,12 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.apache.httpcomponents:httpcore:4.4.15'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+	implementation group: 'org.json', name: 'json', version: '20220320'
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation group: 'jstl', name: 'jstl', version: '1.2'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.1'
