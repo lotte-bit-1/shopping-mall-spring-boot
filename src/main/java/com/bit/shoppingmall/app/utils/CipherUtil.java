@@ -8,7 +8,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class CipherUtil {
+public abstract class CipherUtil {
 
   public static byte[] generateKey(String algorithm, int keySize) throws NoSuchAlgorithmException {
     KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm);
