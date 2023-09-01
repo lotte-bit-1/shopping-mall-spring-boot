@@ -124,7 +124,7 @@
                             <c:if test="${not empty products.list}">
                                 <c:if test="${products.paging.currentPage > 1}">
                                     <a class="mr-3"
-                                       href="/likes.bit?view=likes&curPage=${products.paging.currentPage - 1}">PREV</a>
+                                       href="/likes?curPage=${products.paging.currentPage - 1}">PREV</a>
                                 </c:if>
 
                                 <c:set var="startPage" value="${products.paging.currentPage - 2}"/>
@@ -151,13 +151,13 @@
                                             <a id="curPage">${page}</a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="/likes.bit?view=likes&curPage=${page}">${page}</a>
+                                            <a href="/likes?curPage=${page}">${page}</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </c:forEach>
 
                                 <c:if test="${products.paging.currentPage < products.paging.totalPage}">
-                                    <a href="/likes.bit?view=likes&curPage=${products.paging.currentPage + 1}">NEXT</a>
+                                    <a href="/likes?curPage=${products.paging.currentPage + 1}">NEXT</a>
                                 </c:if>
                             </c:if>
                         </div>
