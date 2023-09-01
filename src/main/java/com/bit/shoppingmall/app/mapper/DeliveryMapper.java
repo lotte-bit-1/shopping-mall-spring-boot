@@ -9,7 +9,7 @@ import java.util.Optional;
 @Mapper
 public interface DeliveryMapper {
 
-    Optional<Delivery> select(Long id);
+    Optional<Delivery> selectByOrderId(Long orderId);
 
     List<Delivery> selectall();
 

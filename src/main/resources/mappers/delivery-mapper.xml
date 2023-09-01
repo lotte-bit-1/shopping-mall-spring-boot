@@ -14,7 +14,7 @@
         <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
     </resultMap>
 
-    <select id="select" parameterType="Long" resultMap="BaseResultMap">
+    <select id="selectByOrderId" parameterType="Long" resultMap="BaseResultMap">
         SELECT *
         FROM delivery
         WHERE order_id = #{orderId}

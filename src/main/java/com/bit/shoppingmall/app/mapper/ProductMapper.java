@@ -44,7 +44,7 @@ public interface ProductMapper {
 
   int checkQuantity(Long id);
 
-  List<ProductDetailForOrder> productDetailForOrder(Long id);
+  ProductDetailForOrder selectProductDetail(Long id);
 
   List<ProductListItem> searchByWord(Map<String, Object> map);
 
