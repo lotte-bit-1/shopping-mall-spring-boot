@@ -11,14 +11,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../../../resources/static/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 
 <body>
@@ -130,7 +130,8 @@
                                         </div>
                                         <div class="product__item__text">
                                             <h6>${product.name}</h6>
-                                            <a href="#" data-product-id="${product.id}" class="add-cart">+ Add To
+                                            <a href="#" data-product-id="${product.id}"
+                                               class="add-cart">+ Add To
                                                 Cart</a>
                                                 <%-- price--%>
                                             <h5>${product.price}원</h5>
@@ -200,17 +201,17 @@
 <jsp:include page="../common/search.jsp"/>
 
 <!-- Js Plugins -->
-<script src="../../../resources/static/js/jquery-3.3.1.min.js"></script>
-<script src="../../../resources/static/js/bootstrap.min.js"></script>
-<script src="../../../resources/static/js/jquery.nice-select.min.js"></script>
-<script src="../../../resources/static/js/jquery.nicescroll.min.js"></script>
-<script src="../../../resources/static/js/jquery.magnific-popup.min.js"></script>
-<script src="../../../resources/static/js/jquery.countdown.min.js"></script>
-<script src="../../../resources/static/js/jquery.slicknav.js"></script>
-<script src="../../../resources/static/js/mixitup.min.js"></script>
-<script src="../../../resources/static/js/owl.carousel.min.js"></script>
-<script src="../../../resources/static/js/main.js"></script>
-<script src="../../../resources/static/js/likes.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/likes.js"></script>
 
 </body>
 
