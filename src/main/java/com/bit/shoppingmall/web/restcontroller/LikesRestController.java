@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -22,7 +21,7 @@ public class LikesRestController {
 
   private final ProductLikesService likesService;
 
-  @PostMapping
+  @PostMapping("/{productId}")
   private int addLikes(@PathVariable Long productId,
       @SessionAttribute("loginMember") MemberDetail loginMember) throws Exception {
     return likesService.addLikes(
@@ -30,7 +29,7 @@ public class LikesRestController {
             .build());
   }
 
-  @DeleteMapping
+  @DeleteMapping("/{productId}")
   private int cancelLikes(@PathVariable Long productId,
       @SessionAttribute("loginMember") MemberDetail loginMember) throws Exception {
     return likesService.removeLikes(
