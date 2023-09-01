@@ -14,7 +14,7 @@ public class MemberController {
 
     @GetMapping("/registerForm")
     public String registerForm() throws Exception {
-        return "/member/registerForm";
+        return "member/registerForm";
     }
 
 
