@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +31,7 @@ public class LikesRestController {
   }
 
   @DeleteMapping
-  private int cancelLikes(@RequestParam Long productId,
+  private int cancelLikes(@PathVariable Long productId,
       @SessionAttribute("loginMember") MemberDetail loginMember) throws Exception {
     return likesService.removeLikes(
         ProductAndMemberCompositeKey.builder().productId(productId).memberId(loginMember.getId())
@@ -38,7 +39,7 @@ public class LikesRestController {
   }
 
   @DeleteMapping("/some")
-  private int cancelSomeLikes(@RequestParam List<Long> productIdList,
+  private int cancelSomeLikes(@RequestBody List<Long> productIdList,
       @SessionAttribute("loginMember") MemberDetail loginMember) throws Exception {
     List<ProductAndMemberCompositeKey> compKey = new ArrayList<>();
     for (Long productId : productIdList) {
