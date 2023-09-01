@@ -17,4 +17,9 @@ public class MemberRestController {
     public ResponseEntity<Boolean> memberAdd(@RequestBody MemberRegisterDto dto) throws Exception {
         return ResponseEntity.ok(memberService.addMember(dto));
     }
+
+    @GetMapping("/loginCheck/{email}")
+    public ResponseEntity<Boolean> loginCheck(@PathVariable("email") String email) throws Exception {
+        return ResponseEntity.ok(memberService.isDuplicatedEmail(email));
+    }
 }

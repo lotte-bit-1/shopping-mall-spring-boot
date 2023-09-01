@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <div class="signup-section">Not a member yet? <a href="member.bit?view=registerForm" class="text-info">
+                <div class="signup-section">Not a member yet? <a href="/member/registerForm" class="text-info">
                     Sign Up</a>.
                 </div>
             </div>
