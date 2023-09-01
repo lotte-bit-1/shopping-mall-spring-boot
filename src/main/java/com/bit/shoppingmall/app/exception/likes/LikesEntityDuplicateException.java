@@ -3,9 +3,10 @@ package com.bit.shoppingmall.app.exception.likes;
 import javax.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import org.apache.ibatis.exceptions.PersistenceException;
+import org.springframework.dao.DuplicateKeyException;
 
 @Getter
-public class LikesEntityDuplicateException extends PersistenceException {
+public class LikesEntityDuplicateException extends DuplicateKeyException {
 
   private static final String message = "이미 추가된 상품입니다.";
 

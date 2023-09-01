@@ -20,7 +20,7 @@
     <select id="selectByOrderId" parameterType="Long" resultMap="BaseResultMap">
         SELECT *
         FROM payments
-        WHERE order_id = #{order_id}
+        WHERE order_id = #{orderId}
     </select>
     <select id="selectall" resultType="payment">
         SELECT *
