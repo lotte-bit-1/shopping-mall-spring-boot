@@ -1,10 +1,7 @@
 package com.bit.shoppingmall.app.service.product;
 
-import com.bit.shoppingmall.app.dto.paging.Pagination;
-import com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword;
-import com.bit.shoppingmall.app.dto.product.ProductItemQuantity;
-import com.bit.shoppingmall.app.dto.product.ProductListItem;
-import com.bit.shoppingmall.app.dto.product.ProductListParameter;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.bit.shoppingmall.app.dto.product.response.ProductListWithPagination;
 import com.bit.shoppingmall.app.entity.Category;
 import com.bit.shoppingmall.app.entity.Likes;
@@ -16,10 +13,7 @@ import com.bit.shoppingmall.app.mapper.LikesMapper;
 import com.bit.shoppingmall.app.mapper.MemberMapper;
 import com.bit.shoppingmall.app.mapper.ProductImageMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Logger;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,15 +21,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @SpringBootTest
-public class ForProductServiceTest {
+@Transactional
+public class ProdcutServiceTest {
   Logger log = Logger.getLogger("product");
   @Autowired ProductMapper productMapper;
   @Autowired CategoryMapper categoryMapper;
   @Autowired MemberMapper memberMapper;
   @Autowired LikesMapper likesMapper;
   @Autowired ProductImageMapper imageMapper;
+  @Autowired ProductService productService;
 
   @BeforeEach
   void beforeEach() {
@@ -79,50 +74,16 @@ public class ForProductServiceTest {
   }
 
   @Test
-  @DisplayName("selectProductInfo test")
-  void selectProductInfo() {
-    List<Long> list = Arrays.asList(1L, 2L, 3L);
-    List<ProductItemQuantity> productItemQuantities = productMapper.selectProductInfo(list);
-    log.info(productItemQuantities.toString());
-    Assertions.assertEquals(3, productItemQuantities.size());
+  @DisplayName("상품 리스트 조회 - 가격 기준")
+  void getProductListByPrice() {
+    ProductListWithPagination productListByPrice = productService.getProductListByPrice(1L, 1);
+    assertThat(productListByPrice.getItem().size()).isEqualTo(9);
   }
 
   @Test
-  @DisplayName("전체 상품 조회")
-  void selectAll() {
-    List<Product> products = productMapper.selectAllProduct();
-    Assertions.assertEquals(20, products.size());
-  }
-
-  @Test
-  @DisplayName("상품 리스트 조회 - 상품 가격 기준")
-  void selectProductByPrice() {
-    List<ProductListItem> productListItems =
-        productMapper.selectProductListOrderByPrice(
-            ProductListParameter.builder().userId(1L).offset(0).build());
-    int productListTotalPage = productMapper.getProductListTotalPage(0);
-    Pagination pagination =
-        Pagination.builder().currentPage(0).perPage(9).totalPage(productListTotalPage).build();
-    ProductListWithPagination build =
-        ProductListWithPagination.builder().item(productListItems).paging(pagination).build();
-    log.info(build.toString());
-    Assertions.assertEquals(9, productListItems.size());
-  }
-
-  @Test
-  @DisplayName("상품 키워드 조회")
-  void selectProductByKeyword() {
-    int currentPage = 1;
-    String keyword = "2";
-    Long userId = 1L;
-    int offset = (currentPage - 1) * 9;
-    List<ProductListItem> productListItems =
-        productMapper.searchByWord(
-            ParameterForSearchProductForKeyword.builder()
-                .keyword(keyword)
-                .userId(userId)
-                .offset(offset)
-                .build());
-    Assertions.assertEquals(2, productListItems.size());
+  @DisplayName("상품 조회 - 키워드 기준")
+  void getProductsByKeyword() {
+    ProductListWithPagination productsByKeyword = productService.getProductsByKeyword("2", 1L, 1);
+    assertThat(productsByKeyword.getItem().get(0).getName()).isEqualTo("name2");
   }
 }

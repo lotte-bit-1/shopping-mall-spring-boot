@@ -166,7 +166,7 @@
       and pi.is_thumbnail = true
   </select>
 
-  <select id="searchByWord" parameterType="hashMap" resultMap="ListResultMap">
+  <select id="searchByWord" parameterType="com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword" resultMap="ListResultMap">
     SELECT p.name                                                         name,
            p.price                                                        price,
            pi.url                                                         url,

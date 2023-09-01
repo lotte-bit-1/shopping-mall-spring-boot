@@ -1,6 +1,7 @@
 package com.bit.shoppingmall.app.service.product;
 
 import com.bit.shoppingmall.app.dto.paging.Pagination;
+import com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword;
 import com.bit.shoppingmall.app.dto.product.ProductDetail;
 import com.bit.shoppingmall.app.dto.product.ProductDetailParameter;
 import com.bit.shoppingmall.app.dto.product.ProductListItem;
@@ -9,6 +10,7 @@ import com.bit.shoppingmall.app.dto.product.response.ProductDetailWithCategory;
 import com.bit.shoppingmall.app.dto.product.response.ProductListWithPagination;
 import com.bit.shoppingmall.app.entity.Category;
 import com.bit.shoppingmall.app.exception.category.CategoryNotFoundException;
+import com.bit.shoppingmall.app.exception.product.ProductKeywordNotMatchException;
 import com.bit.shoppingmall.app.exception.product.ProductNotFoundException;
 import com.bit.shoppingmall.app.mapper.CategoryMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
@@ -55,17 +57,25 @@ public class ProductService {
     return productDetailWithCategory;
   }
 
-  public ProductListWithPagination getProductList(Long userId, int currentPage) {
+  public ProductListWithPagination getProductListByPrice(Long userId, int currentPage) {
     int offset = (currentPage - 1) * 9;
     List<ProductListItem> productListItems =
         productMapper.selectProductListOrderByPrice(
             ProductListParameter.builder().userId(userId).offset(offset).build());
-    ProductListWithPagination result = getProductListWithPagination(currentPage, productListItems);
-    return result;
+    return getProductListWithPagination(currentPage, productListItems);
   }
 
   public ProductListWithPagination getProductsByKeyword(
-      String keyword, Long memberId, int curPage) {
-    return null;
+      String keyword, Long memberId, int currentPage) {
+    int offset = (currentPage - 1) * 9;
+    List<ProductListItem> productListItems =
+        productMapper.searchByWord(
+            ParameterForSearchProductForKeyword.builder()
+                .keyword(keyword)
+                .userId(memberId)
+                .offset(offset)
+                .build());
+    if (productListItems.isEmpty()) throw new ProductKeywordNotMatchException();
+    return getProductListWithPagination(currentPage, productListItems);
   }
 }

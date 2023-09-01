@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.app.mapper;
 
+import com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword;
 import com.bit.shoppingmall.app.dto.product.ProductDetail;
 import com.bit.shoppingmall.app.dto.product.ProductDetailParameter;
 import com.bit.shoppingmall.app.dto.product.ProductItemQuantity;
@@ -12,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.session.SqlSession;
 
 @Mapper
 public interface ProductMapper {
@@ -39,7 +39,7 @@ public interface ProductMapper {
 
   int selectProductQuantity(Long id);
 
-  List<ProductListItem> searchByWord(Map<String, Object> map);
+  List<ProductListItem> searchByWord(ParameterForSearchProductForKeyword parameter);
 
   List<ProductListItem> searchSubCategoryProduct(Map<String, Object> map);
 
