@@ -36,7 +36,7 @@
         const name = $("#registerName").val();
         $.ajax({
             type: "POST",
-            url: "/memberApi/register",
+            url: "/api/members",
             data: JSON.stringify({email: email, password: password, name: name}),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
@@ -74,7 +74,7 @@
             $("#vaildEmail").text("이메일 형식이 아닙니다.").css("color", "red");
             return;
         }
-        $.get(`/memberApi/loginCheck/${email}`, function (isValidEmail) {
+        $.get(`/api/members/loginCheck/${email}`, function (isValidEmail) {
             if (isValidEmail) {
                 $("#vaildEmail").text("사용할 수 있는 아이디 입니다.").css("color", "green");
                 emailFlag = true;

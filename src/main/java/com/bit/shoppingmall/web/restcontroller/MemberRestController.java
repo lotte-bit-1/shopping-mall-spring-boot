@@ -15,12 +15,12 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/memberApi")
+@RequestMapping("/api/members")
 public class MemberRestController {
 
     private final MemberService memberService;
 
-    @PostMapping("/register")
+    @PostMapping()
     public ResponseEntity<Boolean> memberAdd(@RequestBody MemberRegisterDto dto) throws Exception {
         registerValidationCheck(dto);
         return new ResponseEntity<>(memberService.addMember(dto), HttpStatus.CREATED);
