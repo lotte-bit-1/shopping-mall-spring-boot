@@ -47,7 +47,7 @@
                     showConfirmButton: false,
                     timer: 1000
                 }).then(() => {
-                    location.href = "main.bit";
+                    location.href = "/";
                 });
             } else {
                 Swal.fire({
