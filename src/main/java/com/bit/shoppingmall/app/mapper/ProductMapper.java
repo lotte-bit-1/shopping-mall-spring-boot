@@ -21,7 +21,7 @@ public interface ProductMapper {
 
   Optional<Product> select(Long id);
 
-  ProductDetail selectProductDetail(ProductDetailParameter input);
+  Optional<ProductDetail> selectProductDetail(ProductDetailParameter input);
 
   List<ProductItemQuantity> selectProductInfo(List<Long> id);
 

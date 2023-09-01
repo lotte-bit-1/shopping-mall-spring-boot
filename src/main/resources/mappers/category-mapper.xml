@@ -142,7 +142,7 @@
     select *
     from category
   </select>
-  <select id="selectCategory" parameterType="Long" resultType="category">
+  <select id="selectCategoryOfProduct" parameterType="Long" resultType="category">
     SELECT c1.id AS id, c1.parent_id parentId, c1.name name, c1.level level
     FROM category c1
     WHERE c1.id = #{id}

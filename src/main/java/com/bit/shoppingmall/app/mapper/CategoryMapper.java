@@ -29,5 +29,5 @@ public interface CategoryMapper {
 
   List<Category> selectAllCategory();
 
-  List<Category> selectCategory(Long id);
+  List<Category> selectCategoryOfProduct(Long id);
 }
