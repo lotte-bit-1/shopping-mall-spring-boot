@@ -5,12 +5,14 @@ import com.bit.shoppingmall.app.dto.product.ProductDetailParameter;
 import com.bit.shoppingmall.app.dto.product.ProductItemQuantity;
 import com.bit.shoppingmall.app.dto.product.ProductListItem;
 import com.bit.shoppingmall.app.dto.product.ProductListItemOfLike;
+import com.bit.shoppingmall.app.dto.product.ProductListParameter;
 import com.bit.shoppingmall.app.dto.product.response.ProductDetailForOrder;
 import com.bit.shoppingmall.app.entity.Product;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.SqlSession;
 
 @Mapper
 public interface ProductMapper {
@@ -27,7 +29,7 @@ public interface ProductMapper {
 
   List<Product> selectAllProduct();
 
-  List<ProductListItem> selectProductListOrderByPrice(Map<String, Object> map);
+  List<ProductListItem> selectProductListOrderByPrice(ProductListParameter parameter);
 
   int insert(Product product);
 
@@ -37,9 +39,9 @@ public interface ProductMapper {
 
   int selectProductQuantity(Long id);
 
-  ProductDetailForOrder selectProductDetail(Long id);
-
   List<ProductListItem> searchByWord(Map<String, Object> map);
 
   List<ProductListItem> searchSubCategoryProduct(Map<String, Object> map);
+
+  ProductDetailForOrder selectProductDetailForOrder(Long id);
 }

@@ -1,6 +1,10 @@
-package com.bit.shoppingmall.app.mapper.product;
+package com.bit.shoppingmall.app.service.product;
 
-import com.bit.shoppingmall.app.dto.product.ProductListItemOfLike;
+import com.bit.shoppingmall.app.dto.paging.Pagination;
+import com.bit.shoppingmall.app.dto.product.ProductItemQuantity;
+import com.bit.shoppingmall.app.dto.product.ProductListItem;
+import com.bit.shoppingmall.app.dto.product.ProductListParameter;
+import com.bit.shoppingmall.app.dto.product.response.ProductListWithPagination;
 import com.bit.shoppingmall.app.entity.Category;
 import com.bit.shoppingmall.app.entity.Likes;
 import com.bit.shoppingmall.app.entity.Member;
@@ -17,19 +21,14 @@ import java.util.logging.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @Transactional
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ProductDaoTest {
-
+@SpringBootTest
+public class ForProductServiceTest {
   Logger log = Logger.getLogger("product");
   @Autowired ProductMapper productMapper;
   @Autowired CategoryMapper categoryMapper;
@@ -52,6 +51,8 @@ public class ProductDaoTest {
     Long qty = 100L;
     String code = "PROD-";
 
+    Long productId = 1L;
+
     for (int i = 0; i < 20; i++) {
       Product product =
           Product.builder()
@@ -63,48 +64,47 @@ public class ProductDaoTest {
               .code(code + i)
               .build();
       productMapper.insert(product);
+
+      ProductImage productImage1 =
+          ProductImage.builder().productId(productId + i).url("url" + i).isThumbnail(true).build();
+      ProductImage productImage2 =
+          ProductImage.builder().productId(productId + i).url("url" + i).isThumbnail(false).build();
+      imageMapper.insert(productImage1);
+      imageMapper.insert(productImage2);
     }
     likesMapper.insert(Likes.builder().productId(1L).memberId(1L).build());
     likesMapper.insert(Likes.builder().productId(2L).memberId(1L).build());
     likesMapper.insert(Likes.builder().productId(3L).memberId(1L).build());
-
-    imageMapper.insert(ProductImage.builder().productId(1L).url("url1").isThumbnail(true).build());
-    imageMapper.insert(ProductImage.builder().productId(1L).url("url1").isThumbnail(false).build());
-    imageMapper.insert(ProductImage.builder().productId(2L).url("url2").isThumbnail(true).build());
-    imageMapper.insert(ProductImage.builder().productId(2L).url("url2").isThumbnail(false).build());
-    imageMapper.insert(ProductImage.builder().productId(3L).url("url3").isThumbnail(true).build());
-    imageMapper.insert(ProductImage.builder().productId(3L).url("url3").isThumbnail(false).build());
   }
 
   @Test
-  @Order(1)
-  void mapperTest() {
-    int productListTotalPage = productMapper.getProductListTotalPage(0);
-    log.info(String.valueOf(productListTotalPage));
-    Assertions.assertEquals(2, productListTotalPage);
+  @DisplayName("selectProductInfo test")
+  void selectProductInfo() {
+    List<Long> list = Arrays.asList(1L, 2L, 3L);
+    List<ProductItemQuantity> productItemQuantities = productMapper.selectProductInfo(list);
+    log.info(productItemQuantities.toString());
+    Assertions.assertEquals(3, productItemQuantities.size());
   }
 
   @Test
-  @Order(2)
-  void selectProductDetail() {
+  @DisplayName("전체 상품 조회")
+  void selectAll() {
     List<Product> products = productMapper.selectAllProduct();
-    log.info(products.toString());
     Assertions.assertEquals(20, products.size());
   }
 
   @Test
-  @Order(3)
-  @DisplayName("찜 목록을 위한 상품 정보")
-  void likeOfProduct() {
-    // fixme: likes 수정되면 다시 조회
-    List<Long> ids = Arrays.asList(1L, 2L);
-    List<ProductListItemOfLike> productListItemOfLikes =
-        productMapper.selectProductListItemOfLike(ids);
-    //    List<Long> selectall =
-    //        likesMapper.selectall(
-    //            LikesSelectForPage.builder().memberId(1L).start(0).PerPage(2).build());
-    //    Assertions.assertEquals(2, selectall.size());
-    log.info(productListItemOfLikes.toString());
-    Assertions.assertEquals(2, productListItemOfLikes.size());
+  @DisplayName("상품 리스트 조회 - 상품 가격 기준")
+  void selectProductByPrice() {
+    List<ProductListItem> productListItems =
+        productMapper.selectProductListOrderByPrice(
+            ProductListParameter.builder().userId(1L).offset(0).build());
+    int productListTotalPage = productMapper.getProductListTotalPage(0);
+    Pagination pagination =
+        Pagination.builder().currentPage(0).perPage(9).totalPage(productListTotalPage).build();
+    ProductListWithPagination build =
+        ProductListWithPagination.builder().item(productListItems).paging(pagination).build();
+    log.info(build.toString());
+    Assertions.assertEquals(9, productListItems.size());
   }
 }

@@ -22,7 +22,7 @@ public class OrderProductManager {
   }
 
   public ProductDetailForOrder determineProductDetailForOrder(Long productId) {
-    return productMapper.selectProductDetail(productId);
+    return productMapper.selectProductDetailForOrder(productId);
   }
 
   public void validateEnoughStockQuantity(Long stockQuantity, Long buyQuantity) {
