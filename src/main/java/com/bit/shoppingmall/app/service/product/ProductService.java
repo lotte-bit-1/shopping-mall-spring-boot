@@ -26,6 +26,13 @@ public class ProductService {
   private final ProductMapper productMapper;
   private final CategoryMapper categoryMapper;
 
+  /**
+   * product list pagination private method
+   *
+   * @param currentPage 현재 페이지
+   * @param productListItems 조회된 상품 목록
+   * @return 페이지에 뿌려질 데이터
+   */
   private ProductListWithPagination getProductListWithPagination(
       int currentPage, List<ProductListItem> productListItems) {
     int productListTotalPage = productMapper.getProductListTotalPage(currentPage);
@@ -40,6 +47,13 @@ public class ProductService {
     return result;
   }
 
+  /**
+   * 상품 상세 페이지 정보
+   *
+   * @param memberId 사용자 id
+   * @param productId 상품 id
+   * @return 상세 페이지에 뿌려질 정보
+   */
   public ProductDetailWithCategory getProductDetail(Long memberId, Long productId) {
     ProductDetail productDetail =
         productMapper
@@ -57,6 +71,13 @@ public class ProductService {
     return productDetailWithCategory;
   }
 
+  /**
+   * 상품 전체 리스트 - 페이징, 가격순
+   *
+   * @param userId 사용자 id
+   * @param currentPage 현재 페이지
+   * @return 리스트에 뿌려질 정보 (상품 리스트, 카테고리 lv1)
+   */
   public ProductListWithPagination getProductListByPrice(Long userId, int currentPage) {
     int offset = (currentPage - 1) * 9;
     List<ProductListItem> productListItems =
@@ -65,6 +86,14 @@ public class ProductService {
     return getProductListWithPagination(currentPage, productListItems);
   }
 
+  /**
+   * 키워드 기준 상품 정보 찾기
+   *
+   * @param keyword 사용자 입력 키워드
+   * @param memberId 사용자 id
+   * @param currentPage 현재 페이지
+   * @return 검색 기록 페이지에 뿌려질 데이터
+   */
   public ProductListWithPagination getProductsByKeyword(
       String keyword, Long memberId, int currentPage) {
     int offset = (currentPage - 1) * 9;
