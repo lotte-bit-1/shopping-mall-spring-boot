@@ -53,20 +53,25 @@
             return;
         }
 
-        $.delete(`/api/likes/${productId}`, {
-        }, function (data) {
-            if (data == 1) {
-                likesCancelBtn.removeClass('likes-cancel-btn').addClass('likes-btn');
-                likesCancelBtn.find('img').attr('src', 'img/icon/heart.png');
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: '이미 찜 취소한 상품입니다.'
-                }).then(() => {
-                    window.location.reload();
-                });
+        $.ajax({
+                url: `/api/likes/${productId}`,
+                type: 'DELETE',
+                success: function (data) {
+                    if (data == 1) {
+                        likesCancelBtn.removeClass('likes-cancel-btn').addClass('likes-btn');
+                        likesCancelBtn.find('img').attr('src', 'img/icon/heart.png');
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: '이미 찜 취소한 상품입니다.'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }
+                }
             }
-        });
+        )
+
     });
 
 })(jQuery);

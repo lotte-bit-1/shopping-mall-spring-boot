@@ -24,8 +24,7 @@
             return;
         }
 
-        $.post("likes-rest.bit?cmd=add", {
-            productId: productId
+        $.post(`/api/likes/${productId}`, {
         }, function (data) {
             if (data == 1) {
                 likesBtn.removeClass('likes-btn').addClass('likes-cancel-btn');
@@ -55,22 +54,25 @@
             return;
         }
 
-        $.post("likes-rest.bit?cmd=cancel", {
-            productId: productId
-        }, function (data) {
-            if (data == 1) {
-                likesCancelBtn.removeClass('likes-cancel-btn').addClass('likes-btn');
-                likesCancelBtn.find('span').html('&#9825;');
-                likesCancelBtn.contents().last().replaceWith('add to wishlist');
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: '이미 찜 취소한 상품입니다.'
-                }).then(() => {
-                    window.location.reload();
-                });
+        $.ajax({
+                url: `/api/likes/${productId}`,
+                type: 'DELETE',
+                success: function () {
+                    if (data == 1) {
+                        likesCancelBtn.removeClass('likes-cancel-btn').addClass('likes-btn');
+                        likesCancelBtn.find('span').html('&#9825;');
+                        likesCancelBtn.contents().last().replaceWith('add to wishlist');
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: '이미 찜 취소한 상품입니다.'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }
+                }
             }
-        });
+        )
     });
 
 })(jQuery);

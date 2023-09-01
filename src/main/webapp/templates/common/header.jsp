@@ -125,7 +125,7 @@
                         <a href="#" class="likes-icon"><img src="/img/icon/heart.png" alt=""></a>
                     </c:if>
                     <c:if test="${ !empty loginMember }">
-                        <a href="/likes.bit?view=likes"><img src="/img/icon/heart.png" alt=""></a>
+                        <a href="/likes"><img src="/img/icon/heart.png" alt=""></a>
                     </c:if>
                     <a href="/cart.bit?action=get"><img src="/img/icon/cart.png" alt="">
                         <span>0</span></a>
