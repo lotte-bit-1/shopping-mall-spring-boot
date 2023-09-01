@@ -24,8 +24,7 @@
             return;
         }
 
-        $.post("likes-rest.bit?cmd=add", {
-            productId: productId
+        $.post(`/api/likes/${productId}`, {
         }, function (data) {
             if (data == 1) {
                 likesBtn.removeClass('likes-btn').addClass('likes-cancel-btn');
@@ -54,8 +53,7 @@
             return;
         }
 
-        $.post("likes-rest.bit?cmd=cancel", {
-            productId: productId
+        $.delete(`/api/likes/${productId}`, {
         }, function (data) {
             if (data == 1) {
                 likesCancelBtn.removeClass('likes-cancel-btn').addClass('likes-btn');

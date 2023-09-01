@@ -61,7 +61,7 @@
             <a href="#" class="likes-icon"><img src="/img/icon/heart.png" alt=""></a>
         </c:if>
         <c:if test="${ !empty loginMember }">
-            <a href="/likes.bit?view=likes"><img src="/img/icon/heart.png" alt=""></a>
+            <a href="/likes"><img src="/img/icon/heart.png" alt=""></a>
         </c:if>
         <a href="shopping-cart.html"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
         <div class="price">$0.00</div>
@@ -113,7 +113,7 @@
                         <li><a href="/main.bit">Home</a></li>
                         <li><a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Shop</a></li>
                         <c:if test="${ !empty loginMember }">
-                            <li><a href="/order.bit?view=list&cmd=get">Order List</a></li>
+                            <li><a href="/orders">Order List</a></li>
                         </c:if>
                     </ul>
                 </nav>
