@@ -1,10 +1,12 @@
 package com.bit.shoppingmall.app.mapper;
 
+import com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword;
 import com.bit.shoppingmall.app.dto.product.ProductDetail;
 import com.bit.shoppingmall.app.dto.product.ProductDetailParameter;
 import com.bit.shoppingmall.app.dto.product.ProductItemQuantity;
 import com.bit.shoppingmall.app.dto.product.ProductListItem;
 import com.bit.shoppingmall.app.dto.product.ProductListItemOfLike;
+import com.bit.shoppingmall.app.dto.product.ProductListParameter;
 import com.bit.shoppingmall.app.dto.product.response.ProductDetailForOrder;
 import com.bit.shoppingmall.app.entity.Product;
 import java.util.List;
@@ -27,7 +29,7 @@ public interface ProductMapper {
 
   List<Product> selectAllProduct();
 
-  List<ProductListItem> selectProductListOrderByPrice(Map<String, Object> map);
+  List<ProductListItem> selectProductListOrderByPrice(ProductListParameter parameter);
 
   int insert(Product product);
 
@@ -37,9 +39,9 @@ public interface ProductMapper {
 
   int selectProductQuantity(Long id);
 
-  ProductDetailForOrder selectProductDetail(Long id);
-
-  List<ProductListItem> searchByWord(Map<String, Object> map);
+  List<ProductListItem> searchByWord(ParameterForSearchProductForKeyword parameter);
 
   List<ProductListItem> searchSubCategoryProduct(Map<String, Object> map);
+
+  ProductDetailForOrder selectProductDetailForOrder(Long id);
 }

@@ -116,7 +116,9 @@
     FROM product
   </select>
 
-  <select id="selectProductListOrderByPrice" parameterType="hashMap" resultMap="ListResultMap">
+  <select id="selectProductListOrderByPrice"
+    parameterType="com.bit.shoppingmall.app.dto.product.ProductListParameter"
+    resultMap="ListResultMap">
     SELECT p.name                                                         name,
            p.price                                                        price,
            pi.url                                                         url,
@@ -156,7 +158,7 @@
     WHERE id = #{id}
   </select>
 
-  <select id="productDetailForOrder" resultType="Long" resultMap="ProductDetailForOrder">
+  <select id="selectProductDetailForOrder" resultType="Long" resultMap="ProductDetailForOrder">
     select p.id id, p.name name, p.quantity quantity, p.price price, pi.url url
     from product p
            left join product_image pi on p.id = pi.product_id
@@ -164,7 +166,7 @@
       and pi.is_thumbnail = true
   </select>
 
-  <select id="searchByWord" parameterType="hashMap" resultMap="ListResultMap">
+  <select id="searchByWord" parameterType="com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword" resultMap="ListResultMap">
     SELECT p.name                                                         name,
            p.price                                                        price,
            pi.url                                                         url,
