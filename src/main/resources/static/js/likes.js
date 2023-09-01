@@ -56,7 +56,7 @@
         $.ajax({
                 url: `/api/likes/${productId}`,
                 type: 'DELETE',
-                success: function () {
+                success: function (data) {
                     if (data == 1) {
                         likesCancelBtn.removeClass('likes-cancel-btn').addClass('likes-btn');
                         likesCancelBtn.find('img').attr('src', 'img/icon/heart.png');

@@ -6,6 +6,8 @@ import com.bit.shoppingmall.app.service.likes.ProductLikesService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,31 +24,32 @@ public class LikesRestController {
   private final ProductLikesService likesService;
 
   @PostMapping("/{productId}")
-  private int addLikes(@PathVariable Long productId,
+  private ResponseEntity<Integer> addLikes(@PathVariable Long productId,
       @SessionAttribute("loginMember") MemberDetail loginMember) throws Exception {
-    return likesService.addLikes(
+    return new ResponseEntity<>(likesService.addLikes(
         ProductAndMemberCompositeKey.builder().productId(productId).memberId(loginMember.getId())
-            .build());
+            .build()), HttpStatus.CREATED);
   }
 
   @DeleteMapping("/{productId}")
-  private int cancelLikes(@PathVariable Long productId,
+  private ResponseEntity<Integer> cancelLikes(@PathVariable Long productId,
       @SessionAttribute("loginMember") MemberDetail loginMember) throws Exception {
-    return likesService.removeLikes(
+    return ResponseEntity.ok().body(likesService.removeLikes(
         ProductAndMemberCompositeKey.builder().productId(productId).memberId(loginMember.getId())
-            .build());
+            .build()));
   }
 
   @DeleteMapping("/some")
-  private int cancelSomeLikes(@RequestBody List<Long> productIdList,
+  private ResponseEntity<Integer> cancelSomeLikes(@RequestBody List<Long> productIdList,
       @SessionAttribute("loginMember") MemberDetail loginMember) throws Exception {
     List<ProductAndMemberCompositeKey> compKey = new ArrayList<>();
     for (Long productId : productIdList) {
       compKey.add(
-          ProductAndMemberCompositeKey.builder().productId(productId).memberId(loginMember.getId()).build()
+          ProductAndMemberCompositeKey.builder().productId(productId).memberId(loginMember.getId())
+              .build()
       );
     }
-    return likesService.removeSomeLikes(compKey);
+    return ResponseEntity.ok().body(likesService.removeSomeLikes(compKey));
   }
 
 }
