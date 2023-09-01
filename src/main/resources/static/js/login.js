@@ -50,7 +50,7 @@
     function login() {
         const email = $('#email').val();
         const password = $('#password').val();
-        $.post("memberApi/login", {
+        $.post("/api/members/login", {
             email: email,
             password: password
         }, function () {
