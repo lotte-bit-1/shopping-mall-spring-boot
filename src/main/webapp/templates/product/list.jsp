@@ -97,7 +97,7 @@
                     <c:otherwise>
                         <%--  product item list --%>
                         <div class="row" id="common-parent-element">
-                            <c:forEach var="product" items="${productList.item}">
+                            <c:forEach var="product" items="${products}">
                                 <%-- each item --%>
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
@@ -143,45 +143,45 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="product__pagination">
-                                    <c:if test="${productList.paging.currentPage > 1}">
+                                    <c:if test="${page.currentPage > 1}">
                                         <a class="mr-3"
-                                           href="/product.bit?view=shop&curPage=${productList.paging.currentPage - 1}&sort=PRICE_ASC">PREV</a>
+                                           href="/product.bit?view=shop&curPage=${page.currentPage - 1}&sort=PRICE_ASC">PREV</a>
                                     </c:if>
 
                                     <c:set var="startPage"
-                                           value="${productList.paging.currentPage - 2}"/>
+                                           value="${page.currentPage - 2}"/>
                                     <c:set var="endPage"
-                                           value="${productList.paging.currentPage + 2}"/>
+                                           value="${page.currentPage + 2}"/>
 
                                     <c:if test="${startPage < 1}">
                                         <c:set var="startPage" value="1"/>
                                         <c:set var="endPage" value="5"/>
                                     </c:if>
 
-                                    <c:if test="${endPage > productList.paging.totalPage}">
+                                    <c:if test="${endPage > page.totalPage}">
                                         <c:set var="endPage"
-                                               value="${productList.paging.totalPage}"/>
+                                               value="${page.totalPage}"/>
                                         <c:set var="startPage"
-                                               value="${productList.paging.totalPage - 4}"/>
+                                               value="${page.totalPage - 4}"/>
                                         <c:choose>
                                             <c:when test="${startPage < 1}">
                                                 <c:set var="startPage" value="1"/>
                                             </c:when>
                                         </c:choose>
                                     </c:if>
-                                    <c:forEach begin="${startPage}" end="${endPage}" var="page">
+                                    <c:forEach begin="${startPage}" end="${endPage}" var="p">
                                         <c:choose>
-                                            <c:when test="${page == productList.paging.currentPage}">
-                                                <a id="curPage">${page}</a>
+                                            <c:when test="${p == page.currentPage}">
+                                                <a id="curPage">${p}</a>
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/product.bit?view=shop&curPage=${page}&sort=PRICE_ASC">${page}</a>
+                                                <a href="/product.bit?view=shop&curPage=${p}&sort=PRICE_ASC">${p}</a>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
 
-                                    <c:if test="${productList.paging.currentPage < productList.paging.totalPage}">
-                                        <a href="/product.bit?view=shop&curPage=${productList.paging.currentPage + 1}&sort=PRICE_ASC">NEXT</a>
+                                    <c:if test="${page.currentPage < page.totalPage}">
+                                        <a href="/product.bit?view=shop&curPage=${page.currentPage + 1}&sort=PRICE_ASC">NEXT</a>
                                     </c:if>
                                 </div>
 
