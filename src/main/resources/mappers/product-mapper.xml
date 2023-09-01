@@ -201,7 +201,7 @@
         WHERE id = #{id}
     </select>
 
-    <select id="product-detail-for-order" resultType="Long" resultMap="ProductDetailForOrder">
+    <select id="selectProductDetail" resultType="Long" resultMap="ProductDetailForOrder">
         select p.id id, p.name name, p.quantity quantity, p.price price, pi.url url
         from product p
         left join product_image pi on p.id = pi.product_id
