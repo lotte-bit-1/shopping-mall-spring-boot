@@ -35,7 +35,7 @@
         const password = $("#registerPassword").val();
         const name = $("#registerName").val();
 
-        $.post("member-rest.bit?cmd=register", {
+        $.post("/memberApi/register", {
             registerEmail: email,
             registerPassword: password,
             registerName: name
@@ -71,9 +71,7 @@
             $("#vaildEmail").text("이메일 형식이 아닙니다.").css("color", "red");
             return;
         }
-        $.post("member-rest.bit?cmd=loginCheck", {
-            email: email
-        }, function (isValidEmail) {
+        $.get(`/memberApi/loginCheck/${email}`, function (isValidEmail) {
             if (isValidEmail) {
                 $("#vaildEmail").text("사용할 수 있는 아이디 입니다.").css("color", "green");
                 emailFlag = true;
