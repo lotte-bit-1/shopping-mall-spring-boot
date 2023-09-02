@@ -39,7 +39,7 @@
         <result property="email" column="email"/>
         <result property="name" column="name"/>
         <result property="money" column="money"/>
-        <collection property="address" javaType="com.bit.shoppingmall.app.dto.response.AddressDetail">
+        <collection property="address" ofType="com.bit.shoppingmall.app.dto.response.AddressDetail">
             <result property="isDefault" column="is_default"/>
             <result property="roadName" column="road_name"/>
             <result property="addrDetail" column="addr_detail"/>

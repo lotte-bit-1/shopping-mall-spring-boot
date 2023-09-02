@@ -32,7 +32,7 @@ public class MemberController {
     @GetMapping("mypage")
     public String mypage(@SessionAttribute("loginMember") MemberDetail loginMember, Model model) throws Exception {
         MypageMemberDetail mypageMemberDetail = memberService.getMypageMemberDetail(loginMember.getId());
-        model.addAttribute(mypageMemberDetail);
+        model.addAttribute("memberInfo", mypageMemberDetail);
         return "member/mypage";
     }
 }

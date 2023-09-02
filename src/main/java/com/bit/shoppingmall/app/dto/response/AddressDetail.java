@@ -17,4 +17,6 @@ public class AddressDetail {
   private String roadName;
   private String addrDetail;
   private String zipCode;
+
+  public boolean isIsDefault() { return isDefault; }
 }
