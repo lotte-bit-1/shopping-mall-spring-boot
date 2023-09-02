@@ -281,7 +281,7 @@
                 const jsonString = JSON.stringify(jsonObject);
                 $.ajax({
                     type: "POST",
-                    url: "/api/orders",
+                    url: "/api/orders/direct",
                     data: jsonString,
                     contentType: "application/json",
                     error: function (request, status, error) {

@@ -242,7 +242,7 @@
     // Update the href attribute of the link
     var orderLink = document.getElementById("order-link");
     orderLink.addEventListener('click', () => {
-        orderLink.href = "/directOrderForm?productId=${productDetail.detail.id}&quantity="
+        orderLink.href = "/orders/direct?productId=${productDetail.detail.id}&quantity="
             + getQuantity();
     });
 </script>

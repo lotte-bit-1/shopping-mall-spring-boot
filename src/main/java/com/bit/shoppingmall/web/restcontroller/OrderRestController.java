@@ -7,10 +7,7 @@ import com.bit.shoppingmall.app.entity.Order;
 import com.bit.shoppingmall.app.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
@@ -21,13 +18,11 @@ public class OrderRestController {
     private final OrderService orderService;
 
     @ModelAttribute("memberId")
-    public Long memberId() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpSession httpSession = attr.getRequest().getSession();
-        return ((MemberDetail) httpSession.getAttribute("loginMember")).getId();
+    public Long memberId(@SessionAttribute("loginMember") MemberDetail memberDetail) {
+        return memberDetail.getId();
     }
 
-    @PostMapping
+    @PostMapping("/direct")
     public Long createOrder(@ModelAttribute("memberId") Long memberId, @Valid @RequestBody OrderCreateDto orderCreateDto) throws Exception {
         orderCreateDto.setMemberId(memberId);
         Order order = orderService.createOrder(orderCreateDto);
