@@ -105,6 +105,14 @@ public class ProductService {
     return ProductListWithPagination.makeListWithPaging(productListItems, currentPage);
   }
 
+  /**
+   * 카테고리 이름 하위 상품 리스트 조회
+   *
+   * @param categoryName 카테고리 이름
+   * @param memberId 사용자 id
+   * @param currentPage 현재 페이지
+   * @return 페이지에 보여줄 리스트
+   */
   public ProductListWithPagination getProductListByCategoryName(
       String categoryName, Long memberId, int currentPage) {
     List<SubCategory> categories = categoryMapper.selectSubcategory(categoryName);

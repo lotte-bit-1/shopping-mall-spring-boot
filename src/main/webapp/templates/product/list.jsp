@@ -69,7 +69,7 @@
                                             <ul class="nice-scroll">
                                                 <c:forEach var="category" items="${categories}">
                                                     <li>
-                                                        <a href="/product.bit?view=category&keyword=${category.name}&curPage=1">${category.name}</a>
+                                                        <a href="/product/1/category?keyword=${category.name}">${category.name}</a>
                                                     </li>
                                                 </c:forEach>
                                             </ul>
@@ -110,7 +110,8 @@
                                                            data-product-id="${product.id}"
                                                            data-login-info="${loginMember}"
                                                         ><img
-                                                                src="/img/icon/heart.png" alt=""></a>
+                                                                src="/img/icon/heart.png"
+                                                                alt=""></a>
                                                     </li>
                                                 </c:if>
                                                 <c:if test="${product.isLiked}">

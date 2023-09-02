@@ -39,6 +39,22 @@ public class ProductController {
     return memberId;
   }
 
+  /**
+   * 페이지 리스트 반환할 아이템 리스트와 카테고리 정보
+   *
+   * @param model model
+   * @param productListWithPagination page information
+   * @return page info
+   */
+  private String getStringForReturnPage(
+      Model model, ProductListWithPagination productListWithPagination) {
+    List<Category> firstLevelCategory = categoryService.getFirstLevelCategory();
+    model.addAttribute("categories", firstLevelCategory);
+    model.addAttribute("page", productListWithPagination.getPaging());
+    model.addAttribute("products", productListWithPagination.getItem());
+    return "product/list";
+  }
+
   @GetMapping("/{p_id}/detail")
   public String productDetail(@PathVariable Long p_id, HttpSession session, Model model) {
     Long memberId = getaLong(session);
@@ -53,11 +69,7 @@ public class ProductController {
     Long memberId = getaLong(session);
     ProductListWithPagination productListByPrice =
         productService.getProductListByPrice(memberId, page);
-    List<Category> firstLevelCategory = categoryService.getFirstLevelCategory();
-    model.addAttribute("categories", firstLevelCategory);
-    model.addAttribute("page", productListByPrice.getPaging());
-    model.addAttribute("products", productListByPrice.getItem());
-    return "product/list";
+    return getStringForReturnPage(model, productListByPrice);
   }
 
   @GetMapping("/{page}/search")
@@ -66,10 +78,15 @@ public class ProductController {
     Long memberId = getaLong(session);
     ProductListWithPagination productsByKeyword =
         productService.getProductsByKeyword(keyword, memberId, page);
-    List<Category> firstLevelCategory = categoryService.getFirstLevelCategory();
-    model.addAttribute("categories", firstLevelCategory);
-    model.addAttribute("page", productsByKeyword.getPaging());
-    model.addAttribute("products", productsByKeyword.getItem());
-    return "product/list";
+    return getStringForReturnPage(model, productsByKeyword);
+  }
+
+  @GetMapping("{page}/category")
+  public String productListByCategoryName(
+      @RequestParam String keyword, @PathVariable int page, HttpSession session, Model model) {
+    Long memberId = getaLong(session);
+    ProductListWithPagination productListByCategoryName =
+        productService.getProductListByCategoryName(keyword, memberId, page);
+    return getStringForReturnPage(model, productListByCategoryName);
   }
 }
