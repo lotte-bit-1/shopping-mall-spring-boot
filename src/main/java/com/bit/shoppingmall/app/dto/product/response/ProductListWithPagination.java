@@ -21,13 +21,11 @@ public class ProductListWithPagination {
   private Pagination paging;
 
   public static ProductListWithPagination makeListWithPaging(
-      List<ProductListItem> item, Pagination pagination, int totalPages) {
+      List<ProductListItem> item, int currentPage) {
+    int perPage = 9;
+    int totalPage = (int) Math.ceil(item.size() / perPage);
     Pagination paging =
-        Pagination.builder()
-            .perPage(pagination.getPerPage())
-            .totalPage(totalPages)
-            .currentPage(pagination.getCurrentPage())
-            .build();
+        Pagination.builder().perPage(perPage).totalPage(totalPage).currentPage(currentPage).build();
     return ProductListWithPagination.<List<ProductListItem>, Pagination>builder()
         .item(item)
         .paging(paging)

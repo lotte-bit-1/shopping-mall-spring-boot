@@ -75,7 +75,7 @@
     FROM category
     WHERE id = #{id}
   </delete>
-  <select id="firstCategory" resultType="category">
+  <select id="selectFirstCategory" resultType="category">
     SELECT *
     FROM category
     WHERE level = 1

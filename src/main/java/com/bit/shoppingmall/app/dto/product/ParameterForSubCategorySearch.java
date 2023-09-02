@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.app.dto.product;
 
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,19 +13,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class ParameterForSearchProductForKeyword {
-  private String keyword;
-  private Long userId;
+public class ParameterForSubCategorySearch {
+  private List<Long> id;
+  private Long memberId;
   private int offset;
 
-  public static ParameterForSearchProductForKeyword getMapperParameter(
-      String keyword, Long userId, int currentPage) {
+  public static ParameterForSubCategorySearch getParameterForSubCategorySearch(
+      List<Long> id, Long memberId, int currentPage) {
     int offset = (currentPage - 1) * 9;
-
-    return ParameterForSearchProductForKeyword.builder()
-        .keyword(keyword)
-        .userId(userId)
-        .offset(offset)
-        .build();
+    return ParameterForSubCategorySearch.builder().id(id).offset(offset).memberId(memberId).build();
   }
 }
