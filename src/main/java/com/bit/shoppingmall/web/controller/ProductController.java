@@ -60,7 +60,7 @@ public class ProductController {
     return "product/list";
   }
 
-  @GetMapping("/{page}/category")
+  @GetMapping("/{page}/search")
   public String productListByCategory(
       @RequestParam String keyword, @PathVariable int page, HttpSession session, Model model) {
     Long memberId = getaLong(session);

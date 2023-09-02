@@ -18,12 +18,12 @@
 <!-- Search End -->
 
 <script>
-    const search = document.getElementById("search-input");
-    search.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevent form submission
-            const inputData = document.getElementById("search-input").value;
-            window.location.href = `/product.bit?view=search&keyword=` + inputData + `&curPage=1`;
-        }
-    })
+  const search = document.getElementById("search-input");
+  search.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent form submission
+      const inputData = document.getElementById("search-input").value;
+      window.location.href = `/product/1/search?keyword=` + inputData;
+    }
+  })
 </script>
