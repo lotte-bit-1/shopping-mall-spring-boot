@@ -1,10 +1,12 @@
 package com.bit.shoppingmall.app.service.product;
 
+import com.bit.shoppingmall.app.dto.category.response.SubCategory;
 import com.bit.shoppingmall.app.dto.paging.Pagination;
+import com.bit.shoppingmall.app.dto.product.ParameterForProductList;
 import com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword;
+import com.bit.shoppingmall.app.dto.product.ParameterForSubCategorySearch;
 import com.bit.shoppingmall.app.dto.product.ProductItemQuantity;
 import com.bit.shoppingmall.app.dto.product.ProductListItem;
-import com.bit.shoppingmall.app.dto.product.ProductListParameter;
 import com.bit.shoppingmall.app.dto.product.response.ProductListWithPagination;
 import com.bit.shoppingmall.app.entity.Category;
 import com.bit.shoppingmall.app.entity.Likes;
@@ -16,6 +18,7 @@ import com.bit.shoppingmall.app.mapper.LikesMapper;
 import com.bit.shoppingmall.app.mapper.MemberMapper;
 import com.bit.shoppingmall.app.mapper.ProductImageMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -45,6 +48,8 @@ public class ForProductServiceTest {
     categoryMapper.insert(Category.builder().name("CATEGORY-1").level(1).parentId(null).build());
     categoryMapper.insert(Category.builder().name("CATEGORY-11").level(2).parentId(1L).build());
     categoryMapper.insert(Category.builder().name("CATEGORY-111").level(3).parentId(2L).build());
+    categoryMapper.insert(Category.builder().name("CATEGORY-112").level(3).parentId(2L).build());
+    categoryMapper.insert(Category.builder().name("CATEGORY-113").level(3).parentId(2L).build());
     String name = "name";
     Long price = 1000L;
     String desc = "설명";
@@ -60,7 +65,7 @@ public class ForProductServiceTest {
               .name(name + i)
               .description(desc + i)
               .price(price + (9 * 1000))
-              .categoryId(categoryId)
+              .categoryId(categoryId + 1)
               .quantity(qty)
               .code(code + i)
               .build();
@@ -99,7 +104,7 @@ public class ForProductServiceTest {
   void selectProductByPrice() {
     List<ProductListItem> productListItems =
         productMapper.selectProductListOrderByPrice(
-            ProductListParameter.builder().userId(1L).offset(0).build());
+            ParameterForProductList.builder().userId(1L).offset(0).build());
     int productListTotalPage = productMapper.getProductListTotalPage(0);
     Pagination pagination =
         Pagination.builder().currentPage(0).perPage(9).totalPage(productListTotalPage).build();
@@ -124,5 +129,24 @@ public class ForProductServiceTest {
                 .offset(offset)
                 .build());
     Assertions.assertEquals(2, productListItems.size());
+  }
+
+  @Test
+  @DisplayName("하위 카테고리 상품 조회")
+  void selectSubCategoryProduct() {
+    // todo: 서비스 테스트
+
+    List<SubCategory> categories = categoryMapper.selectSubcategory("CATEGORY-1");
+
+    List<Long> idListItems = new ArrayList<>();
+    for (SubCategory s : categories) {
+      if (s.getHigh() == null && s.getMiddle() == null) idListItems.add(s.getLow());
+      else if (s.getHigh() == null) idListItems.add(s.getMiddle());
+      else idListItems.add(s.getHigh());
+    }
+    List<ProductListItem> productListItems =
+        productMapper.searchSubCategoryProduct(
+            ParameterForSubCategorySearch.getParameterForSubCategorySearch(idListItems, 1L, 1));
+    log.info(productListItems.toString());
   }
 }

@@ -117,7 +117,7 @@
   </select>
 
   <select id="selectProductListOrderByPrice"
-    parameterType="com.bit.shoppingmall.app.dto.product.ProductListParameter"
+    parameterType="com.bit.shoppingmall.app.dto.product.ParameterForProductList"
     resultMap="ListResultMap">
     SELECT p.name                                                         name,
            p.price                                                        price,
@@ -166,7 +166,9 @@
       and pi.is_thumbnail = true
   </select>
 
-  <select id="searchByWord" parameterType="com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword" resultMap="ListResultMap">
+  <select id="searchByWord"
+    parameterType="com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword"
+    resultMap="ListResultMap">
     SELECT p.name                                                         name,
            p.price                                                        price,
            pi.url                                                         url,
@@ -181,7 +183,8 @@
     OFFSET #{offset}
   </select>
 
-  <select id="searchSubCategoryProduct" parameterType="hashMap"
+  <select id="searchSubCategoryProduct"
+    parameterType="com.bit.shoppingmall.app.dto.product.ParameterForSubCategorySearch"
     resultType="com.bit.shoppingmall.app.dto.product.ProductListItem">
     SELECT p.name name,
     p.price price,
@@ -192,7 +195,7 @@
     LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{memberId}
     left join product_image pi on p.id = pi.product_id
     where p.category_id in
-    <foreach collection="list" item="id" open="(" separator="," close=")">
+    <foreach collection="id" item="id" open="(" separator="," close=")">
       #{id}
     </foreach>
     and pi.is_thumbnail = true

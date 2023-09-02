@@ -12,7 +12,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class ProductListParameter {
+public class ParameterForProductList {
   private Long userId;
   private int offset;
+
+  public static ParameterForProductList getProductListParameter(Long userId, int currentPage) {
+    return ParameterForProductList.builder().build();
+  }
 }

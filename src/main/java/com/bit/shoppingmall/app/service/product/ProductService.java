@@ -1,11 +1,13 @@
 package com.bit.shoppingmall.app.service.product;
 
+import com.bit.shoppingmall.app.dto.category.response.SubCategory;
 import com.bit.shoppingmall.app.dto.paging.Pagination;
+import com.bit.shoppingmall.app.dto.product.ParameterForProductList;
 import com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword;
+import com.bit.shoppingmall.app.dto.product.ParameterForSubCategorySearch;
 import com.bit.shoppingmall.app.dto.product.ProductDetail;
 import com.bit.shoppingmall.app.dto.product.ProductDetailParameter;
 import com.bit.shoppingmall.app.dto.product.ProductListItem;
-import com.bit.shoppingmall.app.dto.product.ProductListParameter;
 import com.bit.shoppingmall.app.dto.product.response.ProductDetailWithCategory;
 import com.bit.shoppingmall.app.dto.product.response.ProductListWithPagination;
 import com.bit.shoppingmall.app.entity.Category;
@@ -14,6 +16,7 @@ import com.bit.shoppingmall.app.exception.product.ProductKeywordNotMatchExceptio
 import com.bit.shoppingmall.app.exception.product.ProductNotFoundException;
 import com.bit.shoppingmall.app.mapper.CategoryMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -79,11 +82,10 @@ public class ProductService {
    * @return 리스트에 뿌려질 정보 (상품 리스트, 카테고리 lv1)
    */
   public ProductListWithPagination getProductListByPrice(Long userId, int currentPage) {
-    int offset = (currentPage - 1) * 9;
     List<ProductListItem> productListItems =
         productMapper.selectProductListOrderByPrice(
-            ProductListParameter.builder().userId(userId).offset(offset).build());
-    return getProductListWithPagination(currentPage, productListItems);
+            ParameterForProductList.getProductListParameter(userId, currentPage));
+    return ProductListWithPagination.makeListWithPaging(productListItems, currentPage);
   }
 
   /**
@@ -96,15 +98,28 @@ public class ProductService {
    */
   public ProductListWithPagination getProductsByKeyword(
       String keyword, Long memberId, int currentPage) {
-    int offset = (currentPage - 1) * 9;
     List<ProductListItem> productListItems =
         productMapper.searchByWord(
-            ParameterForSearchProductForKeyword.builder()
-                .keyword(keyword)
-                .userId(memberId)
-                .offset(offset)
-                .build());
+            ParameterForSearchProductForKeyword.getMapperParameter(keyword, memberId, currentPage));
     if (productListItems.isEmpty()) throw new ProductKeywordNotMatchException();
-    return getProductListWithPagination(currentPage, productListItems);
+    return ProductListWithPagination.makeListWithPaging(productListItems, currentPage);
+  }
+
+  public ProductListWithPagination getProductListByCategoryName(
+      String categoryName, Long memberId, int currentPage) {
+    List<SubCategory> categories = categoryMapper.selectSubcategory(categoryName);
+
+    List<Long> idListItems = new ArrayList<>();
+    for (SubCategory s : categories) {
+      if (s.getHigh() == null && s.getMiddle() == null) idListItems.add(s.getLow());
+      else if (s.getHigh() == null) idListItems.add(s.getMiddle());
+      else idListItems.add(s.getHigh());
+    }
+    List<ProductListItem> productListItems =
+        productMapper.searchSubCategoryProduct(
+            ParameterForSubCategorySearch.getParameterForSubCategorySearch(
+                idListItems, memberId, currentPage));
+    if (productListItems.isEmpty()) throw new ProductNotFoundException();
+    return ProductListWithPagination.makeListWithPaging(productListItems, currentPage);
   }
 }
