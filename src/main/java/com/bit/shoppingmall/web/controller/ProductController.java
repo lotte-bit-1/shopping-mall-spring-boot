@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -56,6 +57,19 @@ public class ProductController {
     model.addAttribute("categories", firstLevelCategory);
     model.addAttribute("page", productListByPrice.getPaging());
     model.addAttribute("products", productListByPrice.getItem());
+    return "product/list";
+  }
+
+  @GetMapping("/{page}/category")
+  public String productListByCategory(
+      @RequestParam String keyword, @PathVariable int page, HttpSession session, Model model) {
+    Long memberId = getaLong(session);
+    ProductListWithPagination productsByKeyword =
+        productService.getProductsByKeyword(keyword, memberId, page);
+    List<Category> firstLevelCategory = categoryService.getFirstLevelCategory();
+    model.addAttribute("categories", firstLevelCategory);
+    model.addAttribute("page", productsByKeyword.getPaging());
+    model.addAttribute("products", productsByKeyword.getItem());
     return "product/list";
   }
 }
