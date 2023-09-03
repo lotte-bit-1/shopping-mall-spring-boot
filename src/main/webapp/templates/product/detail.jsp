@@ -81,11 +81,11 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <c:forEach varStatus="idx" begin="0"
-                                   items="${productDetail.category.categoryList}"
+                                   items="${categories.categoryList}"
                                    var="category">
                             <c:set var="splitCategory" value="${fn:split(category, '=')[1]}"/>
                             <div class="col-md-2 element"><a class="hover-color-change"
-                                                             href="/product.bit?view=category&keyword=${splitCategory}&curPage=1">${splitCategory}</a>
+                                                             href="/product/1/category?keyword=${splitCategory}">${splitCategory}</a>
                                 <c:if test="${idx.index < 2}">
                                     &nbsp;&nbsp;&nbsp;>
                                 </c:if>

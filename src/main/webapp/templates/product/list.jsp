@@ -124,7 +124,7 @@
                                                     </li>
                                                 </c:if>
                                                 <li>
-                                                    <a href="/product.bit?view=shop-detail&productId=${product.id}"><img
+                                                    <a href="/product/${product.id}/detail"><img
                                                             src="/img/icon/search.png" alt=""></a>
                                                 </li>
                                             </ul>
@@ -173,10 +173,11 @@
                                     <c:forEach begin="${startPage}" end="${endPage}" var="p">
                                         <c:choose>
                                             <c:when test="${p == page.currentPage}">
-                                                <a id="curPage">${p}</a>
+                                                <a id="curPage">${p} + ${page.totalPage}</a>
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/product.bit?view=shop&curPage=${p}&sort=PRICE_ASC">${p}</a>
+                                                <a href="/product.bit?view=shop&curPage=${p}&sort=PRICE_ASC">${p}
+                                                    + ${page.totalPage}</a>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
