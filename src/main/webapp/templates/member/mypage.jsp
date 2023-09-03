@@ -27,7 +27,45 @@
 
 <!-- mypage begin -->
 <div>
-    
+    <div>
+        <h2>사용자 정보</h2>
+    </div>
+    <div>${memberInfo.id}</div>
+    <div>${memberInfo.email}</div>
+    <div>${memberInfo.name}</div>
+    <div>${memberInfo.money}</div>
+    <div>
+        <h3>주소지</h3>
+    </div>
+    <c:forEach var="address" items="${memberInfo.address}">
+        <li>
+            <c:if test="${address.isDefault}">
+                <div>
+                    <h5>기본 배송지</h5>
+                </div>
+            </c:if>
+            <c:if test="${!address.isDefault}">
+                <div>
+                    <h5>이외 주소지</h5>
+                </div>
+            </c:if>
+            <div>${address.roadName}</div>
+            <div>${address.addrDetail}</div>
+            <div>${address.zipCode}</div>
+        </li>
+    </c:forEach>
+    <div>
+        <h3>쿠폰 목록</h3>
+    </div>
+    <c:forEach var="coupons" items="${memberInfo.coupons}">
+        <li>
+            <div>${coupons.id}</div>
+            <div>${coupons.name}</div>
+            <div>${coupons.discountPolicy}</div>
+            <div>${coupons.discountValue}</div>
+            <div>${coupons.status}</div>
+        </li>
+    </c:forEach>
 </div>
 
 <!-- mypage end -->

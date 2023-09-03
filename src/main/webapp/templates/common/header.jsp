@@ -91,7 +91,7 @@
                                     in</a>
                             </c:if>
                             <c:if test="${ !empty loginMember }">
-                                <a href="#" disabled>${loginMember.name}님</a>
+                                <a href="/member/mypage" disabled>${loginMember.name}님</a>
                                 <a href="/member/logout" target="_parent">logout</a>
                             </c:if>
                         </div>
