@@ -1,6 +1,7 @@
 package com.bit.shoppingmall.web.restcontroller;
 
 import com.bit.shoppingmall.app.dto.member.response.MemberDetail;
+import com.bit.shoppingmall.app.dto.order.request.OrderCartCreateDto;
 import com.bit.shoppingmall.app.dto.order.request.OrderCreateDto;
 import com.bit.shoppingmall.app.dto.payment.request.KakaoPayApproveRequestDto;
 import com.bit.shoppingmall.app.dto.payment.request.KakaoPayReadyRequestDto;
@@ -26,8 +27,8 @@ public class PaymentRestController {
         return memberDetail.getId();
     }
 
-    @PostMapping("/kakao/ready")
-    public ResponseEntity<KakaoPayReadyResponseDto> kakaoPaymentReady(
+    @PostMapping("/kakao/ready/direct")
+    public ResponseEntity<KakaoPayReadyResponseDto> kakaoPaymentReadyDirect(
             @ModelAttribute("memberId") Long memberId,
             @RequestBody OrderCreateDto orderCreateDto,
             HttpSession httpSession) {
@@ -47,6 +48,34 @@ public class PaymentRestController {
                         orderCreateDto.getProductId(), orderCreateDto.getQuantity()))
                 .failUrl(String.format("http://localhost:8080/orders/direct?productId=%s&quantity=%s",
                         orderCreateDto.getProductId(), orderCreateDto.getQuantity()))
+                .build();
+        KakaoPayReadyResponseDto kakaoPayReadyResponseDto = kakaoPayService.ready(kakaoPayReadyRequestDto);
+
+        // order code, tid 임시 저장
+        httpSession.setAttribute("partner_order_id", partnerOrderId);
+        httpSession.setAttribute("order_tid", kakaoPayReadyResponseDto.getTid());
+
+        return ResponseEntity.ok().body(kakaoPayReadyResponseDto);
+    }
+
+    @PostMapping("/kakao/ready/cart")
+    public ResponseEntity<KakaoPayReadyResponseDto> kakaoPaymentReadyCart(
+            @ModelAttribute("memberId") Long memberId,
+            @RequestBody OrderCartCreateDto orderCartCreateDto,
+            HttpSession httpSession) {
+
+        String partnerOrderId = UUID.randomUUID().toString();
+        KakaoPayReadyRequestDto kakaoPayReadyRequestDto = KakaoPayReadyRequestDto.builder()
+                .cid(cid)
+                .partnerOrderId(partnerOrderId)
+                .partnerUserId(String.valueOf(memberId))
+                .itemName("테스트 물건")
+                .quantity(1)
+                .totalAmount(orderCartCreateDto.getTotalPrice().intValue())
+                .taxFreeAmount(0)
+                .approvalUrl("http://localhost:8080/orders/cart")
+                .cancelUrl("http://localhost:8080/orders/cart")
+                .failUrl("http://localhost:8080/orders/cart")
                 .build();
         KakaoPayReadyResponseDto kakaoPayReadyResponseDto = kakaoPayService.ready(kakaoPayReadyRequestDto);
 

@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
@@ -35,11 +34,13 @@ public class OrderRestController {
     }
 
     @PostMapping("/cart")
-    public Long createCartOrder(@ModelAttribute("memberId") Long memberId,
-                                @Valid @RequestBody OrderCartCreateDto orderCartCreateDto) throws Exception {
+    public ResponseEntity<Long> createCartOrder(
+            @ModelAttribute("memberId") Long memberId,
+            @Valid @RequestBody OrderCartCreateDto orderCartCreateDto) throws Exception {
         orderCartCreateDto.setMemberId(memberId);
         Order cartOrder = orderService.createCartOrder(orderCartCreateDto);
-        return cartOrder.getId();
+
+        return ResponseEntity.ok().body(cartOrder.getId());
     }
 
     @DeleteMapping("/{orderId}")

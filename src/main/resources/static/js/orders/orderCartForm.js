@@ -33,13 +33,44 @@
 
     /* kakao payment ready api call */
     function kakaoPay() {
+        // const form = document.getElementById('order-form');
+        // const formData = new FormData(form);
+        //
+        // const formDataObject = {};
+        // formData.forEach((value, key) => {
+        //     formDataObject[key] = value;
+        // });
+        //
+        // const productsArray = [];
+        // $('.checkout__total__products .product-item').each(function() {
+        //     productsArray.push({
+        //         productId: $(this).find('.product-id').val(),
+        //         price: $(this).find('.product-price').val(),
+        //         quantity: $(this).find('.product-quantity').val()
+        //     });
+        //
+        //     console.log($(this).find('.product-quantity').val());
+        // });
+        //
+        // const jsonData = {
+        //     roadName: formDataObject['roadName'],
+        //     addrDetail: formDataObject['addrDetail'],
+        //     zipCode: formDataObject['zipCode'],
+        //     products: productsArray,
+        //     totalPrice: formDataObject['totalPrice']
+        // };
+        //
+        // const jsonString = JSON.stringify(jsonData);
+
         const form = document.getElementById('order-form');
         const formData = new FormData(form);
         const jsonObject = Object.fromEntries(formData);
         const jsonString = JSON.stringify(jsonObject);
+        console.log(jsonString);
+
         $.ajax({
             type: "POST",
-            url: "/api/payments/kakao/ready/direct",
+            url: "/api/payments/kakao/ready/cart",
             data: jsonString,
             contentType: "application/json",
             error: function (request, status, error) {
@@ -64,7 +95,7 @@
         const jsonString = JSON.stringify(jsonObject);
         $.ajax({
             type: "POST",
-            url: "/api/orders/direct",
+            url: "/api/orders/cart",
             data: jsonString,
             contentType: "application/json",
             error: function (request, status, error) {
