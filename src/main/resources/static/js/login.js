@@ -72,12 +72,11 @@
                 window.Kakao.API.request({
                     url: "/v2/user/me",
                     success: (res) => {
-                        console.log(res)
-                        $.post("member-rest.bit?cmd=kakaoLogin", {
+                        $.post("/api/members/kakaoLogin", {
                             email: res.kakao_account.email,
                             nickname: res.properties.nickname
                         }, function () {
-                            window.location.href = "/main.bit"
+                            window.location.href = "/"
                         })
                             .fail(function (err) {
                                 console.log(err);

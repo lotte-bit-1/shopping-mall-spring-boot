@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -64,6 +65,19 @@ public class MemberService {
 
     public MypageMemberDetail getMypageMemberDetail(Long memberId) throws Exception {
         return memberMapper.selectMypageById(memberId).orElseThrow(MemberEntityNotFoundException::new);
+    }
+
+    public MemberDetail kakaoLogin(MemberRegisterDto dto) {
+
+        Optional<Member> optionalMember = memberMapper.selectByEmail(dto.getEmail());
+        if (optionalMember.isEmpty()) {
+            Member member = dto.toEntity("!@#!@#!@#!@#!@#!@#!@#");
+            memberMapper.insert(member);
+            return MemberDetail.of(member);
+        } else {
+            Member gerMember = optionalMember.get();
+            return MemberDetail.of(gerMember);
+        }
     }
 
     private String getHashedPassword(LoginDto dto) throws Exception {
