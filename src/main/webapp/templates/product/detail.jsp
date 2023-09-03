@@ -234,18 +234,18 @@
 
 <%--get product quantity--%>
 <script>
-  function getQuantity() {
-    var editableDiv = document.getElementById("quantity-input");
-    console.log(editableDiv.value);
-    return parseInt(editableDiv.value);
-  }
+    function getQuantity() {
+        var editableDiv = document.getElementById("quantity-input");
+        console.log(editableDiv.value);
+        return parseInt(editableDiv.value);
+    }
 
-  // Update the href attribute of the link
-  var orderLink = document.getElementById("order-link");
-  orderLink.addEventListener('click', () => {
-    orderLink.href = "/directOrderForm?productId=${detail.id}&quantity="
-        + getQuantity();
-  });
+    // Update the href attribute of the link
+    var orderLink = document.getElementById("order-link");
+    orderLink.addEventListener('click', () => {
+        orderLink.href = "/orders/direct?productId=${productDetail.detail.id}&quantity="
+            + getQuantity();
+    });
 </script>
 </body>
 

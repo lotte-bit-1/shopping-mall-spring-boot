@@ -43,7 +43,7 @@
             text: errorMessage,
             footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
         }).then((result) => {
-            window.location.replace("http://" + hostName + "/order.bit?view=detail&cmd=get&orderId=" + orderId);
+            window.location.replace("/orders/" + orderId);
         });
     }
 </script>
@@ -64,8 +64,8 @@
                 <div class="breadcrumb__text">
                     <h4>Order Details</h4>
                     <div class="breadcrumb__links">
-                        <a href="/main.bit">Home</a>
-                        <a href="/order.bit?view=list&cmd=get">Order List</a>
+                        <a href="/">Home</a>
+                        <a href="/orders">Order List</a>
                         <span>Order Details</span>
                     </div>
                 </div>
@@ -182,7 +182,7 @@
 <script src="/js/mixitup.min.js"></script>
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/main.js"></script>
-<script src="/js/order.js"></script>
+<script src="/js/orders/orderDetail.js"></script>
 
 <script>
     $('#orderCancelLink').on('click', function () {
@@ -197,8 +197,6 @@
             cancelButtonText: '아니오'
         }).then((result) => {
             if (result.isConfirmed) {
-
-
                 $.ajax({
                     type: "DELETE",
                     url: "/api/orders/${productOrderDetail.orderId}",
@@ -223,7 +221,6 @@
             }
         });
     });
-
 </script>
 
 </body>
