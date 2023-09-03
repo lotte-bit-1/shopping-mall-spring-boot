@@ -42,8 +42,8 @@
                 <div class="breadcrumb__text">
                     <h4>Direct Order</h4>
                     <div class="breadcrumb__links">
-                        <a href="../../index.html">Home</a>
-                        <a href="../../shop.html">Product</a>
+                        <a href="/">Home</a>
+                        <a href="/">Product</a>
                         <span>Direct Order</span>
                     </div>
                 </div>
