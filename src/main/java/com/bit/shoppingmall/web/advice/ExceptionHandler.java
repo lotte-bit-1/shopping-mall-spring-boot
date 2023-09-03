@@ -46,7 +46,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResponse invalidRequestHandler(MethodArgumentNotValidException e) {
         ErrorResponse response = ErrorResponse.builder()
-                .code("400")
+                .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
                 .message("잘못된 요청입니다.")
                 .build();
 

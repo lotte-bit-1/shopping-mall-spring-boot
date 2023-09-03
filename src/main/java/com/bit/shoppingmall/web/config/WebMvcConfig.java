@@ -13,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/css/**", "/img/**", "/js/**", "/fonts/**", "/sass/**",
-                        "/member/registerForm", "/", "/api/members/loginCheck/**", "/api/members/login",
+                        "/member/registerForm", "/", "/api/members/loginCheck/**", "/api/members/login", "/api/members/kakaoLogin",
                         "/product/**");
     }
 }

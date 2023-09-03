@@ -21,7 +21,7 @@ public interface CategoryMapper {
 
   int delete(Long id);
 
-  List<Category> firstCategory();
+  List<Category> selectFirstCategory();
 
   List<ProductListItem> searchProductByCategory(Map<String, Object> map);
 

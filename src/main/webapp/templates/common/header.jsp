@@ -10,43 +10,43 @@
 <!-- Offcanvas Menu Begin -->
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'>
 <style>
-    .container {
-        padding: 2rem 0rem;
+  .container {
+    padding: 2rem 0rem;
+  }
+
+  @media (min-width: 576px) {
+    .modal-dialog {
+      max-width: 400px;
     }
 
-    @media (min-width: 576px) {
-        .modal-dialog {
-            max-width: 400px;
-        }
-
-        .modal-dialog .modal-content {
-            padding: 1rem;
-        }
+    .modal-dialog .modal-content {
+      padding: 1rem;
     }
+  }
 
-    .modal-header .close {
-        margin-top: -1.5rem;
-    }
+  .modal-header .close {
+    margin-top: -1.5rem;
+  }
 
-    .form-title {
-        margin: -2rem 0rem 2rem;
-    }
+  .form-title {
+    margin: -2rem 0rem 2rem;
+  }
 
-    .btn-round {
-        border-radius: 3rem;
-    }
+  .btn-round {
+    border-radius: 3rem;
+  }
 
-    .delimiter {
-        padding: 1rem;
-    }
+  .delimiter {
+    padding: 1rem;
+  }
 
-    .social-buttons .btn {
-        margin: 0 0.5rem 1rem;
-    }
+  .social-buttons .btn {
+    margin: 0 0.5rem 1rem;
+  }
 
-    .signup-section {
-        padding: 0.3rem 0rem;
-    }
+  .signup-section {
+    padding: 0.3rem 0rem;
+  }
 </style>
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
@@ -91,7 +91,7 @@
                                     in</a>
                             </c:if>
                             <c:if test="${ !empty loginMember }">
-                                <a href="#" disabled>${loginMember.name}님</a>
+                                <a href="/member/mypage" disabled>${loginMember.name}님</a>
                                 <a href="/member/logout" target="_parent">logout</a>
                             </c:if>
                         </div>
@@ -111,7 +111,7 @@
                 <nav class="header__menu mobile-menu">
                     <ul>
                         <li><a href="/main.bit">Home</a></li>
-                        <li><a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Shop</a></li>
+                        <li><a href="/product/1/list">Shop</a></li>
                         <c:if test="${ !empty loginMember }">
                             <li><a href="/orders">Order List</a></li>
                         </c:if>
