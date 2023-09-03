@@ -12,12 +12,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
+@Slf4j
 public class ProductDetailWithCategory {
 
   private ProductCategory category;
@@ -31,6 +33,7 @@ public class ProductDetailWithCategory {
       category.put(idx, item.getName());
       idx++;
     }
+    log.info(category.toString());
     ProductCategory productCategory = ProductCategory.builder().categoryList(category).build();
 
     return ProductDetailWithCategory.builder().category(productCategory).detail(detail).build();

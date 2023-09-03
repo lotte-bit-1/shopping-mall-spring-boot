@@ -146,7 +146,7 @@
                                 <div class="product__pagination">
                                     <c:if test="${page.currentPage > 1}">
                                         <a class="mr-3"
-                                           href="/product.bit?view=shop&curPage=${page.currentPage - 1}&sort=PRICE_ASC">PREV</a>
+                                           href="/product/${page.currentPage - 1}/list">PREV</a>
                                     </c:if>
 
                                     <c:set var="startPage"
@@ -173,17 +173,16 @@
                                     <c:forEach begin="${startPage}" end="${endPage}" var="p">
                                         <c:choose>
                                             <c:when test="${p == page.currentPage}">
-                                                <a id="curPage">${p} + ${page.totalPage}</a>
+                                                <a class="active" id="curPage">${p}</a>
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/product.bit?view=shop&curPage=${p}&sort=PRICE_ASC">${p}
-                                                    + ${page.totalPage}</a>
+                                                <a href="/product/${p}/list">${p}</a>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
 
                                     <c:if test="${page.currentPage < page.totalPage}">
-                                        <a href="/product.bit?view=shop&curPage=${page.currentPage + 1}&sort=PRICE_ASC">NEXT</a>
+                                        <a href="/product/${page.currentPage + 1}/list">NEXT</a>
                                     </c:if>
                                 </div>
 

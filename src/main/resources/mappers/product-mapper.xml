@@ -204,4 +204,40 @@
     OFFSET
     #{offset}
   </select>
+
+  <!--  mapper for total page  -->
+  <select id="selectProductListOrderByPriceTotalCount"
+    parameterType="com.bit.shoppingmall.app.dto.product.ParameterForProductList"
+    resultType="int">
+    SELECT CEIL(COUNT(*) / 9)
+    FROM product p
+           LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{userId}
+           left join product_image pi on p.id = pi.product_id
+    WHERE pi.is_thumbnail = true
+  </select>
+
+    <select id="searchByWordTotalCount"
+    parameterType="com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword"
+    resultType="int">
+    SELECT CEIL(COUNT(*) / 9)
+    FROM product p
+           LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{userId}
+           left join product_image pi on p.id = pi.product_id
+    WHERE pi.is_thumbnail = true
+      and p.name LIKE CONCAT('%', #{keyword}, '%')
+  </select>
+
+    <select id="searchSubCategoryProductTotalCount"
+    parameterType="com.bit.shoppingmall.app.dto.product.ParameterForSubCategorySearch"
+    resultType="int">
+    SELECT CEIL(COUNT(*) / 9)
+    from product p
+    LEFT JOIN likes l ON l.product_id = p.id AND l.member_id = #{memberId}
+    left join product_image pi on p.id = pi.product_id
+    where p.category_id in
+    <foreach collection="id" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+    and pi.is_thumbnail = true
+  </select>
 </mapper>

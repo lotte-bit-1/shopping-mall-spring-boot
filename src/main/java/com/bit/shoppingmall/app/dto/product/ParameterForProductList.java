@@ -17,6 +17,7 @@ public class ParameterForProductList {
   private int offset;
 
   public static ParameterForProductList getProductListParameter(Long userId, int currentPage) {
-    return ParameterForProductList.builder().build();
+    int offset = (currentPage - 1) * 9;
+    return ParameterForProductList.builder().offset(offset).userId(userId).build();
   }
 }
