@@ -8,7 +8,6 @@ import com.bit.shoppingmall.app.entity.Encryption;
 import com.bit.shoppingmall.app.entity.Member;
 import com.bit.shoppingmall.app.exception.member.LoginFailException;
 import com.bit.shoppingmall.app.exception.member.MemberEntityNotFoundException;
-import com.bit.shoppingmall.app.exception.member.MemberNotFoundException;
 import com.bit.shoppingmall.app.mapper.EncryptionMapper;
 import com.bit.shoppingmall.app.mapper.MemberMapper;
 import com.bit.shoppingmall.app.utils.CipherUtil;
@@ -64,7 +63,7 @@ public class MemberService {
     }
 
     public MypageMemberDetail getMypageMemberDetail(Long memberId) throws Exception {
-        return memberMapper.selectMypageById(memberId).orElseThrow(MemberNotFoundException::new);
+        return memberMapper.selectMypageById(memberId).orElseThrow(MemberEntityNotFoundException::new);
     }
 
     private String getHashedPassword(LoginDto dto) throws Exception {
