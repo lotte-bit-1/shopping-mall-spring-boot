@@ -45,4 +45,10 @@ public interface ProductMapper {
       ParameterForSubCategorySearch parameterForSubCategorySearch);
 
   ProductDetailForOrder selectProductDetailForOrder(Long id);
+  int selectProductListOrderByPriceTotalCount(ParameterForProductList parameter);
+
+  int searchByWordTotalCount(ParameterForSearchProductForKeyword parameter);
+
+  int searchSubCategoryProductTotalCount(
+      ParameterForSubCategorySearch parameterForSubCategorySearch);
 }

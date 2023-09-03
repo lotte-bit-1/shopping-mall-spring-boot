@@ -9,21 +9,24 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
+@Slf4j
 public class ProductListWithPagination {
 
   private List<ProductListItem> item;
   private Pagination paging;
 
   public static ProductListWithPagination makeListWithPaging(
-      List<ProductListItem> item, int currentPage) {
+      List<ProductListItem> item, int totalPage, int currentPage) {
     int perPage = 9;
-    int totalPage = (int) Math.ceil(item.size() / perPage);
+//    int totalPage = (int) Math.ceil(totalCount / perPage);
+
     Pagination paging =
         Pagination.builder().perPage(perPage).totalPage(totalPage).currentPage(currentPage).build();
     return ProductListWithPagination.<List<ProductListItem>, Pagination>builder()

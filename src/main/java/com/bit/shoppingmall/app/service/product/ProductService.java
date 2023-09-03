@@ -1,7 +1,6 @@
 package com.bit.shoppingmall.app.service.product;
 
 import com.bit.shoppingmall.app.dto.category.response.SubCategory;
-import com.bit.shoppingmall.app.dto.paging.Pagination;
 import com.bit.shoppingmall.app.dto.product.ParameterForProductList;
 import com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword;
 import com.bit.shoppingmall.app.dto.product.ParameterForSubCategorySearch;
@@ -30,27 +29,6 @@ public class ProductService {
   private final CategoryMapper categoryMapper;
 
   /**
-   * product list pagination private method
-   *
-   * @param currentPage 현재 페이지
-   * @param productListItems 조회된 상품 목록
-   * @return 페이지에 뿌려질 데이터
-   */
-  private ProductListWithPagination getProductListWithPagination(
-      int currentPage, List<ProductListItem> productListItems) {
-    int productListTotalPage = productMapper.getProductListTotalPage(currentPage);
-    Pagination pagination =
-        Pagination.builder()
-            .currentPage(currentPage)
-            .perPage(9)
-            .totalPage(productListTotalPage)
-            .build();
-    ProductListWithPagination result =
-        ProductListWithPagination.builder().item(productListItems).paging(pagination).build();
-    return result;
-  }
-
-  /**
    * 상품 상세 페이지 정보
    *
    * @param memberId 사용자 id
@@ -68,10 +46,8 @@ public class ProductService {
     if (categories.isEmpty()) {
       throw new CategoryNotFoundException();
     }
-    ProductDetailWithCategory productDetailWithCategory =
-        ProductDetailWithCategory.getProductDetail(categories, productDetail);
 
-    return productDetailWithCategory;
+    return ProductDetailWithCategory.getProductDetail(categories, productDetail);
   }
 
   /**
@@ -82,10 +58,15 @@ public class ProductService {
    * @return 리스트에 뿌려질 정보 (상품 리스트, 카테고리 lv1)
    */
   public ProductListWithPagination getProductListByPrice(Long userId, int currentPage) {
+    ParameterForProductList productListParameter =
+        ParameterForProductList.getProductListParameter(userId, currentPage);
     List<ProductListItem> productListItems =
-        productMapper.selectProductListOrderByPrice(
-            ParameterForProductList.getProductListParameter(userId, currentPage));
-    return ProductListWithPagination.makeListWithPaging(productListItems, currentPage);
+        productMapper.selectProductListOrderByPrice(productListParameter);
+    int listOrderByPriceTotalCount =
+        productMapper.selectProductListOrderByPriceTotalCount(productListParameter);
+
+    return ProductListWithPagination.makeListWithPaging(
+        productListItems, listOrderByPriceTotalCount, currentPage);
   }
 
   /**
@@ -98,11 +79,14 @@ public class ProductService {
    */
   public ProductListWithPagination getProductsByKeyword(
       String keyword, Long memberId, int currentPage) {
-    List<ProductListItem> productListItems =
-        productMapper.searchByWord(
-            ParameterForSearchProductForKeyword.getMapperParameter(keyword, memberId, currentPage));
+    ParameterForSearchProductForKeyword mapperParameter =
+        ParameterForSearchProductForKeyword.getMapperParameter(keyword, memberId, currentPage);
+    List<ProductListItem> productListItems = productMapper.searchByWord(mapperParameter);
     if (productListItems.isEmpty()) throw new ProductKeywordNotMatchException();
-    return ProductListWithPagination.makeListWithPaging(productListItems, currentPage);
+    int byWordTotalCount = productMapper.searchByWordTotalCount(mapperParameter);
+
+    return ProductListWithPagination.makeListWithPaging(
+        productListItems, byWordTotalCount, currentPage);
   }
 
   /**
@@ -123,11 +107,17 @@ public class ProductService {
       else if (s.getHigh() == null) idListItems.add(s.getMiddle());
       else idListItems.add(s.getHigh());
     }
+    ParameterForSubCategorySearch parameterForSubCategorySearch =
+        ParameterForSubCategorySearch.getParameterForSubCategorySearch(
+            idListItems, memberId, currentPage);
     List<ProductListItem> productListItems =
-        productMapper.searchSubCategoryProduct(
-            ParameterForSubCategorySearch.getParameterForSubCategorySearch(
-                idListItems, memberId, currentPage));
+        productMapper.searchSubCategoryProduct(parameterForSubCategorySearch);
     if (productListItems.isEmpty()) throw new ProductNotFoundException();
-    return ProductListWithPagination.makeListWithPaging(productListItems, currentPage);
+
+    int categoryProductTotalCount =
+        productMapper.searchSubCategoryProductTotalCount(parameterForSubCategorySearch);
+
+    return ProductListWithPagination.makeListWithPaging(
+        productListItems, categoryProductTotalCount, currentPage);
   }
 }
