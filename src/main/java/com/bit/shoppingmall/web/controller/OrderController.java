@@ -18,6 +18,7 @@ import java.util.Map;
 
 @Slf4j
 @Controller
+@RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
 
@@ -29,7 +30,7 @@ public class OrderController {
     }
 
     /* 상품 주문 폼 */
-    @GetMapping("/orders/direct")
+    @GetMapping("/direct")
     public String getCreateOrderForm(
             @ModelAttribute("memberId") Long memberId,
             @RequestParam("productId") Long productId,
@@ -52,7 +53,7 @@ public class OrderController {
     }
 
     /* 장바구니 상품 주문 폼 */
-    @GetMapping("/orders/cart")
+    @GetMapping("/cart")
     public String getCreateCartOrderForm(@ModelAttribute("memberId") Long memberId, Model model) {
         OrderCartCreateForm createCartOrderForm = orderService.getCreateCartOrderForm(memberId);
         model.addAllAttributes(Map.of(
@@ -65,7 +66,7 @@ public class OrderController {
         return "order/orderCartForm";
     }
 
-    @GetMapping("/orders")
+    @GetMapping
     public String getProductOrderDetail(@ModelAttribute("memberId") Long memberId,
                                         Model model) {
         List<ProductOrderDto> productOrders =
@@ -75,7 +76,7 @@ public class OrderController {
         return "order/orderList";
     }
 
-    @GetMapping("/orders/{orderId}")
+    @GetMapping("/{orderId}")
     public String getProductOrderDetail(@ModelAttribute("memberId") Long memberId,
                                         @PathVariable("orderId") Long orderId,
                                         Model model) {
