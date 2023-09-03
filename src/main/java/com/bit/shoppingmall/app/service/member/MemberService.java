@@ -3,10 +3,12 @@ package com.bit.shoppingmall.app.service.member;
 import com.bit.shoppingmall.app.dto.member.request.LoginDto;
 import com.bit.shoppingmall.app.dto.member.request.MemberRegisterDto;
 import com.bit.shoppingmall.app.dto.member.response.MemberDetail;
+import com.bit.shoppingmall.app.dto.member.response.MypageMemberDetail;
 import com.bit.shoppingmall.app.entity.Encryption;
 import com.bit.shoppingmall.app.entity.Member;
 import com.bit.shoppingmall.app.exception.member.LoginFailException;
 import com.bit.shoppingmall.app.exception.member.MemberEntityNotFoundException;
+import com.bit.shoppingmall.app.exception.member.MemberNotFoundException;
 import com.bit.shoppingmall.app.mapper.EncryptionMapper;
 import com.bit.shoppingmall.app.mapper.MemberMapper;
 import com.bit.shoppingmall.app.utils.CipherUtil;
@@ -59,6 +61,10 @@ public class MemberService {
         MemberDetail loginMember = MemberDetail.of(member);
 
         return loginMember;
+    }
+
+    public MypageMemberDetail getMypageMemberDetail(Long memberId) throws Exception {
+        return memberMapper.selectMypageById(memberId).orElseThrow(MemberNotFoundException::new);
     }
 
     private String getHashedPassword(LoginDto dto) throws Exception {
