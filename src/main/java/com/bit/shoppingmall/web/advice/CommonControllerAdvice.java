@@ -2,21 +2,21 @@ package com.bit.shoppingmall.web.advice;
 
 import com.bit.shoppingmall.app.exception.DomainException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@RequestMapping("/orders")
+@Order(1)
 @ControllerAdvice(annotations = Controller.class)
-public class OrderExceptionHandler {
+public class CommonControllerAdvice {
 
     @ExceptionHandler(DomainException.class)
     public ModelAndView domainException(DomainException ex, Model model) {
