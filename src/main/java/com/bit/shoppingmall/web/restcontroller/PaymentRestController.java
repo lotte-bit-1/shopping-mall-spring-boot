@@ -42,8 +42,8 @@ public class PaymentRestController {
                 .quantity(orderCreateDto.getQuantity().intValue())
                 .totalAmount(orderCreateDto.getTotalPrice().intValue())
                 .taxFreeAmount(0)
-                .approvalUrl(String.format("http://localhost:8080/orders/direct?productId=%s&quantity=%s",
-                        orderCreateDto.getProductId(), orderCreateDto.getQuantity()))
+                .approvalUrl(String.format("http://localhost:8080/orders/direct?productId=%s&quantity=%s&couponId=%s",
+                        orderCreateDto.getProductId(), orderCreateDto.getQuantity(), orderCreateDto.getCouponId()))
                 .cancelUrl(String.format("http://localhost:8080/orders/direct?productId=%s&quantity=%s",
                         orderCreateDto.getProductId(), orderCreateDto.getQuantity()))
                 .failUrl(String.format("http://localhost:8080/orders/direct?productId=%s&quantity=%s",
@@ -73,7 +73,8 @@ public class PaymentRestController {
                 .quantity(1)
                 .totalAmount(orderCartCreateDto.getTotalPrice().intValue())
                 .taxFreeAmount(0)
-                .approvalUrl("http://localhost:8080/orders/cart")
+                .approvalUrl(String.format("http://localhost:8080/orders/cart?couponId=%s",
+                        orderCartCreateDto.getCouponId()))
                 .cancelUrl("http://localhost:8080/orders/cart")
                 .failUrl("http://localhost:8080/orders/cart")
                 .build();

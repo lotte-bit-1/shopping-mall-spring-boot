@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 public class OrderCreateDto {
 
   @JsonIgnore private Long memberId;
-  private Long couponId = null;
+  private Long couponId;
   @NotBlank private String roadName;
   @NotBlank private String addrDetail;
   @NotBlank private String zipCode;
@@ -31,6 +31,10 @@ public class OrderCreateDto {
 
   public void setMemberId(Long memberId) {
     this.memberId = memberId;
+  }
+
+  public void setCouponId(Long couponId) {
+    this.couponId = couponId;
   }
 
   public Order toOrderEntity() {
@@ -60,11 +64,11 @@ public class OrderCreateDto {
         .build();
   }
 
-  public Payment toPaymentEntity(Long orderId) {
+  public Payment toPaymentEntity(Long orderId, Long discountPrice) {
     return Payment.builder()
         .orderId(orderId)
         .type(PaymentType.CASH.name())
-        .actualAmount(totalPrice)
+        .actualAmount(totalPrice - discountPrice)
         .build();
   }
 }

@@ -10,6 +10,7 @@ import com.bit.shoppingmall.app.dto.order.response.ProductOrderDetailDto;
 import com.bit.shoppingmall.app.dto.order.response.ProductOrderDto;
 import com.bit.shoppingmall.app.dto.product.response.ProductDetailForOrder;
 import com.bit.shoppingmall.app.entity.*;
+import com.bit.shoppingmall.app.enums.CouponPolicy;
 import com.bit.shoppingmall.app.enums.CouponStatus;
 import com.bit.shoppingmall.app.enums.DeliveryStatus;
 import com.bit.shoppingmall.app.enums.OrderStatus;
@@ -66,10 +67,19 @@ public class OrderService
             product, product.getQuantity() - orderCreateDto.getQuantity());
 
     /* 회원이 쿠폰을 썼는지 확인 1. 쿠폰을 적용했다면 회원의 쿠폰 정보 '사용됨' 상태로 바꿈 2. 쿠폰을 적용하지 않았다면 패스 */
-    Long couponId = orderCreateDto.getCouponId();
+    Long discountPrice = 0L;
+    Long couponId = orderCreateDto.getCouponId().equals(0L) ? null : orderCreateDto.getCouponId();
+    orderCreateDto.setCouponId(null);
     if (orderCouponManager.isCouponUsed(couponId)) {
       Coupon coupon = orderCouponManager.determineCoupon(couponId);
       orderCouponManager.updateCouponStatus(coupon, CouponStatus.USED);
+
+      if(coupon.getDiscountPolicy().equals(CouponPolicy.DISCOUNT.name())) {
+        discountPrice = orderCreateDto.getTotalPrice() * (coupon.getDiscountValue() / 100);
+      }
+      if(coupon.getDiscountPolicy().equals(CouponPolicy.CASH.name())) {
+        discountPrice = coupon.getDiscountValue().longValue();
+      }
     }
 
     /* 회원의 잔액 확인 1. 총 상품 가격보다 잔액이 적다면 구매 불가 2. 잔액이 충분하다면 회원의 잔액에서 차감 */
@@ -88,7 +98,7 @@ public class OrderService
     Delivery delivery = orderCreateDto.toDeliveryEntity(order.getId());
     orderDeliveryManager.createDelivery(delivery);
 
-    Payment payment = orderCreateDto.toPaymentEntity(order.getId());
+    Payment payment = orderCreateDto.toPaymentEntity(order.getId(), discountPrice);
     orderPaymentManager.createPayment(payment);
 
     return order;
@@ -146,10 +156,19 @@ public class OrderService
     orderCartManager.deleteAll(productAndMemberCompositeKeys);
 
     /* 회원이 쿠폰을 썼는지 확인 1. 쿠폰을 적용했다면 회원의 쿠폰 정보 '사용됨' 상태로 바꿈 2. 쿠폰을 적용하지 않았다면 패스 */
-    Long couponId = orderCartCreateDto.getCouponId();
+    Long discountPrice = 0L;
+    Long couponId = orderCartCreateDto.getCouponId().equals(0L) ? null : orderCartCreateDto.getCouponId();
+    orderCartCreateDto.setCouponId(null);
     if (orderCouponManager.isCouponUsed(couponId)) {
       Coupon coupon = orderCouponManager.determineCoupon(couponId);
       orderCouponManager.updateCouponStatus(coupon, CouponStatus.USED);
+
+      if(coupon.getDiscountPolicy().equals(CouponPolicy.DISCOUNT.name())) {
+        discountPrice = orderCartCreateDto.getTotalPrice() * (coupon.getDiscountValue() / 100);
+      }
+      if(coupon.getDiscountPolicy().equals(CouponPolicy.CASH.name())) {
+        discountPrice = coupon.getDiscountValue().longValue();
+      }
     }
 
     /* 회원의 잔액 확인 1. 총 상품 가격보다 잔액이 적다면 구매 불가 2. 잔액이 충분하다면 회원의 잔액에서 차감 */
@@ -168,7 +187,7 @@ public class OrderService
     Delivery delivery = orderCartCreateDto.toDeliveryEntity(order.getId());
     orderDeliveryManager.createDelivery(delivery);
 
-    Payment payment = orderCartCreateDto.toPaymentEntity(order.getId());
+    Payment payment = orderCartCreateDto.toPaymentEntity(order.getId(), discountPrice);
     orderPaymentManager.createPayment(payment);
 
     return order;
