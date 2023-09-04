@@ -14,5 +14,7 @@ public interface AddressMapper {
 
   List<Address> selectAll();
 
-  Address select(Long id);
+  Address selectDefaultAddress(Long id);
+
+  List<Address> selectSubAddress(Long id);
 }
