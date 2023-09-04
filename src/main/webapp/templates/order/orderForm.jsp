@@ -59,7 +59,7 @@
                     <h4>Direct Order</h4>
                     <div class="breadcrumb__links">
                         <a href="/">Home</a>
-                        <a href="/">Product</a>
+                        <a href="/product/${product.id}/detail">Product Details</a>
                         <span>Direct Order</span>
                     </div>
                 </div>

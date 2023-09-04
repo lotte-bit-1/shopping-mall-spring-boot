@@ -95,9 +95,6 @@ public class PaymentRestController {
             @SessionAttribute("partner_order_id") String partnerOrderId,
             @SessionAttribute("order_tid") String tid,
             HttpSession httpSession) {
-        if(tid == null || partnerOrderId == null) {
-            throw new RuntimeException("결제 정보가 준비되지 않았습니다.");
-        }
         KakaoPayApproveRequestDto kakaoPayApproveRequestDto = KakaoPayApproveRequestDto.builder()
                 .cid(cid)
                 .tid(tid)
