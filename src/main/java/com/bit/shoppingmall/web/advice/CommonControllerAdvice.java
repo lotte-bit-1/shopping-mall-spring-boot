@@ -14,8 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@Order(1)
-@ControllerAdvice(annotations = Controller.class)
+@ControllerAdvice(basePackages = "com.bit.shoppingmall.web.controller")
 public class CommonControllerAdvice {
 
     @ExceptionHandler(DomainException.class)
