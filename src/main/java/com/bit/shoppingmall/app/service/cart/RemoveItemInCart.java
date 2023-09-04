@@ -2,13 +2,15 @@ package com.bit.shoppingmall.app.service.cart;
 
 import com.bit.shoppingmall.app.entity.Cart;
 import com.bit.shoppingmall.app.mapper.CartMapper;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Primary
+@Qualifier("RemoveItemInCart")
 public class RemoveItemInCart implements
     DecreaseItemInCartStrategy {
   private final CartMapper cartMapper;
@@ -18,6 +20,6 @@ public class RemoveItemInCart implements
     if(cart.getProductQuantity() < requestQuantity){
       cartMapper.delete(Cart.getCompKey(cart));
     }
-      cartMapper.update(Cart.getCompKey(cart),cart.getProductQuantity() -requestQuantity);
+       cartMapper.update(Cart.updateCart(Cart.getCompKey(cart),requestQuantity));
   }
 }

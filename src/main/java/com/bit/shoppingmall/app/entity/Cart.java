@@ -1,18 +1,16 @@
 package com.bit.shoppingmall.app.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @Builder
-@AllArgsConstructor
+@RequiredArgsConstructor
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cart {
 
   @NonNull
@@ -24,18 +22,16 @@ public class Cart {
 
   public static Cart cartBuilder(
       ProductAndMemberCompositeKey productAndMemberCompositeKey, Long productQuantity) {
-    return new Cart(
-        productAndMemberCompositeKey.getMemberId(),
-        productAndMemberCompositeKey.getProductId(),
-        productQuantity);
+    return Cart.builder().memberId(productAndMemberCompositeKey.getMemberId())
+        .productId(productAndMemberCompositeKey.getProductId()).productQuantity(productQuantity)
+        .build();
   }
 
   public static ProductAndMemberCompositeKey getCompKey(Cart c){
     return new ProductAndMemberCompositeKey(c.getProductId(),c.getMemberId());
   }
 
-  public static Cart updateCart(Cart cart, Long requestQuantity) {
-    return Cart.cartBuilder(
-        new ProductAndMemberCompositeKey(cart.getProductId(), cart.getMemberId()), requestQuantity);
+  public static Cart updateCart(ProductAndMemberCompositeKey compKey, Long requestQuantity){
+    return cartBuilder(compKey,requestQuantity);
   }
 }

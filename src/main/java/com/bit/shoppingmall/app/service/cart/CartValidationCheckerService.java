@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CartValidationCheckerService<T extends Cart> {
-  boolean valid(T cart);
+  void valid(T cart);
 }

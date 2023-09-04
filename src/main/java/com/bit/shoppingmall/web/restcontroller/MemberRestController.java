@@ -16,8 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@RestController
+
 @RequiredArgsConstructor
+@RestController
 @RequestMapping("/api/members")
 public class MemberRestController {
 
