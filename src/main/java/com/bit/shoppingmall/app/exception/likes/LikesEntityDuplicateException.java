@@ -3,6 +3,7 @@ package com.bit.shoppingmall.app.exception.likes;
 import javax.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import org.apache.ibatis.exceptions.PersistenceException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 
 @Getter

@@ -12,6 +12,7 @@ import com.bit.shoppingmall.app.mapper.LikesMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,7 +59,7 @@ public class ProductLikesService {
     }
   }
 
-  public int addLikes(ProductAndMemberCompositeKey productAndMemberCompositeKey) {
+  public int addLikes(ProductAndMemberCompositeKey productAndMemberCompositeKey) throws Exception {
     int res = 0;
     try {
       res =
@@ -67,16 +68,17 @@ public class ProductLikesService {
                   productAndMemberCompositeKey.getMemberId(),
                   productAndMemberCompositeKey.getProductId())
           );
-    } catch (DuplicateKeyException e) {
+    } catch (DataIntegrityViolationException e) {
       e.printStackTrace();
       throw new LikesEntityDuplicateException();
     } catch (Exception e) {
       e.printStackTrace();
+      throw e;
     }
     return res;
   }
 
-  public int removeLikes(ProductAndMemberCompositeKey productAndMemberCompositeKey) {
+  public int removeLikes(ProductAndMemberCompositeKey productAndMemberCompositeKey) throws Exception {
     int res = 0;
     try {
       res = likesMapper.delete(productAndMemberCompositeKey);
@@ -89,7 +91,7 @@ public class ProductLikesService {
     return res;
   }
 
-  public int removeSomeLikes(List<ProductAndMemberCompositeKey> keyList) {
+  public int removeSomeLikes(List<ProductAndMemberCompositeKey> keyList) throws Exception {
     int res = 0;
     try {
       for (ProductAndMemberCompositeKey key : keyList) {
