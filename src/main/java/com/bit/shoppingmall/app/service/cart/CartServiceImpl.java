@@ -8,7 +8,6 @@ import com.bit.shoppingmall.app.dto.product.ProductItemQuantity;
 import com.bit.shoppingmall.app.entity.Cart;
 import com.bit.shoppingmall.app.entity.Product;
 import com.bit.shoppingmall.app.entity.ProductAndMemberCompositeKey;
-import com.bit.shoppingmall.app.exception.cart.CartNotFoundException;
 import com.bit.shoppingmall.app.exception.cart.ProductIsNotExistedInCartException;
 import com.bit.shoppingmall.app.exception.product.ProductNotFoundException;
 import com.bit.shoppingmall.app.mapper.CartMapper;
@@ -77,17 +76,17 @@ public class CartServiceImpl implements CartService {
     List<ProductItemQuantity> allProductInfo = null;
     try {
       allProductInfo = productDao.selectProductInfo(productIdList);
+      Long totalPaging = cartDao.getCartTotalPage(memberId);
+      Pagination pagination = Pagination.builder().currentPage(1)
+          .totalPage(Math.toIntExact(totalPaging)).build();
+
+      return
+          AllCartProductInfoDtoWithPagination.getCartProductListWithPagination(
+              AllCartProductInfoDto.getCustomerViewOfCartInfo(
+                  ProductInCartDto.getProductInfo(allProductInfo, cartList)), pagination);
     } catch (Exception ignored) {
-      return null;
     }
-    Long totalPaging = cartDao.getCartTotalPage(memberId);
-    Pagination pagination = Pagination.builder().currentPage(1)
-        .totalPage(Math.toIntExact(totalPaging)).build();
 
-    return
-        AllCartProductInfoDtoWithPagination.getCartProductListWithPagination(
-            AllCartProductInfoDto.getCustomerViewOfCartInfo(
-                ProductInCartDto.getProductInfo(allProductInfo, cartList)), pagination);
-
+    return null;
   }
 }
