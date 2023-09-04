@@ -17,14 +17,12 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 public class LikesController {
 
   private final ProductLikesService likesService;
-  private Long memberId;
 
   @GetMapping
   public String getLikes(@RequestParam(required = false, defaultValue = "1") Integer curPage,
       @SessionAttribute("loginMember") MemberDetail loginMember, Model model)
       throws Exception {
-    memberId = loginMember.getId();
-    LikesListWithPagination products = likesService.getMemberLikes(memberId, curPage);
+    LikesListWithPagination products = likesService.getMemberLikes(loginMember.getId(), curPage);
     model.addAttribute("products", products);
     return "/likes/likesList";
   }
