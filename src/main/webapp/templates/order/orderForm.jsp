@@ -59,7 +59,7 @@
                     <h4>Direct Order</h4>
                     <div class="breadcrumb__links">
                         <a href="/">Home</a>
-                        <a href="/">Product</a>
+                        <a href="/product/${product.id}/detail">Product Details</a>
                         <span>Direct Order</span>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                             <p>쿠폰 선택<span></span></p>
                             <select id="coupon" name="couponId" class="checkout__input__add"
                                     onchange="updateTotalPrice()">
-                                <option value="">적용 안함</option>
+                                <option value="0">적용 안함</option>
                                 <c:forEach var="coupon" items="${coupons}">
                                     <option id="${coupon.discountValue}" name="${coupon.discountPolicy}"
                                             value="${coupon.id}">${coupon.name}</option>

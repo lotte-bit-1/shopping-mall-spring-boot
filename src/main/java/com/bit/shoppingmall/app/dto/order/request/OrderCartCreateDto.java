@@ -28,15 +28,19 @@ import javax.validation.constraints.NotNull;
 public class OrderCartCreateDto {
 
   @JsonIgnore private Long memberId;
-  private Long couponId = null;
-  @NotBlank private String roadName;
-  @NotBlank private String addrDetail;
-  @NotBlank private String zipCode;
+  private Long couponId;
+  @NotBlank(message = "도로명 주소를 입력해주세요.") private String roadName;
+  @NotBlank(message = "상세 주소를 입력해주세요.") private String addrDetail;
+  @NotBlank(message = "우편번호를 입력해주세요.") private String zipCode;
   private List<ProductDto> products;
-  @NotNull private Long totalPrice;
+  @NotNull(message = "상품 총 가격을 입력해주세요.") private Long totalPrice;
 
   public void setMemberId(Long memberId) {
     this.memberId = memberId;
+  }
+
+  public void setCouponId(Long couponId) {
+    this.couponId = couponId;
   }
 
   public void setProducts(List<CartAndProductDto> cartAndProductDtos) {
@@ -78,11 +82,11 @@ public class OrderCartCreateDto {
         .build();
   }
 
-  public Payment toPaymentEntity(Long orderId) {
+  public Payment toPaymentEntity(Long orderId, Long discountPrice) {
     return Payment.builder()
         .orderId(orderId)
         .type(PaymentType.CASH.name())
-        .actualAmount(totalPrice)
+        .actualAmount(totalPrice - discountPrice)
         .build();
   }
 
