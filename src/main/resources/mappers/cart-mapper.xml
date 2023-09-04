@@ -49,7 +49,7 @@
         INNER JOIN product ON cart.product_id = product.id
         WHERE member_id = #{memberId}
     </select>
-    <select id="select-all" resultMap="cart">
+    <select id="selectAll" resultMap="cart">
         SELECT *
         FROM cart
     </select>

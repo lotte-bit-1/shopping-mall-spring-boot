@@ -1,38 +1,45 @@
 package com.bit.shoppingmall.web.controller;
 
 import com.bit.shoppingmall.app.dto.cart.AllCartProductInfoDtoWithPagination;
-import com.bit.shoppingmall.app.entity.ProductAndMemberCompositeKey;
+import com.bit.shoppingmall.app.dto.member.response.MemberDetail;
 import com.bit.shoppingmall.app.service.cart.CartService;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/cart")
 public class CartController {
 
   private final CartService cartService;
 
-  @DeleteMapping
-  public String deleteCart(@RequestBody ProductAndMemberCompositeKey compKey) throws Exception {
-    cartService.deleteItemInCart(compKey);
-    return "forward:/";
+  @ModelAttribute("memberId")
+  public Long memberId() {
+    ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+    HttpSession httpSession = attr.getRequest().getSession();
+    return ((MemberDetail) httpSession.getAttribute("loginMember")).getId();
   }
 
-  @ResponseBody
-  @GetMapping
-  public String getCart(@RequestParam Long memberId, Model model) {
-    AllCartProductInfoDtoWithPagination productsInCart = cartService.getCartByMember(memberId);
-    model.addAttribute("productList",productsInCart);
-    return "forward:/";
+
+  @GetMapping("/carts")
+  public String getCart(@ModelAttribute("memberId") Long memberId, Model model) {
+    log.info("request memberInfo: " + memberId);
+    AllCartProductInfoDtoWithPagination productsInCart = cartService.getCartByMember(
+        memberId);
+    if (productsInCart != null) {
+      model.addAttribute("productList",
+          productsInCart.getCartProductInfoDto().getCartProductDtoList());
+      model.addAttribute("totalPrice", productsInCart.getCartProductInfoDto().getTotalPrice());
+      log.info("List of model: " + model.getAttribute("productList"));
+    }
+    return "cart/cart";
   }
 
 
