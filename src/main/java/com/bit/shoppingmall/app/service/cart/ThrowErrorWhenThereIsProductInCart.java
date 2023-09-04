@@ -2,9 +2,6 @@ package com.bit.shoppingmall.app.service.cart;
 
 import com.bit.shoppingmall.app.entity.Cart;
 import com.bit.shoppingmall.app.exception.cart.ItemAlreadyExistInCartException;
-import com.bit.shoppingmall.app.mapper.CartMapper;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

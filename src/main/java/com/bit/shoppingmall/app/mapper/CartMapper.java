@@ -9,26 +9,23 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 @Mapper
-@Repository
 public interface CartMapper {
 
   List<CartAndProductDto> selectAllCartAndProductByMember(Long memberId);
 
+  Optional<Cart> select(ProductAndMemberCompositeKey compKey);
+
   List<Cart> selectAllByMember(Long memberId);
 
-  int getCartTotalPage();
+  Long getCartTotalPage(Long memberId);
 
   int bulkDelete(List<ProductAndMemberCompositeKey> productAndMemberCompositeKeys);
 
   List<Cart> selectAll(ProductAndMemberCompositeKey compKey);
 
-  Optional<Cart> select(ProductAndMemberCompositeKey compKey);
-
   int insert(Cart cart);
 
-  int update(ProductAndMemberCompositeKey compKey);
-
-  int update(ProductAndMemberCompositeKey compKey, Long updatedQuantity);
+  int update(Cart cart);
 
   int delete(ProductAndMemberCompositeKey compKey);
 }

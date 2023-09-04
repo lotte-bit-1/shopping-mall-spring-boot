@@ -5,6 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface DecreaseItemInCartStrategy {
-
   public void decrease(Cart cart, Long requestQuantity);
 }

@@ -10,43 +10,43 @@
 <!-- Offcanvas Menu Begin -->
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'>
 <style>
-  .container {
-    padding: 2rem 0rem;
-  }
-
-  @media (min-width: 576px) {
-    .modal-dialog {
-      max-width: 400px;
+    .container {
+        padding: 2rem 0rem;
     }
 
-    .modal-dialog .modal-content {
-      padding: 1rem;
+    @media (min-width: 576px) {
+        .modal-dialog {
+            max-width: 400px;
+        }
+
+        .modal-dialog .modal-content {
+            padding: 1rem;
+        }
     }
-  }
 
-  .modal-header .close {
-    margin-top: -1.5rem;
-  }
+    .modal-header .close {
+        margin-top: -1.5rem;
+    }
 
-  .form-title {
-    margin: -2rem 0rem 2rem;
-  }
+    .form-title {
+        margin: -2rem 0rem 2rem;
+    }
 
-  .btn-round {
-    border-radius: 3rem;
-  }
+    .btn-round {
+        border-radius: 3rem;
+    }
 
-  .delimiter {
-    padding: 1rem;
-  }
+    .delimiter {
+        padding: 1rem;
+    }
 
-  .social-buttons .btn {
-    margin: 0 0.5rem 1rem;
-  }
+    .social-buttons .btn {
+        margin: 0 0.5rem 1rem;
+    }
 
-  .signup-section {
-    padding: 0.3rem 0rem;
-  }
+    .signup-section {
+        padding: 0.3rem 0rem;
+    }
 </style>
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
@@ -63,7 +63,10 @@
         <c:if test="${ !empty loginMember }">
             <a href="/likes"><img src="/img/icon/heart.png" alt=""></a>
         </c:if>
-        <a href="shopping-cart.html"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+
+        <c:if test="${ !empty loginMember }">
+            <a href="/carts"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+        </c:if>
         <div class="price">$0.00</div>
     </div>
     <div id="mobile-menu-wrap"></div>
@@ -91,7 +94,7 @@
                                     in</a>
                             </c:if>
                             <c:if test="${ !empty loginMember }">
-                                <a href="/member/mypage" disabled>${loginMember.name}님</a>
+                                <a href="#" disabled>${loginMember.name}님</a>
                                 <a href="/member/logout" target="_parent">logout</a>
                             </c:if>
                         </div>
@@ -110,33 +113,35 @@
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/product/1/list">Shop</a></li>
+                        <li><a href="/main.bit">Home</a></li>
+                        <li><a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Shop</a></li>
                         <c:if test="${ !empty loginMember }">
                             <li><a href="/orders">Order List</a></li>
                         </c:if>
                     </ul>
                 </nav>
             </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="header__nav__option">
-                    <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
-                    <c:if test="${ empty loginMember }">
-                        <a href="#" class="likes-icon"><img src="/img/icon/heart.png" alt=""></a>
-                    </c:if>
-                    <c:if test="${ !empty loginMember }">
-                        <a href="/likes"><img src="/img/icon/heart.png" alt=""></a>
-                    </c:if>
-                    <a href="/cart.bit?action=get"><img src="/img/icon/cart.png" alt="">
-                        <span>0</span></a>
-                </div>
-            </div>
-        </div>
-        <div class="canvas__open"><i class="fa fa-bars"></i></div>
+<div class="col-lg-3 col-md-3">
+<div class="header__nav__option">
+<a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
+<c:if test="${ empty loginMember }">
+    <a href="#" class="likes-icon"><img src="/img/icon/heart.png" alt=""></a>
+</c:if>
+<c:if test="${ !empty loginMember }">
+    <a href="/likes.bit?view=likes"><img src="/img/icon/heart.png" alt=""></a>
+</c:if>
+<c:if test="${ !empty loginMember }">
+    <a href="/carts"><img src="/img/icon/cart.png" alt="">
+    <span>0</span></a>
+</c:if>
     </div>
-</header>
+    </div>
+    </div>
+    <div class="canvas__open"><i class="fa fa-bars"></i></div>
+    </div>
+    </header>
 
-<jsp:include page="../member/loginModal.jsp"/>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <jsp:include page="../member/loginModal.jsp"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/header.js"></script>
 
