@@ -32,7 +32,7 @@ public class CartRestController {
   }
 
 
-  @PostMapping("/products/{productId}")
+  @PostMapping("/api/products/{productId}")
   public ResponseEntity<String> addCart(@PathVariable Long productId,
       Long requestQuantity) {
     memberId = getMemberId();
@@ -41,7 +41,7 @@ public class CartRestController {
     return ResponseEntity.ok("카트에 성공적으로 상품이 추가 되었습니다.");
   }
 
-  @DeleteMapping("/carts/products/{productId}")
+  @DeleteMapping("/api/carts/products/{productId}")
   public ResponseEntity<String> deleteCart(@PathVariable Long productId)
       throws Exception {
     memberId = getMemberId();
@@ -50,7 +50,7 @@ public class CartRestController {
     return ResponseEntity.ok("카트의 상품이 삭제되었습니다.");
   }
 
-  @PutMapping("/carts/products/{productId}")
+  @PutMapping("/api/carts/products/{productId}")
   public ResponseEntity<String> updateCart(@PathVariable Long productId, @RequestParam Long requestQuantity) {
     memberId = getMemberId();
     cartService.updateItemInCart(new ProductAndMemberCompositeKey(productId, memberId),

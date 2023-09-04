@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
           params.append("productId", productId);
 
           $.ajax({
-            url: '/carts/products/' + productId,
+            url: '/api/carts/products/' + productId,
             type: 'DELETE',
             dataType: 'text',
             success: function (response) {
@@ -65,7 +65,7 @@ $('.shopping__cart__table').on('change', '.quantity-select',
       }
 
       $.ajax({
-        url: '/carts/products/' + productId,
+        url: '/api/carts/products/' + productId,
         type: 'PUT',
         data: {
           requestQuantity: selectedQuantity
