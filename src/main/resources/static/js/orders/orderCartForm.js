@@ -7,9 +7,10 @@
         updateTotalPrice();
 
         const queryParameters = new URLSearchParams(decodeURI(location.search));
+        const couponId = queryParameters.get("couponId");
         const pgToken = queryParameters.get("pg_token");
         if(pgToken !== null) {
-            createOrder(pgToken);
+            createOrder(pgToken, couponId);
         }
     });
 
@@ -33,35 +34,6 @@
 
     /* kakao payment ready api call */
     function kakaoPay() {
-        // const form = document.getElementById('order-form');
-        // const formData = new FormData(form);
-        //
-        // const formDataObject = {};
-        // formData.forEach((value, key) => {
-        //     formDataObject[key] = value;
-        // });
-        //
-        // const productsArray = [];
-        // $('.checkout__total__products .product-item').each(function() {
-        //     productsArray.push({
-        //         productId: $(this).find('.product-id').val(),
-        //         price: $(this).find('.product-price').val(),
-        //         quantity: $(this).find('.product-quantity').val()
-        //     });
-        //
-        //     console.log($(this).find('.product-quantity').val());
-        // });
-        //
-        // const jsonData = {
-        //     roadName: formDataObject['roadName'],
-        //     addrDetail: formDataObject['addrDetail'],
-        //     zipCode: formDataObject['zipCode'],
-        //     products: productsArray,
-        //     totalPrice: formDataObject['totalPrice']
-        // };
-        //
-        // const jsonString = JSON.stringify(jsonData);
-
         const form = document.getElementById('order-form');
         const formData = new FormData(form);
         const jsonObject = Object.fromEntries(formData);
@@ -88,14 +60,14 @@
     }
 
     /* create order and kakao payment approve api call */
-    function createOrder(pgToken) {
+    function createOrder(pgToken, couponId) {
         const form = document.getElementById('order-form');
         const formData = new FormData(form);
         const jsonObject = Object.fromEntries(formData);
         const jsonString = JSON.stringify(jsonObject);
         $.ajax({
             type: "POST",
-            url: "/api/orders/cart",
+            url: "/api/orders/cart?couponId=" + couponId,
             data: jsonString,
             contentType: "application/json",
             error: function (request, status, error) {

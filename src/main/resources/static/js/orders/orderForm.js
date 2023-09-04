@@ -8,8 +8,9 @@
 
         const queryParameters = new URLSearchParams(decodeURI(location.search));
         const pgToken = queryParameters.get("pg_token");
+        const couponId = queryParameters.get("couponId");
         if(pgToken !== null) {
-            createOrder(pgToken);
+            createOrder(pgToken, couponId);
         }
     });
 
@@ -57,14 +58,14 @@
     }
 
     /* create order and kakao payment approve api call */
-    function createOrder(pgToken) {
+    function createOrder(pgToken, couponId) {
         const form = document.getElementById('order-form');
         const formData = new FormData(form);
         const jsonObject = Object.fromEntries(formData);
         const jsonString = JSON.stringify(jsonObject);
         $.ajax({
             type: "POST",
-            url: "/api/orders/direct",
+            url: "/api/orders/direct?couponId=" + couponId,
             data: jsonString,
             contentType: "application/json",
             error: function (request, status, error) {

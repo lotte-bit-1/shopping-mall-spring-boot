@@ -26,8 +26,10 @@ public class OrderRestController {
     @PostMapping("/direct")
     public ResponseEntity<Long> createOrder(
             @ModelAttribute("memberId") Long memberId,
+            @RequestParam(value = "couponId") Long couponId,
             @Valid @RequestBody OrderCreateDto orderCreateDto) throws Exception {
         orderCreateDto.setMemberId(memberId);
+        orderCreateDto.setCouponId(couponId);
         Order order = orderService.createOrder(orderCreateDto);
 
         return ResponseEntity.ok().body(order.getId());
@@ -36,8 +38,10 @@ public class OrderRestController {
     @PostMapping("/cart")
     public ResponseEntity<Long> createCartOrder(
             @ModelAttribute("memberId") Long memberId,
+            @RequestParam(value = "couponId") Long couponId,
             @Valid @RequestBody OrderCartCreateDto orderCartCreateDto) throws Exception {
         orderCartCreateDto.setMemberId(memberId);
+        orderCartCreateDto.setCouponId(couponId);
         Order cartOrder = orderService.createCartOrder(orderCartCreateDto);
 
         return ResponseEntity.ok().body(cartOrder.getId());
