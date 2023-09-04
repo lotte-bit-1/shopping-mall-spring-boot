@@ -31,4 +31,7 @@ public class Cart {
     return new ProductAndMemberCompositeKey(c.getProductId(),c.getMemberId());
   }
 
+  public static Cart updateCart(ProductAndMemberCompositeKey compKey, Long requestQuantity){
+    return cartBuilder(compKey,requestQuantity);
+  }
 }

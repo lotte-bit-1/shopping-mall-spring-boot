@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page session="false" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html lang="zxx">
 
 <head>
@@ -77,7 +77,8 @@
                             <tr>
                                 <td class="product__cart__item">
                                     <div class="product__cart__item__pic">
-                                        <img style="height: 250px; width: 250px" alt="" src="${product.imgUrl}">
+                                        <img style="height: 250px; width: 250px" alt=""
+                                             src="${product.imgUrl}">
                                     </div>
                                     <div class="product__cart__item__text">
                                         <h6>${product.productName}</h6>
@@ -86,19 +87,19 @@
                                 </td>
                                 <td class="quantity__item">
                                     <div class="quantity">
-                                            <%--                                        <div class="pro-qty-2">--%>
-                                        <select class="quantity-select"
-                                                data-product-id="${product.productId}">
-                                            <c:forEach begin="1" end="${product.stock}"
-                                                       var="quantity">
-                                                <option value="${quantity}"
-                                                        data-quantity-in-cart="${product.productInCart}"
-                                                    ${quantity == product.productInCart ? 'selected' : ''}>
-                                                        ${quantity}
-                                                </option>
-                                            </c:forEach>
-                                        </select>
-                                            <%--                                        </div>--%>
+                                        <div class="pro-qty-2">
+                                            <select class="quantity-select"
+                                                    data-product-id="${product.productId}">
+                                                <c:forEach begin="1" end="${product.stock}"
+                                                           var="quantity">
+                                                    <option value="${quantity}"
+                                                            data-quantity-in-cart="${product.productInCart}"
+                                                        ${quantity == product.productInCart ? 'selected' : ''}>
+                                                            ${quantity}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
                                     </div>
                                 </td>
 
@@ -112,17 +113,17 @@
                         </tbody>
                     </table>
                 </div>
-                <%--                <div class="pagination">--%>
+                <div class="pagination">
 
-                <%--                    <a href="${pageContext.request.contextPath}/cart?page=${pagination.currentPage - 1}">Previous</a>--%>
-                <%--                    <c:forEach begin="1" end="${pagination.totalPage}" var="pageNumber">--%>
-                <%--                        <a href="${pageContext.request.contextPath}/cart?page=${pageNumber}">${pageNumber}</a>--%>
+                    <a href="${pageContext.request.contextPath}/cart?page=${pagination.currentPage - 1}">Previous</a>
+                    <c:forEach begin="1" end="${pagination.totalPage}" var="pageNumber">
+                        <a href="${pageContext.request.contextPath}/cart?page=${pageNumber}">${pageNumber}</a>
 
-                <%--                    </c:forEach>--%>
-                <%--                    <c:if test="${pagination.currentPage < pagination.totalPage}">--%>
-                <%--                        <a href="${pageContext.request.contextPath}/cart?page=${pagination.currentPage + 1}">Next</a>--%>
-                <%--                    </c:if>--%>
-                <%--                </div>--%>
+                    </c:forEach>
+                    <c:if test="${pagination.currentPage < pagination.totalPage}">
+                        <a href="${pageContext.request.contextPath}/cart?page=${pagination.currentPage + 1}">Next</a>
+                    </c:if>
+                </div>
 
 
                 <div class="cart__total">

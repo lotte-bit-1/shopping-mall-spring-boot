@@ -20,6 +20,6 @@ public class RemoveItemInCart implements
     if(cart.getProductQuantity() < requestQuantity){
       cartMapper.delete(Cart.getCompKey(cart));
     }
-      cartMapper.update(Cart.getCompKey(cart),cart.getProductQuantity() -requestQuantity);
+       cartMapper.update(Cart.updateCart(Cart.getCompKey(cart),requestQuantity));
   }
 }

@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 public class OrderCreateDto {
 
   @JsonIgnore private Long memberId;
-  private Long couponId = null;
+  private Long couponId;
   @NotBlank private String roadName;
   @NotBlank private String addrDetail;
   @NotBlank private String zipCode;

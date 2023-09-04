@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 
 @RequiredArgsConstructor
+@RestController
 @RequestMapping("/api/members")
 public class MemberRestController {
 
