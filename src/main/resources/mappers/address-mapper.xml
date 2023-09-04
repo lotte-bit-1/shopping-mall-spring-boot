@@ -9,11 +9,15 @@
         FROM address
         WHERE id = #{id}
     </select>
-    <select id="selectall" resultType="address">
-        SELECT *
-        FROM address
+    <select id="selectAll" resultType="address">
+      SELECT a.member_id   as memberId,
+             a.road_name   as roadName,
+             a.addr_detail as addrDetail,
+             a.zip_code    as zipCode,
+             a.is_default  as isDefault
+      FROM address as a
     </select>
-    <insert id="insert" parameterType="address">
+    <insert id="insert" parameterType="address" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO address (member_id, is_default, road_name, addr_detail, zip_code)
         VALUES (#{memberId}, #{isDefault}, #{roadName}, #{addrDetail}, #{zipCode})
     </insert>
