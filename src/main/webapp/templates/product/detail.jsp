@@ -236,14 +236,13 @@
 <script>
     function getQuantity() {
         var editableDiv = document.getElementById("quantity-input");
-        console.log(editableDiv.value);
         return parseInt(editableDiv.value);
     }
 
     // Update the href attribute of the link
     var orderLink = document.getElementById("order-link");
     orderLink.addEventListener('click', () => {
-        orderLink.href = "/orders/direct?productId=${productDetail.detail.id}&quantity="
+        orderLink.href = "/orders/direct?productId=${detail.id}&quantity="
             + getQuantity();
     });
 </script>
