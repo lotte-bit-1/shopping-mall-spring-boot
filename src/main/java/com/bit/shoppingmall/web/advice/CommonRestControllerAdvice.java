@@ -2,21 +2,22 @@ package com.bit.shoppingmall.web.advice;
 
 import com.bit.shoppingmall.app.exception.DomainException;
 import com.bit.shoppingmall.app.exception.response.ErrorResponse;
+import org.springframework.core.annotation.Order;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RequestMapping("/api")
+@Order(1)
 @RestControllerAdvice(annotations = RestController.class)
-public class ExceptionHandler {
+public class CommonRestControllerAdvice {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(DomainException.class)
+    @ExceptionHandler(DomainException.class)
     public ResponseEntity<ErrorResponse> customException(DomainException e) {
         int statusCode = e.getStatusCode();
 
@@ -29,7 +30,7 @@ public class ExceptionHandler {
         return ResponseEntity.status(statusCode).body(body);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(DuplicateKeyException.class)
+    @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<ErrorResponse> duplicateKeyException(DomainException e) {
         int statusCode = e.getStatusCode();
 
