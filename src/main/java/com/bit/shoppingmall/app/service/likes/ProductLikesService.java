@@ -12,6 +12,7 @@ import com.bit.shoppingmall.app.mapper.LikesMapper;
 import com.bit.shoppingmall.app.mapper.ProductMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +68,7 @@ public class ProductLikesService {
                   productAndMemberCompositeKey.getMemberId(),
                   productAndMemberCompositeKey.getProductId())
           );
-    } catch (DuplicateKeyException e) {
+    } catch (DataIntegrityViolationException e) {
       e.printStackTrace();
       throw new LikesEntityDuplicateException();
     } catch (Exception e) {
