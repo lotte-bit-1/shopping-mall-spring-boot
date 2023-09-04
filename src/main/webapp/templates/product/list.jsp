@@ -54,8 +54,8 @@
                 <div class="breadcrumb__text">
                     <h4>Shop</h4>
                     <div class="breadcrumb__links">
-                        <a href="main.bit">Home</a>
-                        <a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Shop</a>
+                        <a href="/">Home</a>
+                        <a href="/product/1/list">Shop</a>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                 </div>
                 <c:choose>
                     <c:when test="${not empty error}">
-                        <div class="d-flex justify-content-center">검색된 상품이 없습니다.</div>
+                        <div class="d-flex justify-content-center">${error}</div>
                     </c:when>
                     <c:otherwise>
                         <%--  product item list --%>

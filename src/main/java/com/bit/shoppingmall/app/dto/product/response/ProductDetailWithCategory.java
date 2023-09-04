@@ -33,7 +33,6 @@ public class ProductDetailWithCategory {
       category.put(idx, item.getName());
       idx++;
     }
-    log.info(category.toString());
     ProductCategory productCategory = ProductCategory.builder().categoryList(category).build();
 
     return ProductDetailWithCategory.builder().category(productCategory).detail(detail).build();
