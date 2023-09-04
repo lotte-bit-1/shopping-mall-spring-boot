@@ -11,32 +11,26 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
+@RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
 
     @ModelAttribute("memberId")
-    public Long memberId() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpSession httpSession = attr.getRequest().getSession();
-        return ((MemberDetail) httpSession.getAttribute("loginMember")).getId();
+    public Long memberId(@SessionAttribute("loginMember") MemberDetail memberDetail) {
+        return memberDetail.getId();
     }
 
     /* 상품 주문 폼 */
-    @GetMapping("/directOrderForm")
+    @GetMapping("/direct")
     public String getCreateOrderForm(
             @ModelAttribute("memberId") Long memberId,
             @RequestParam("productId") Long productId,
@@ -46,28 +40,33 @@ public class OrderController {
         if(createOrderForm.getProduct().getQuantity() - quantity < 0) {
             throw new OrderProductNotEnoughStockQuantityException();
         }
-        model.addAttribute("memberName", createOrderForm.getMemberName());
-        model.addAttribute("defaultAddress", createOrderForm.getDefaultAddress());
-        model.addAttribute("product", createOrderForm.getProduct());
-        model.addAttribute("productQuantity", quantity);
-        model.addAttribute("coupons", createOrderForm.getCoupons());
+
+        model.addAllAttributes(Map.of(
+                "memberName", createOrderForm.getMemberName(),
+                "defaultAddress", createOrderForm.getDefaultAddress(),
+                "product", createOrderForm.getProduct(),
+                "productQuantity", quantity,
+                "coupons", createOrderForm.getCoupons()
+        ));
 
         return "order/orderForm";
     }
 
     /* 장바구니 상품 주문 폼 */
-    @GetMapping("/cartOrderForm")
+    @GetMapping("/cart")
     public String getCreateCartOrderForm(@ModelAttribute("memberId") Long memberId, Model model) {
         OrderCartCreateForm createCartOrderForm = orderService.getCreateCartOrderForm(memberId);
-        model.addAttribute("memberName", createCartOrderForm.getMemberName());
-        model.addAttribute("defaultAddress", createCartOrderForm.getDefaultAddress());
-        model.addAttribute("products", createCartOrderForm.getProducts());
-        model.addAttribute("coupons", createCartOrderForm.getCoupons());
+        model.addAllAttributes(Map.of(
+                "memberName", createCartOrderForm.getMemberName(),
+                "defaultAddress", createCartOrderForm.getDefaultAddress(),
+                "products", createCartOrderForm.getProducts(),
+                "coupons", createCartOrderForm.getCoupons()
+        ));
 
         return "order/orderCartForm";
     }
 
-    @GetMapping("/orders")
+    @GetMapping
     public String getProductOrderDetail(@ModelAttribute("memberId") Long memberId,
                                         Model model) {
         List<ProductOrderDto> productOrders =
@@ -77,16 +76,18 @@ public class OrderController {
         return "order/orderList";
     }
 
-    @GetMapping("/orders/{orderId}")
+    @GetMapping("/{orderId}")
     public String getProductOrderDetail(@ModelAttribute("memberId") Long memberId,
                                         @PathVariable("orderId") Long orderId,
                                         Model model) {
         ProductOrderDetailDto productOrderDetail =
                 orderService.getOrderDetailsForMemberAndOrderId(orderId, memberId);
-        model.addAttribute("products", productOrderDetail.getProducts());
-        model.addAttribute("payment", productOrderDetail.getPayment());
-        model.addAttribute("delivery", productOrderDetail.getDelivery());
-        model.addAttribute("productOrderDetail", productOrderDetail);
+        model.addAllAttributes(Map.of(
+                "products", productOrderDetail.getProducts(),
+                "payment", productOrderDetail.getPayment(),
+                "delivery", productOrderDetail.getDelivery(),
+                "productOrderDetail", productOrderDetail
+        ));
 
         return "order/orderDetail";
     }

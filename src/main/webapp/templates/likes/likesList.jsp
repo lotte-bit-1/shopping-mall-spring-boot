@@ -94,7 +94,7 @@
                                     </div>
                                 </td>
                                 <td class="product__cart__item">
-                                    <a href="/product.bit?view=shop-detail&productId=${product.id}">
+                                    <a href="/product/${product.id}/detail">
                                         <div class="product__cart__item__pic">
                                             <img alt="" src="${product.url}" width="200px"
                                                  height="150px">
@@ -102,7 +102,7 @@
                                     </a>
                                 </td>
                                 <td class="product__cart__item">
-                                    <a href="/product.bit?view=shop-detail&productId=${product.id}">
+                                    <a href="/product/${product.id}/detail">
                                         <div class="quantity__item">
                                             <h6>${product.name}</h6>
                                         </div>
@@ -166,7 +166,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn">
-                            <a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Continue
+                            <a href="/product/1/list">Continue
                                 Shopping</a>
                         </div>
                     </div>

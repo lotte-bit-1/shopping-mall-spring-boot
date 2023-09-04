@@ -17,13 +17,17 @@ import java.util.logging.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductDaoTest {
 
   Logger log = Logger.getLogger("product");
@@ -73,6 +77,7 @@ public class ProductDaoTest {
   }
 
   @Test
+  @Order(1)
   void mapperTest() {
     int productListTotalPage = productMapper.getProductListTotalPage(0);
     log.info(String.valueOf(productListTotalPage));
@@ -80,6 +85,7 @@ public class ProductDaoTest {
   }
 
   @Test
+  @Order(2)
   void selectProductDetail() {
     List<Product> products = productMapper.selectAllProduct();
     log.info(products.toString());
@@ -87,6 +93,7 @@ public class ProductDaoTest {
   }
 
   @Test
+  @Order(3)
   @DisplayName("찜 목록을 위한 상품 정보")
   void likeOfProduct() {
     // fixme: likes 수정되면 다시 조회

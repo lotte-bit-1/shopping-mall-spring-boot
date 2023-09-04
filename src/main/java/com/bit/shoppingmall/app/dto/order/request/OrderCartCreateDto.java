@@ -8,28 +8,39 @@ import com.bit.shoppingmall.app.entity.ProductOrder;
 import com.bit.shoppingmall.app.enums.DeliveryStatus;
 import com.bit.shoppingmall.app.enums.OrderStatus;
 import com.bit.shoppingmall.app.enums.PaymentType;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderCartCreateDto {
 
-  private Long memberId;
+  @JsonIgnore private Long memberId;
   private Long couponId;
-  private String roadName;
-  private String addrDetail;
-  private String zipCode;
+  @NotBlank private String roadName;
+  @NotBlank private String addrDetail;
+  @NotBlank private String zipCode;
   private List<ProductDto> products;
-  private Long totalPrice;
+  @NotNull private Long totalPrice;
 
   public void setMemberId(Long memberId) {
     this.memberId = memberId;
+  }
+
+  public void setCouponId(Long couponId) {
+    this.couponId = couponId;
   }
 
   public void setProducts(List<CartAndProductDto> cartAndProductDtos) {
@@ -71,17 +82,17 @@ public class OrderCartCreateDto {
         .build();
   }
 
-  public Payment toPaymentEntity(Long orderId) {
+  public Payment toPaymentEntity(Long orderId, Long discountPrice) {
     return Payment.builder()
         .orderId(orderId)
         .type(PaymentType.CASH.name())
-        .actualAmount(totalPrice)
+        .actualAmount(totalPrice - discountPrice)
         .build();
   }
 
   @Getter
   @AllArgsConstructor
-  public static class ProductDto {
+  public static class ProductDto implements Serializable {
 
     private Long productId;
     private Long price;

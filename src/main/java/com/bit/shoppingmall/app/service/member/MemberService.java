@@ -3,6 +3,7 @@ package com.bit.shoppingmall.app.service.member;
 import com.bit.shoppingmall.app.dto.member.request.LoginDto;
 import com.bit.shoppingmall.app.dto.member.request.MemberRegisterDto;
 import com.bit.shoppingmall.app.dto.member.response.MemberDetail;
+import com.bit.shoppingmall.app.dto.member.response.MypageMemberDetail;
 import com.bit.shoppingmall.app.entity.Encryption;
 import com.bit.shoppingmall.app.entity.Member;
 import com.bit.shoppingmall.app.exception.member.LoginFailException;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -59,6 +61,23 @@ public class MemberService {
         MemberDetail loginMember = MemberDetail.of(member);
 
         return loginMember;
+    }
+
+    public MypageMemberDetail getMypageMemberDetail(Long memberId) throws Exception {
+        return memberMapper.selectMypageById(memberId).orElseThrow(MemberEntityNotFoundException::new);
+    }
+
+    public MemberDetail kakaoLogin(MemberRegisterDto dto) {
+
+        Optional<Member> optionalMember = memberMapper.selectByEmail(dto.getEmail());
+        if (optionalMember.isEmpty()) {
+            Member member = dto.toEntity("!@#!@#!@#!@#!@#!@#!@#");
+            memberMapper.insert(member);
+            return MemberDetail.of(member);
+        } else {
+            Member gerMember = optionalMember.get();
+            return MemberDetail.of(gerMember);
+        }
     }
 
     private String getHashedPassword(LoginDto dto) throws Exception {

@@ -1,6 +1,5 @@
 package com.bit.shoppingmall.web.interceptor;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("loginMember") == null) {
+        if (session == null || session.getAttribute("loginMember") == null) {
             response.sendRedirect("/");
             return false;
         }

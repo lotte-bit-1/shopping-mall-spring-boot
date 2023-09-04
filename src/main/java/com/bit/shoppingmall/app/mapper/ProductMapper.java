@@ -1,5 +1,8 @@
 package com.bit.shoppingmall.app.mapper;
 
+import com.bit.shoppingmall.app.dto.product.ParameterForProductList;
+import com.bit.shoppingmall.app.dto.product.ParameterForSearchProductForKeyword;
+import com.bit.shoppingmall.app.dto.product.ParameterForSubCategorySearch;
 import com.bit.shoppingmall.app.dto.product.ProductDetail;
 import com.bit.shoppingmall.app.dto.product.ProductDetailParameter;
 import com.bit.shoppingmall.app.dto.product.ProductItemQuantity;
@@ -8,7 +11,6 @@ import com.bit.shoppingmall.app.dto.product.ProductListItemOfLike;
 import com.bit.shoppingmall.app.dto.product.response.ProductDetailForOrder;
 import com.bit.shoppingmall.app.entity.Product;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,7 +29,7 @@ public interface ProductMapper {
 
   List<Product> selectAllProduct();
 
-  List<ProductListItem> selectProductListOrderByPrice(Map<String, Object> map);
+  List<ProductListItem> selectProductListOrderByPrice(ParameterForProductList parameter);
 
   int insert(Product product);
 
@@ -37,9 +39,16 @@ public interface ProductMapper {
 
   int selectProductQuantity(Long id);
 
-  ProductDetailForOrder selectProductDetail(Long id);
+  List<ProductListItem> searchByWord(ParameterForSearchProductForKeyword parameter);
 
-  List<ProductListItem> searchByWord(Map<String, Object> map);
+  List<ProductListItem> searchSubCategoryProduct(
+      ParameterForSubCategorySearch parameterForSubCategorySearch);
 
-  List<ProductListItem> searchSubCategoryProduct(Map<String, Object> map);
+  ProductDetailForOrder selectProductDetailForOrder(Long id);
+  int selectProductListOrderByPriceTotalCount(ParameterForProductList parameter);
+
+  int searchByWordTotalCount(ParameterForSearchProductForKeyword parameter);
+
+  int searchSubCategoryProductTotalCount(
+      ParameterForSubCategorySearch parameterForSubCategorySearch);
 }

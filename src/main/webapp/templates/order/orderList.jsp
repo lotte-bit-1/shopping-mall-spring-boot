@@ -42,7 +42,7 @@
             text: errorMessage,
             footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
         }).then((result) => {
-            window.location.replace("/order.bit?view=list&cmd=get");
+            window.location.replace("/orders");
         });
     }
 </script>
@@ -59,7 +59,7 @@
                 <div class="breadcrumb__text">
                     <h4>Order List</h4>
                     <div class="breadcrumb__links">
-                        <a href="/main.bit">Home</a>
+                        <a href="/">Home</a>
                         <span>Order List</span>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                                 <tr>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
-                                            <a href="/product.bit?view=shop-detail&productId=${product.productId}">
+                                            <a href="/product/${product.productId}/detail">
                                                 <img src="${product.thumbnailUrl}" width="80" height="80" alt="">
                                             </a>
                                         </div>
