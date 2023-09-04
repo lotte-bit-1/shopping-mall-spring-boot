@@ -71,7 +71,7 @@ public class AddressMapperTest {
             .build();
 
     int insertedRow = addressMapper.insert(build);
-    List<Address> member2 = addressMapper.select(2L);
+    List<Address> member2 = (List<Address>) addressMapper.selectDefaultAddress(2L);
     Assertions.assertThat(member2.size()).isEqualTo(1);
   }
 }

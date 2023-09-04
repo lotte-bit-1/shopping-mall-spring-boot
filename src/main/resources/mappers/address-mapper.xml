@@ -12,7 +12,7 @@
              a.is_default  as isDefault
       FROM address as a
       WHERE a.member_id = #{id}
-        and a.is_default == true
+        and a.is_default = true
     </select>
       <select id="selectSubAddress" parameterType="Long" resultType="address">
       SELECT a.member_id   as memberId,
@@ -21,7 +21,7 @@
              a.zip_code    as zipCode,
              a.is_default  as isDefault
       FROM address as a
-      WHERE a.member_id = #{id} and a.is_default == false
+      WHERE a.member_id = #{id} and a.is_default = false
     </select>
     <select id="selectAll" resultType="address">
       SELECT a.member_id   as memberId,
