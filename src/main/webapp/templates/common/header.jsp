@@ -110,7 +110,7 @@
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                        <li><a href="/main.bit">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a href="/product/1/list">Shop</a></li>
                         <c:if test="${ !empty loginMember }">
                             <li><a href="/orders">Order List</a></li>

@@ -93,7 +93,7 @@
                                 <tr>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
-                                            <a href="/product.bit?view=shop-detail&productId=${product.productId}">
+                                            <a href="/product/${product.productId}/detail">
                                                 <img src="${product.thumbnailUrl}" width="80" height="80" alt="">
                                             </a>
                                         </div>
