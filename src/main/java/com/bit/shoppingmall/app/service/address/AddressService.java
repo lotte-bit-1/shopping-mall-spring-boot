@@ -1,8 +1,10 @@
 package com.bit.shoppingmall.app.service.address;
 
+import com.bit.shoppingmall.app.dto.address.response.AddressForMyPage;
 import com.bit.shoppingmall.app.entity.Address;
 import com.bit.shoppingmall.app.exception.address.AddressInsertException;
 import com.bit.shoppingmall.app.mapper.AddressMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,5 +27,11 @@ public class AddressService {
             .build();
     int insert = addressMapper.insert(address);
     if (insert == 0) throw new AddressInsertException();
+  }
+
+  public AddressForMyPage getAddressListByMemberId(Long memberId) {
+    Address defaultAddress = addressMapper.selectDefaultAddress(memberId);
+    List<Address> addresses = addressMapper.selectSubAddress(memberId);
+    return AddressForMyPage.getAddressListForMyPage(defaultAddress, addresses);
   }
 }

@@ -4,10 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.shoppingmall.app.mapper.AddressMapper">
 
-    <select id="select" parameterType="Long" resultType="address">
-        SELECT *
-        FROM address
-        WHERE id = #{id}
+    <select id="selectDefaultAddress" parameterType="Long" resultType="address">
+      SELECT a.member_id   as memberId,
+             a.road_name   as roadName,
+             a.addr_detail as addrDetail,
+             a.zip_code    as zipCode,
+             a.is_default  as isDefault
+      FROM address as a
+      WHERE a.member_id = #{id}
+        and a.is_default = true
+    </select>
+      <select id="selectSubAddress" parameterType="Long" resultType="address">
+      SELECT a.member_id   as memberId,
+             a.road_name   as roadName,
+             a.addr_detail as addrDetail,
+             a.zip_code    as zipCode,
+             a.is_default  as isDefault
+      FROM address as a
+      WHERE a.member_id = #{id} and a.is_default = false
     </select>
     <select id="selectAll" resultType="address">
       SELECT a.member_id   as memberId,
