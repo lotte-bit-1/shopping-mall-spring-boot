@@ -7,10 +7,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 @Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
 
