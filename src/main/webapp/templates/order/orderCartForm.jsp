@@ -43,7 +43,7 @@
                     <h4>Cart Order</h4>
                     <div class="breadcrumb__links">
                         <a href="/">Home</a>
-                        <a href="/">Cart</a>
+                        <a href="/carts">Cart</a>
                         <span>Cart Order</span>
                     </div>
                 </div>
