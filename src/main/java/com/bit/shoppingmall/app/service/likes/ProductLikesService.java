@@ -58,7 +58,7 @@ public class ProductLikesService {
     }
   }
 
-  public int addLikes(ProductAndMemberCompositeKey productAndMemberCompositeKey) {
+  public int addLikes(ProductAndMemberCompositeKey productAndMemberCompositeKey) throws Exception {
     int res = 0;
     try {
       res =
@@ -76,7 +76,7 @@ public class ProductLikesService {
     return res;
   }
 
-  public int removeLikes(ProductAndMemberCompositeKey productAndMemberCompositeKey) {
+  public int removeLikes(ProductAndMemberCompositeKey productAndMemberCompositeKey) throws Exception {
     int res = 0;
     try {
       res = likesMapper.delete(productAndMemberCompositeKey);
@@ -89,7 +89,7 @@ public class ProductLikesService {
     return res;
   }
 
-  public int removeSomeLikes(List<ProductAndMemberCompositeKey> keyList) {
+  public int removeSomeLikes(List<ProductAndMemberCompositeKey> keyList) throws Exception {
     int res = 0;
     try {
       for (ProductAndMemberCompositeKey key : keyList) {
