@@ -8,28 +8,39 @@ import com.bit.shoppingmall.app.entity.ProductOrder;
 import com.bit.shoppingmall.app.enums.DeliveryStatus;
 import com.bit.shoppingmall.app.enums.OrderStatus;
 import com.bit.shoppingmall.app.enums.PaymentType;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderCartCreateDto {
 
-  private Long memberId;
+  @JsonIgnore private Long memberId;
   private Long couponId;
-  private String roadName;
-  private String addrDetail;
-  private String zipCode;
+  @NotBlank(message = "도로명 주소를 입력해주세요.") private String roadName;
+  @NotBlank(message = "상세 주소를 입력해주세요.") private String addrDetail;
+  @NotBlank(message = "우편번호를 입력해주세요.") private String zipCode;
   private List<ProductDto> products;
-  private Long totalPrice;
+  @NotNull(message = "상품 총 가격을 입력해주세요.") private Long totalPrice;
 
   public void setMemberId(Long memberId) {
     this.memberId = memberId;
+  }
+
+  public void setCouponId(Long couponId) {
+    this.couponId = couponId;
   }
 
   public void setProducts(List<CartAndProductDto> cartAndProductDtos) {
@@ -71,17 +82,17 @@ public class OrderCartCreateDto {
         .build();
   }
 
-  public Payment toPaymentEntity(Long orderId) {
+  public Payment toPaymentEntity(Long orderId, Long discountPrice) {
     return Payment.builder()
         .orderId(orderId)
         .type(PaymentType.CASH.name())
-        .actualAmount(totalPrice)
+        .actualAmount(totalPrice - discountPrice)
         .build();
   }
 
   @Getter
   @AllArgsConstructor
-  public static class ProductDto {
+  public static class ProductDto implements Serializable {
 
     private Long productId;
     private Long price;

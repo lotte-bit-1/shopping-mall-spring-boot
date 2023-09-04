@@ -63,7 +63,7 @@
                     </div>
                     <div class="banner__item__text">
                         <h2>Clothing Collections 2030</h2>
-                        <a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Shop now</a>
+                        <a href="/product/1/list">Shop now</a>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="banner__item__text">
                         <h2>Accessories</h2>
-                        <a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Shop now</a>
+                        <a href="/product/1/list">Shop now</a>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="banner__item__text">
                         <h2>Shoes Spring 2030</h2>
-                        <a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Shop now</a>
+                        <a href="/product/1/list">Shop now</a>
                     </div>
                 </div>
             </div>

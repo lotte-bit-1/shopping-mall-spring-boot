@@ -21,16 +21,20 @@ public class OrderCreateDto {
 
   @JsonIgnore private Long memberId;
   private Long couponId;
-  @NotBlank private String roadName;
-  @NotBlank private String addrDetail;
-  @NotBlank private String zipCode;
-  @NotNull private Long productId;
-  @NotNull private Long price;
-  @NotNull private Long quantity;
-  @NotNull private Long totalPrice;
+  @NotBlank(message = "도로명 주소를 입력해주세요.") private String roadName;
+  @NotBlank(message = "상세 주소를 입력해주세요.") private String addrDetail;
+  @NotBlank(message = "우편번호를 입력해주세요.") private String zipCode;
+  @NotNull(message = "상품 id가 존재하지 않습니다.") private Long productId;
+  @NotNull(message = "상품 가격을 입력해주세요.") private Long price;
+  @NotNull(message = "상품 수량을 입력해주세요.") private Long quantity;
+  @NotNull(message = "상품 총 가격을 입력해주세요.") private Long totalPrice;
 
   public void setMemberId(Long memberId) {
     this.memberId = memberId;
+  }
+
+  public void setCouponId(Long couponId) {
+    this.couponId = couponId;
   }
 
   public Order toOrderEntity() {
@@ -60,11 +64,11 @@ public class OrderCreateDto {
         .build();
   }
 
-  public Payment toPaymentEntity(Long orderId) {
+  public Payment toPaymentEntity(Long orderId, Long discountPrice) {
     return Payment.builder()
         .orderId(orderId)
         .type(PaymentType.CASH.name())
-        .actualAmount(totalPrice)
+        .actualAmount(totalPrice - discountPrice)
         .build();
   }
 }

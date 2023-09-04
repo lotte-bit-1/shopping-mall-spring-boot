@@ -18,14 +18,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../../../resources/static/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 <style>
     .product__checkbox {
@@ -94,7 +94,7 @@
                                     </div>
                                 </td>
                                 <td class="product__cart__item">
-                                    <a href="/product.bit?view=shop-detail&productId=${product.id}">
+                                    <a href="/product/${product.id}/detail">
                                         <div class="product__cart__item__pic">
                                             <img alt="" src="${product.url}" width="200px"
                                                  height="150px">
@@ -102,7 +102,7 @@
                                     </a>
                                 </td>
                                 <td class="product__cart__item">
-                                    <a href="/product.bit?view=shop-detail&productId=${product.id}">
+                                    <a href="/product/${product.id}/detail">
                                         <div class="quantity__item">
                                             <h6>${product.name}</h6>
                                         </div>
@@ -166,7 +166,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn">
-                            <a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Continue
+                            <a href="/product/1/list">Continue
                                 Shopping</a>
                         </div>
                     </div>
@@ -188,10 +188,10 @@
 
 <!-- Js Plugins -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../../../resources/static/js/jquery-3.3.1.min.js"></script>
-<script src="../../../resources/static/js/bootstrap.min.js"></script>
-<script src="../../../resources/static/js/likesList.js"></script>
-<script src="../../../resources/static/js/main.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/likesList.js"></script>
+<script src="/js/main.js"></script>
 </body>
 
 </html>

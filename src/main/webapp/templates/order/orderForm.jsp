@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 
@@ -35,6 +34,22 @@
 <jsp:include page="../common/header.jsp"/>
 <!-- Header Section End -->
 
+<script>
+    const hostName = location.host;
+    const queryParameters = new URLSearchParams(decodeURI(location.search));
+    const errorMessage = queryParameters.get("errorMessage");
+    if (errorMessage !== null) {
+        Swal.fire({
+            icon: 'error',
+            title: "ERROR",
+            text: errorMessage,
+            footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
+        }).then((result) => {
+            window.location.replace("http://" + hostName);
+        });
+    }
+</script>
+
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-option">
     <div class="container">
@@ -43,8 +58,8 @@
                 <div class="breadcrumb__text">
                     <h4>Direct Order</h4>
                     <div class="breadcrumb__links">
-                        <a href="../../index.html">Home</a>
-                        <a href="../../shop.html">Product</a>
+                        <a href="/">Home</a>
+                        <a href="/product/${product.id}/detail">Product Details</a>
                         <span>Direct Order</span>
                     </div>
                 </div>
@@ -100,7 +115,7 @@
                             <p>쿠폰 선택<span></span></p>
                             <select id="coupon" name="couponId" class="checkout__input__add"
                                     onchange="updateTotalPrice()">
-                                <option value="">적용 안함</option>
+                                <option value="0">적용 안함</option>
                                 <c:forEach var="coupon" items="${coupons}">
                                     <option id="${coupon.discountValue}" name="${coupon.discountPolicy}"
                                             value="${coupon.id}">${coupon.name}</option>
@@ -159,147 +174,7 @@
 <script src="/js/mixitup.min.js"></script>
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/main.js"></script>
-
-<%--화면단의 총 가격 업데이트--%>
-<script>
-    const productItems = document.querySelectorAll(".product-item");
-    const calculatedTotalElem = document.getElementById("calculated-total");
-    const calculatedTotalPrice = document.getElementById("totalPrice");
-    const calculatedDiscountPrice = document.getElementById("discountPrice");
-    const couponSelect = document.getElementById("coupon");
-
-    let total = 0;
-
-    function updateTotalPrice() {
-        let calculatedTotal = total;
-
-        productItems.forEach(item => {
-            const productPrice = parseInt(item.querySelector(".product-price").value);
-            const productQuantity = parseInt(item.querySelector(".product-quantity").value);
-
-            const totalItemPrice = productPrice * productQuantity;
-            calculatedTotal += totalItemPrice;
-        });
-
-        const selectedOption = couponSelect.options[couponSelect.selectedIndex];
-        const couponDiscountPolicy = selectedOption.getAttribute("name");
-        const couponDiscountValue = parseInt(selectedOption.getAttribute("id"));
-
-        calculatedDiscountPrice.textContent = '0원';
-        if (couponDiscountPolicy === 'CASH') {
-            calculatedTotal -= couponDiscountValue;
-            calculatedDiscountPrice.textContent = '-' + couponDiscountValue + '원';
-        }
-        if (couponDiscountPolicy === 'DISCOUNT') {
-            calculatedTotal -= (calculatedTotal * (couponDiscountValue / 100));
-            calculatedDiscountPrice.textContent = '-' + (calculatedTotal * (couponDiscountValue / 100)) + '원';
-        }
-
-        calculatedTotalElem.textContent = calculatedTotal < 0 ? 0 : calculatedTotal + '원';
-        calculatedTotalPrice.value = calculatedTotal < 0 ? 0 : calculatedTotal;
-    }
-
-    // 초기 총 가격 계산
-    updateTotalPrice();
-</script>
-<%--주소 검색 로직--%>
-<script>
-    function getDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function (data) {
-                let roadName = data.roadAddress;
-                let addrDetail = data.jibunAddress;
-                let zipCode = data.zonecode;
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                let roadNameInput = document.getElementById('roadName');
-                let addrDetailInput = document.getElementById("addrDetail");
-                let zipCodeInput = document.getElementById('zipCode');
-                roadNameInput.value = roadName;
-                addrDetailInput.value = addrDetail;
-                zipCodeInput.value = zipCode;
-            }
-        }).open();
-    }
-</script>
-
-<%--카카오 페이 결제하기 버튼 클릭 전의 validation 이벤트--%>
-<script>
-    const paymentBtn = document.getElementById("payment-btn");
-    paymentBtn.addEventListener('click', () => {
-        const memberName = document.getElementById("memberName").value;
-        const roadName = document.getElementById("roadName").value;
-        const addrDetail = document.getElementById("addrDetail").value;
-        const zipCode = document.getElementById("zipCode").value;
-        if (memberName === '' || roadName === '' || addrDetail === '' || zipCode === '') {
-            Swal.fire({
-                icon: 'error',
-                title: "ERROR",
-                text: '모든 필드를 입력해주세요.',
-                footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
-            });
-        } else {
-            kakaoPay();
-        }
-    })
-</script>
-
-<%--카카오 페이 결제하기--%>
-<script>
-    function kakaoPay() {
-        const calculatedTotalPrice = document.getElementById("totalPrice").value;
-        const roadName = document.getElementById('roadName').value;
-        const zipCode = document.getElementById('zipCode').value;
-
-        var IMP = window.IMP;
-        IMP.init('imp11402415');
-        IMP.request_pay({
-            pg: 'kakaopay',
-            pay_method: 'card',
-            merchant_uid: "order_no_" + new Date().getTime(),
-            name: '<c:out value="${product.name}"/>',
-            amount: calculatedTotalPrice,
-            buyer_email: 'test@naver.com',
-            buyer_name: '<c:out value="${memberName}"/>',
-            buyer_tel: '010-1234-5678',
-            buyer_addr: roadName,
-            buyer_postcode: zipCode,
-            m_redirect_url: 'http://localhost:8080'
-        }, function (response) {
-            // 실패 시
-            if (!response.success) {
-                Swal.fire({
-                    icon: 'error',
-                    title: "ERROR",
-                    text: response.error_msg,
-                    footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
-                });
-            } else {
-                const form = document.getElementById('order-form');
-                const formData = new FormData(form);
-                const jsonObject = Object.fromEntries(formData);
-                const jsonString = JSON.stringify(jsonObject);
-                $.ajax({
-                    type: "POST",
-                    url: "/api/orders",
-                    data: jsonString,
-                    contentType: "application/json",
-                    error: function (request, status, error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: "ERROR",
-                            text: request.responseText,
-                            footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
-                        });
-                    },
-                    success: function (orderId) {
-                        window.location.replace(`/orders/` + orderId);
-                    }
-                });
-            }
-        });
-    }
-</script>
+<script src="/js/orders/orderForm.js"></script>
 
 </body>
 

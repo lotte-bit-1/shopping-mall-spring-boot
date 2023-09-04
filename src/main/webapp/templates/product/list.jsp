@@ -11,14 +11,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../../../resources/static/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../resources/static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 
 <body>
@@ -30,6 +30,22 @@
 <jsp:include page="../common/header.jsp"/>
 <!-- Header Section End -->
 
+<script>
+    const hostName = location.host;
+    const queryParameters = new URLSearchParams(decodeURI(location.search));
+    const errorMessage = queryParameters.get("errorMessage");
+    if (errorMessage !== null) {
+        Swal.fire({
+            icon: 'error',
+            title: "ERROR",
+            text: errorMessage,
+            footer: '<a href="https://github.com/lotte-bit-1/shopping-mall-servlet-jsp/issues">이슈 남기러 가기</a>'
+        }).then((result) => {
+            window.location.replace("http://" + hostName);
+        });
+    }
+</script>
+
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-option">
     <div class="container">
@@ -38,8 +54,8 @@
                 <div class="breadcrumb__text">
                     <h4>Shop</h4>
                     <div class="breadcrumb__links">
-                        <a href="main.bit">Home</a>
-                        <a href="/product.bit?view=shop&curPage=1&sort=PRICE_ASC">Shop</a>
+                        <a href="/">Home</a>
+                        <a href="/product/1/list">Shop</a>
                     </div>
                 </div>
             </div>
@@ -69,7 +85,7 @@
                                             <ul class="nice-scroll">
                                                 <c:forEach var="category" items="${categories}">
                                                     <li>
-                                                        <a href="/product.bit?view=category&keyword=${category.name}&curPage=1">${category.name}</a>
+                                                        <a href="/product/1/category?keyword=${category.name}">${category.name}</a>
                                                     </li>
                                                 </c:forEach>
                                             </ul>
@@ -92,12 +108,12 @@
                 </div>
                 <c:choose>
                     <c:when test="${not empty error}">
-                        <div class="d-flex justify-content-center">검색된 상품이 없습니다.</div>
+                        <div class="d-flex justify-content-center">${error}</div>
                     </c:when>
                     <c:otherwise>
                         <%--  product item list --%>
                         <div class="row" id="common-parent-element">
-                            <c:forEach var="product" items="${productList.item}">
+                            <c:forEach var="product" items="${products}">
                                 <%-- each item --%>
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
@@ -110,7 +126,8 @@
                                                            data-product-id="${product.id}"
                                                            data-login-info="${loginMember}"
                                                         ><img
-                                                                src="img/icon/heart.png" alt=""></a>
+                                                                src="/img/icon/heart.png"
+                                                                alt=""></a>
                                                     </li>
                                                 </c:if>
                                                 <c:if test="${product.isLiked}">
@@ -118,19 +135,20 @@
                                                         <a href="#" class="likes-cancel-btn"
                                                            data-product-id="${product.id}"
                                                            data-login-info="${loginMember}"><img
-                                                                src="img/icon/fill_heart.png"
+                                                                src="/img/icon/fill_heart.png"
                                                                 alt=""></a>
                                                     </li>
                                                 </c:if>
                                                 <li>
-                                                    <a href="/product.bit?view=shop-detail&productId=${product.id}"><img
-                                                            src="img/icon/search.png" alt=""></a>
+                                                    <a href="/product/${product.id}/detail"><img
+                                                            src="/img/icon/search.png" alt=""></a>
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
                                             <h6>${product.name}</h6>
-                                            <a href="#" data-product-id="${product.id}" class="add-cart">+ Add To
+                                            <a href="#" data-product-id="${product.id}"
+                                               class="add-cart">+ Add To
                                                 Cart</a>
                                                 <%-- price--%>
                                             <h5>${product.price}원</h5>
@@ -142,45 +160,45 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="product__pagination">
-                                    <c:if test="${productList.paging.currentPage > 1}">
+                                    <c:if test="${page.currentPage > 1}">
                                         <a class="mr-3"
-                                           href="/product.bit?view=shop&curPage=${productList.paging.currentPage - 1}&sort=PRICE_ASC">PREV</a>
+                                           href="/product/${page.currentPage - 1}/list">PREV</a>
                                     </c:if>
 
                                     <c:set var="startPage"
-                                           value="${productList.paging.currentPage - 2}"/>
+                                           value="${page.currentPage - 2}"/>
                                     <c:set var="endPage"
-                                           value="${productList.paging.currentPage + 2}"/>
+                                           value="${page.currentPage + 2}"/>
 
                                     <c:if test="${startPage < 1}">
                                         <c:set var="startPage" value="1"/>
                                         <c:set var="endPage" value="5"/>
                                     </c:if>
 
-                                    <c:if test="${endPage > productList.paging.totalPage}">
+                                    <c:if test="${endPage > page.totalPage}">
                                         <c:set var="endPage"
-                                               value="${productList.paging.totalPage}"/>
+                                               value="${page.totalPage}"/>
                                         <c:set var="startPage"
-                                               value="${productList.paging.totalPage - 4}"/>
+                                               value="${page.totalPage - 4}"/>
                                         <c:choose>
                                             <c:when test="${startPage < 1}">
                                                 <c:set var="startPage" value="1"/>
                                             </c:when>
                                         </c:choose>
                                     </c:if>
-                                    <c:forEach begin="${startPage}" end="${endPage}" var="page">
+                                    <c:forEach begin="${startPage}" end="${endPage}" var="p">
                                         <c:choose>
-                                            <c:when test="${page == productList.paging.currentPage}">
-                                                <a id="curPage">${page}</a>
+                                            <c:when test="${p == page.currentPage}">
+                                                <a class="active" id="curPage">${p}</a>
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="/product.bit?view=shop&curPage=${page}&sort=PRICE_ASC">${page}</a>
+                                                <a href="/product/${p}/list">${p}</a>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
 
-                                    <c:if test="${productList.paging.currentPage < productList.paging.totalPage}">
-                                        <a href="/product.bit?view=shop&curPage=${productList.paging.currentPage + 1}&sort=PRICE_ASC">NEXT</a>
+                                    <c:if test="${page.currentPage < page.totalPage}">
+                                        <a href="/product/${page.currentPage + 1}/list">NEXT</a>
                                     </c:if>
                                 </div>
 
@@ -200,17 +218,17 @@
 <jsp:include page="../common/search.jsp"/>
 
 <!-- Js Plugins -->
-<script src="../../../resources/static/js/jquery-3.3.1.min.js"></script>
-<script src="../../../resources/static/js/bootstrap.min.js"></script>
-<script src="../../../resources/static/js/jquery.nice-select.min.js"></script>
-<script src="../../../resources/static/js/jquery.nicescroll.min.js"></script>
-<script src="../../../resources/static/js/jquery.magnific-popup.min.js"></script>
-<script src="../../../resources/static/js/jquery.countdown.min.js"></script>
-<script src="../../../resources/static/js/jquery.slicknav.js"></script>
-<script src="../../../resources/static/js/mixitup.min.js"></script>
-<script src="../../../resources/static/js/owl.carousel.min.js"></script>
-<script src="../../../resources/static/js/main.js"></script>
-<script src="../../../resources/static/js/likes.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/likes.js"></script>
 
 </body>
 

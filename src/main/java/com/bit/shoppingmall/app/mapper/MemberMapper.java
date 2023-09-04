@@ -1,6 +1,7 @@
 package com.bit.shoppingmall.app.mapper;
 
 import com.bit.shoppingmall.app.dto.member.request.LoginDto;
+import com.bit.shoppingmall.app.dto.member.response.MypageMemberDetail;
 import com.bit.shoppingmall.app.dto.member.response.OrderMemberDetail;
 import com.bit.shoppingmall.app.entity.Member;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,6 +20,8 @@ public interface MemberMapper {
     Optional<Member> selectByEmail(String email);
 
     Optional<OrderMemberDetail> selectAddressAndCouponById(Long id);
+
+    Optional<MypageMemberDetail> selectMypageById(Long id);
 
     List<Member> selectAll();
 
