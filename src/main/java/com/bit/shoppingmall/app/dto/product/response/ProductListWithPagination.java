@@ -25,7 +25,6 @@ public class ProductListWithPagination {
   public static ProductListWithPagination makeListWithPaging(
       List<ProductListItem> item, int totalPage, int currentPage) {
     int perPage = 9;
-//    int totalPage = (int) Math.ceil(totalCount / perPage);
 
     Pagination paging =
         Pagination.builder().perPage(perPage).totalPage(totalPage).currentPage(currentPage).build();
