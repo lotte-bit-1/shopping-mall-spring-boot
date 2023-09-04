@@ -29,11 +29,11 @@ public class OrderCartCreateDto {
 
   @JsonIgnore private Long memberId;
   private Long couponId;
-  @NotBlank private String roadName;
-  @NotBlank private String addrDetail;
-  @NotBlank private String zipCode;
+  @NotBlank(message = "도로명 주소를 입력해주세요.") private String roadName;
+  @NotBlank(message = "상세 주소를 입력해주세요.") private String addrDetail;
+  @NotBlank(message = "우편번호를 입력해주세요.") private String zipCode;
   private List<ProductDto> products;
-  @NotNull private Long totalPrice;
+  @NotNull(message = "상품 총 가격을 입력해주세요.") private Long totalPrice;
 
   public void setMemberId(Long memberId) {
     this.memberId = memberId;
