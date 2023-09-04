@@ -72,6 +72,7 @@ public class ProductLikesService {
       throw new LikesEntityDuplicateException();
     } catch (Exception e) {
       e.printStackTrace();
+      throw e;
     }
     return res;
   }
