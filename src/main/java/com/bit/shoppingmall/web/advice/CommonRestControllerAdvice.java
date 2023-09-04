@@ -5,6 +5,8 @@ import com.bit.shoppingmall.app.exception.likes.LikesEntityDuplicateException;
 import com.bit.shoppingmall.app.exception.likes.LikesEntityNotFoundException;
 import com.bit.shoppingmall.app.exception.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,18 @@ public class CommonRestControllerAdvice {
                 .code(String.valueOf(statusCode))
                 .message(e.getMessage())
                 .validation(e.getValidation())
+                .build();
+
+        return ResponseEntity.status(statusCode).body(body);
+    }
+
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<ErrorResponse> duplicateKeyException(DuplicateKeyException e) {
+        int statusCode = HttpStatus.BAD_REQUEST.value();
+
+        ErrorResponse body = ErrorResponse.builder()
+                .code(String.valueOf(statusCode))
+                .message(e.getMessage())
                 .build();
 
         return ResponseEntity.status(statusCode).body(body);

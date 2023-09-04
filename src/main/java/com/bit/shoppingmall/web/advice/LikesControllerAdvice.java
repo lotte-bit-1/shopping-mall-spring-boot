@@ -25,16 +25,4 @@ public class LikesControllerAdvice {
     model.addAttribute("errorMessage", e.getMessage());
     return new ModelAndView("redirect:/likes");
   }
-
-  @ExceptionHandler(LikesEntityDuplicateException.class)
-  public ResponseEntity<ErrorResponse> likesEntityDuplicateException(LikesEntityDuplicateException e) {
-    int statusCode = e.getStatusCode();
-
-    ErrorResponse body = ErrorResponse.builder()
-            .code(String.valueOf(statusCode))
-            .message(e.getMessage())
-            .build();
-
-    return ResponseEntity.status(statusCode).body(body);
-  }
 }

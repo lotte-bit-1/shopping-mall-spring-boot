@@ -7,7 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 
 @Getter
-public class LikesEntityDuplicateException extends DataIntegrityViolationException {
+public class LikesEntityDuplicateException extends DuplicateKeyException {
 
   private static final String message = "이미 추가된 상품입니다.";
 
