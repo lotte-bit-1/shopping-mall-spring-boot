@@ -29,17 +29,25 @@ public class LikesRestController {
   @PostMapping("/{productId}")
   public ResponseEntity<Integer> addLikes(@PathVariable Long productId,
       @SessionAttribute("loginMember") MemberDetail loginMember) throws Exception {
-    return new ResponseEntity<>(likesService.addLikes(
-        ProductAndMemberCompositeKey.builder().productId(productId).memberId(loginMember.getId())
-            .build()), HttpStatus.CREATED);
+    int res = likesService.addLikes(
+        ProductAndMemberCompositeKey.builder()
+            .productId(productId)
+            .memberId(loginMember.getId())
+            .build()
+    );
+    return new ResponseEntity<>(res, HttpStatus.CREATED);
   }
 
   @DeleteMapping("/{productId}")
   public ResponseEntity<Integer> cancelLikes(@PathVariable Long productId,
       @SessionAttribute("loginMember") MemberDetail loginMember) throws Exception {
-    return ResponseEntity.ok().body(likesService.removeLikes(
-        ProductAndMemberCompositeKey.builder().productId(productId).memberId(loginMember.getId())
-            .build()));
+    int res = likesService.removeLikes(
+        ProductAndMemberCompositeKey.builder()
+            .productId(productId)
+            .memberId(loginMember.getId())
+            .build()
+    );
+    return ResponseEntity.ok().body(res);
   }
 
   @DeleteMapping("/some")
@@ -48,11 +56,14 @@ public class LikesRestController {
     List<ProductAndMemberCompositeKey> compKey = new ArrayList<>();
     for (Long productId : productIdList) {
       compKey.add(
-          ProductAndMemberCompositeKey.builder().productId(productId).memberId(loginMember.getId())
+          ProductAndMemberCompositeKey.builder()
+              .productId(productId)
+              .memberId(loginMember.getId())
               .build()
       );
     }
-    return ResponseEntity.ok().body(likesService.removeSomeLikes(compKey));
+    int res = likesService.removeSomeLikes(compKey);
+    return ResponseEntity.ok().body(res);
   }
 
 }
