@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -79,45 +80,37 @@
                     </div>
 
                     <div>
-                        <h5 class="checkout__title__custom">주소지</h5>
-                        <c:forEach var="address" items="${memberInfo.address}" varStatus="loop">
-                            <div>${address.roadName}</div>
-                            <div>${address.addrDetail}</div>
-                            <div>${address.zipCode}</div>
-                        </c:forEach>
+                        <div class="row justify-content-center">
+                            <h5 class="checkout__title__custom">주소지</h5>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModal">
+                                Launch demo modal
+                            </button>
+                        </div>
+
+
+                        <c:if test="${not empty defaultError}">
+                            <div>${defaultError}</div>
+                        </c:if>
+                        <c:if test="${empty defaultError}">
+                            <h4>기본 배송지</h4>
+                            <div>${defaultAddr.roadName}</div>
+                            <div>${defaultAddr.addrDetail}</div>
+                            <div>${defaultAddr.zipCode}</div>
+                        </c:if>
+                        <br/>
+                        <c:if test="${not empty subError}">
+                            <div>${subError}</div>
+                        </c:if>
+                        <c:if test="${empty subError}">
+                            <c:forEach var="address" items="${sub}" varStatus="loop">
+                                <div>${address.roadName}</div>
+                                <div>${address.addrDetail}</div>
+                                <div>${address.zipCode}</div>
+                            </c:forEach>
+                        </c:if>
                     </div>
-
-<%--                    <div class="checkout__input">--%>
-<%--                        <p>주소<span>*</span></p>--%>
-<%--                        <input type="text" placeholder="도로명 주소" class="checkout__input__add"--%>
-<%--                               id="roadName"--%>
-<%--                               name="roadName"--%>
-<%--                               value="<c:if test="${defaultAddress.roadName != null}">${defaultAddress.roadName}</c:if>"--%>
-<%--                               required--%>
-<%--                               onclick="getDaumPostcode()" readonly--%>
-<%--                               oninvalid="this.setCustomValidity('도로명 주소를 입력해주세요.')"--%>
-<%--                               oninput="this.setCustomValidity('')" style="color: black;">--%>
-<%--                        <input type="text" placeholder="상세 주소" class="checkout__input__add"--%>
-<%--                               id="addrDetail"--%>
-<%--                               name="addrDetail"--%>
-<%--                               value="<c:if test="${defaultAddress.addrDetail != null}">${defaultAddress.addrDetail}</c:if>"--%>
-<%--                               required--%>
-<%--                               onclick="getDaumPostcode()" readonly--%>
-<%--                               oninvalid="this.setCustomValidity('상세 주소를 입력해주세요.')"--%>
-<%--                               oninput="this.setCustomValidity('')" style="color: black;">--%>
-<%--                    </div>--%>
-<%--                    <div class="checkout__input">--%>
-<%--                        <p>우편번호<span>*</span></p>--%>
-<%--                        <input type="text" placeholder="우편번호" class="checkout__input__add"--%>
-<%--                               id="zipCode"--%>
-<%--                               name="zipCode"--%>
-<%--                               value="<c:if test="${defaultAddress.zipCode != null}">${defaultAddress.zipCode}</c:if>"--%>
-<%--                               required--%>
-<%--                               onclick="getDaumPostcode()" readonly--%>
-<%--                               oninvalid="this.setCustomValidity('우편번호를 입력해주세요.')"--%>
-<%--                               oninput="this.setCustomValidity('')" style="color: black;">--%>
-<%--                    </div>--%>
-
                     <div class="checkout__input">
                         <h5 class="checkout__title__custom">쿠폰 목록</h5>
                         <select id="coupon" name="couponId" class="checkout__input__add">
@@ -133,6 +126,54 @@
     </div>
 </section>
 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="checkout__input">
+                    <p>주소<span>*</span></p>
+                    <input type="text" placeholder="도로명 주소" class="checkout__input__add"
+                           id="roadName"
+                           name="roadName"
+                           required
+                           onclick="getDaumPostcode()" readonly
+                           oninvalid="this.setCustomValidity('도로명 주소를 입력해주세요.')"
+                           oninput="this.setCustomValidity('')" style="color: black;">
+                    <input type="text" placeholder="상세 주소" class="checkout__input__add"
+                           id="addrDetail"
+                           name="addrDetail"
+                           required
+                           onclick="getDaumPostcode()" readonly
+                           oninvalid="this.setCustomValidity('상세 주소를 입력해주세요.')"
+                           oninput="this.setCustomValidity('')" style="color: black;">
+                </div>
+                <div class="checkout__input">
+                    <p>우편번호<span>*</span></p>
+                    <input type="text" placeholder="우편번호" class="checkout__input__add"
+                           id="zipCode"
+                           name="zipCode"
+                           required
+                           onclick="getDaumPostcode()" readonly
+                           oninvalid="this.setCustomValidity('우편번호를 입력해주세요.')"
+                           oninput="this.setCustomValidity('')" style="color: black;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <a id="addrSubmit" type="button" class="btn btn-primary" data-dismiss="modal">주소 추가하기</a>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- mypage end -->
 
 <!-- footer begin -->
@@ -152,7 +193,7 @@
 <script src="/js/mixitup.min.js"></script>
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/main.js"></script>
-
+<script src="/js/address/address.js"></script>
 </body>
 
 </html>
