@@ -16,5 +16,5 @@ public class AddressInfo {
   private Long id;
   private String roadName;
   private String addrDetail;
-  private String zipcode;
+  private String zipCode;
 }
