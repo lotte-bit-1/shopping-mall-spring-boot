@@ -14,8 +14,10 @@ public class AddItemInCart {
   private final CartMapper dao;
   public void add(ProductAndMemberCompositeKey compKey, Long requestQuantity){
     Optional<Cart> cartOptional = dao.select(compKey);
-    cartOptional.ifPresent(cart -> addItemStrategy.put(cart, requestQuantity));
-    dao.insert(Cart.cartBuilder(compKey,requestQuantity));
+    if (cartOptional.isEmpty()) {
+      dao.insert(Cart.cartBuilder(compKey, requestQuantity));
+    }
+    cartOptional.ifPresent(cart -> addItemStrategy.put(cart, cart.getProductQuantity() + requestQuantity));
   }
 
 }
