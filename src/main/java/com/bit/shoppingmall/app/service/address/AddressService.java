@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.app.service.address;
 
+import com.bit.shoppingmall.app.dto.address.AddressInfo;
 import com.bit.shoppingmall.app.dto.address.response.AddressForMyPage;
 import com.bit.shoppingmall.app.entity.Address;
 import com.bit.shoppingmall.app.exception.address.AddressInsertException;
@@ -16,7 +17,7 @@ public class AddressService {
   private final AddressMapper addressMapper;
 
   @Transactional
-  public void addAddress(Address addr, Long memberId) {
+  public void addAddress(AddressInfo addr, Long memberId) {
     Address address =
         Address.builder()
             .memberId(memberId)
