@@ -37,6 +37,7 @@ public class CartController {
       model.addAttribute("productList",
           productsInCart.getCartProductInfoDto().getCartProductDtoList());
       model.addAttribute("totalPrice", productsInCart.getCartProductInfoDto().getTotalPrice());
+      model.addAttribute("pagination", productsInCart.getPaging());
       log.info("List of model: " + model.getAttribute("productList"));
     }
     return "cart/cart";

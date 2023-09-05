@@ -25,6 +25,15 @@
     </resultMap>
 
 
+    <select id="select-pagination" parameterType="com.bit.shoppingmall.app.entity.ProductAndMemberCompositeKey" resultMap="cart">
+
+        SELECT *
+        FROM cart
+        WHERE member_id = #{memberId}
+        and product_id = #{productId}
+        range #{start} AND #{end}
+    </select>
+
     <select id="getCartTotalPage" resultType="Long" parameterType="Long">
         SELECT CEIL(COUNT(*) / 10)
         FROM cart
