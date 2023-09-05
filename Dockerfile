@@ -14,7 +14,7 @@ RUN chmod +x ./gradlew
 RUN ./gradlew clean bootWar
 
 FROM adoptopenjdk/openjdk11
-COPY --from=builder build/libs/shopping-mall-spring-0.0.1-SNAPSHOT-plain.war app.war
+COPY --from=builder /build/libs/shopping-mall-spring-0.0.1-SNAPSHOT-plain.war app.war
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", \
     "-Dspring.datasource.url=${DATABASE_URL}", \
