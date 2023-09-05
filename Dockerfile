@@ -1,7 +1,5 @@
 FROM adoptopenjdk/openjdk11 AS builder
 
-WORKDIR /app
-
 ENV DATABASE_URL e
 ENV DATABASE_USERNAME e
 ENV DATABASE_PASSWORD e
