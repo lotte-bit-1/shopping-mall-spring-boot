@@ -1,4 +1,4 @@
-FROM openjdk:11-alpine-slim AS builder
+FROM adoptopenjdk/openjdk11 AS builder
 
 ENV DATABASE_URL e
 ENV DATABASE_USERNAME e
@@ -12,7 +12,7 @@ COPY shopping-mall-spring-boot/src src
 RUN chmod +x ./gradlew
 RUN ./gradlew clean bootJar
 
-FROM openjdk:11-alpine-slim
+FROM adoptopenjdk/openjdk11
 COPY --from=builder build/libs/*.jar app.jar
 
 ENTRYPOINT ["java", "-jar", \
