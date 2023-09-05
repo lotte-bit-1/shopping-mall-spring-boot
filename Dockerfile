@@ -11,7 +11,7 @@ COPY shopping-mall-spring-boot/build.gradle .
 COPY shopping-mall-spring-boot/settings.gradle .
 COPY shopping-mall-spring-boot/src src
 RUN chmod +x ./gradlew
-RUN ./gradlew clean war
+RUN ./gradlew clean bootWar
 
 FROM adoptopenjdk/openjdk11
 COPY --from=builder build/libs/shopping-mall-spring-0.0.1-SNAPSHOT-plain.war app.war
