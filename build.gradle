@@ -2,6 +2,11 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.15'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'war'
+}
+
+war {
+    webAppDirectory = file('src/main/webapp')
 }
 
 group = 'com.bit'
@@ -16,6 +21,7 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
+
 
 repositories {
     mavenCentral()

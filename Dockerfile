@@ -11,10 +11,10 @@ COPY shopping-mall-spring-boot/build.gradle .
 COPY shopping-mall-spring-boot/settings.gradle .
 COPY shopping-mall-spring-boot/src src
 RUN chmod +x ./gradlew
-RUN ./gradlew clean bootJar
+RUN ./gradlew clean war
 
 FROM adoptopenjdk/openjdk11
-COPY --from=builder build/libs/*.jar app.jar
+COPY --from=builder build/libs/*.war app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", \
     "-Dspring.datasource.url=${DATABASE_URL}", \
