@@ -21,6 +21,5 @@ public class ThrowAnErrorUnder0Quantity implements
     if (cart.getProductQuantity() < requestQuantity) {
       throw new DecreaseUnder0ProhibitedException();
     }
-    dao.delete(Cart.getCompKey(cart));
   }
 }
