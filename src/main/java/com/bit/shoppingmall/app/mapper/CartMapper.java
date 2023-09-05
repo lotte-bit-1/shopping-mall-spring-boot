@@ -6,7 +6,6 @@ import com.bit.shoppingmall.app.entity.ProductAndMemberCompositeKey;
 import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 @Mapper
 public interface CartMapper {

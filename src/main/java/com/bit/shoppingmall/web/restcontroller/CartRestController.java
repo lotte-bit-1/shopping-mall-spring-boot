@@ -32,7 +32,7 @@ public class CartRestController {
   }
 
 
-  @PostMapping("/api/products/{productId}")
+  @PostMapping("/api/carts/products/{productId}")
   public ResponseEntity<String> addCart(@PathVariable Long productId,
       Long requestQuantity) {
     memberId = getMemberId();
