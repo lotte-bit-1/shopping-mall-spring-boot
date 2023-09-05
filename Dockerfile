@@ -10,7 +10,7 @@ ENV DATABASE_PASSWORD e
 COPY shopping-mall-spring-boot/build.gradle .
 COPY shopping-mall-spring-boot/settings.gradle .
 COPY shopping-mall-spring-boot/src ./src
-RUN gradle clean build -x test
+RUN gradle clean build
 
 FROM adoptopenjdk/openjdk11
 WORKDIR /app
