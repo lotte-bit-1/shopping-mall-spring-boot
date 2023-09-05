@@ -1,18 +1,19 @@
 FROM adoptopenjdk/openjdk11 AS builder
 
+WORKDIR /app
+
 ENV DATABASE_URL e
 ENV DATABASE_USERNAME e
 ENV DATABASE_PASSWORD e
 
-COPY shopping-mall-spring-boot/gradlew .
-COPY shopping-mall-spring-boot/gradle gradle
+
 COPY shopping-mall-spring-boot/build.gradle .
 COPY shopping-mall-spring-boot/settings.gradle .
-COPY shopping-mall-spring-boot/src src
-RUN chmod +x ./gradlew
-RUN ./gradlew clean bootJar
+COPY shopping-mall-spring-boot/src ./src
+RUN gradle clean build -x test
 
 FROM adoptopenjdk/openjdk11
+WORKDIR /app
 COPY --from=builder build/libs/*.jar app.jar
 
 ENTRYPOINT ["java", "-jar", \
