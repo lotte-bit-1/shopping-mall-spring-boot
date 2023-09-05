@@ -14,10 +14,10 @@ RUN chmod +x ./gradlew
 RUN ./gradlew clean war
 
 FROM adoptopenjdk/openjdk11
-COPY --from=builder build/libs/*.war app.jar
+COPY --from=builder build/libs/*.war app.war
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", \
     "-Dspring.datasource.url=${DATABASE_URL}", \
     "-Dspring.datasource.username=${DATABASE_USERNAME}", \
     "-Dspring.datasource.password=${DATABASE_PASSWORD}", \
-    "/app.jar"]
+    "/app.war"]
