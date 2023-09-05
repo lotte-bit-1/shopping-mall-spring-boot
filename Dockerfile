@@ -1,4 +1,4 @@
-FROM openjdk:11-alpine-slim
+FROM openjdk:11-alpine-slim AS builder
 
 ENV DATABASE_URL e
 ENV DATABASE_USERNAME e
