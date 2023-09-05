@@ -1,5 +1,22 @@
 FROM openjdk:11-alpine-slim
 
-COPY build/libs/shopping-mall-spring-0.0.1-SNAPSHOT.jar /app.jar
+ENV DATABASE_URL e
+ENV DATABASE_USERNAME e
+ENV DATABASE_PASSWORD e
 
-CMD ["java", "-jar", "/app.jar"]
+COPY shopping-mall-spring-boot/gradlew .
+COPY shopping-mall-spring-boot/gradle gradle
+COPY shopping-mall-spring-boot/build.gradle .
+COPY shopping-mall-spring-boot/settings.gradle .
+COPY shopping-mall-spring-boot/src src
+RUN chmod +x ./gradlew
+RUN ./gradlew clean bootJar
+
+FROM openjdk:11-alpine-slim
+COPY --from=builder build/libs/*.jar app.jar
+
+ENTRYPOINT ["java", "-jar", \
+    "-Dspring.datasource.url=${DATABASE_URL}", \
+    "-Dspring.datasource.DATABASE_USERNAME=${DATABASE_USERNAME}", \
+    "-Dspring.datasource.DATABASE_USERNAME=${DATABASE_USERNAME}", \
+    "/app.jar"]
