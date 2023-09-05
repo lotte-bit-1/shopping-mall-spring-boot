@@ -223,10 +223,9 @@
     })
 
     function addCart(productId, quantity) {
-        $.post('cart-rest.bit?cmd=add',
+        $.post('/api/carts/products/' + productId,
             {
-                productId: productId,
-                quantity: quantity
+                requestQuantity: quantity
             },
             function (res) {
                 Swal.fire({
