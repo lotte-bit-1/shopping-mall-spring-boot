@@ -7,9 +7,11 @@ ENV DATABASE_USERNAME e
 ENV DATABASE_PASSWORD e
 
 
+COPY shopping-mall-spring-boot/gradlew .
+COPY shopping-mall-spring-boot/gradle gradle
 COPY shopping-mall-spring-boot/build.gradle .
 COPY shopping-mall-spring-boot/settings.gradle .
-COPY shopping-mall-spring-boot/src ./src
+COPY shopping-mall-spring-boot/src src
 RUN chmod +x ./gradlew
 RUN ./gradlew clean bootJar
 
