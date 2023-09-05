@@ -5,8 +5,10 @@ plugins {
     id 'war'
 }
 
-war {
-    webAppDirectory = file('src/main/webapp')
+bootWar {            // war 배포 파일명
+    archiveBaseName = 'ShoppingMallSpring'
+    archiveFileName = 'ShoppingMallSpring.war'
+    archiveVersion = "0.0.0"
 }
 
 group = 'com.bit'
@@ -63,6 +65,7 @@ dependencies {
             'org.mapstruct:mapstruct-processor:1.4.2.Final'
     )
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.4.2.Final"
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 dependencyManagement {
