@@ -115,7 +115,7 @@
                 </div>
                 <div class="pagination">
 
-                    <c:if test="${pagination.totalPage <= 0}">
+                    <c:if test="${pagination.totalPage > 0}">
                         <a href="${pageContext.request.contextPath}/carts?page=${pagination.currentPage - 1}">Previous</a>
                         <c:forEach begin="1" end="${pagination.totalPage}" var="pageNumber">
                             <a href="${pageContext.request.contextPath}/carts?page=${pageNumber}">${pageNumber}</a>
